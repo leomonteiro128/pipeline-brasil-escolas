@@ -23,6 +23,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           workflow: 01-fetch.yml
+          run_id: ${{ github.event.workflow_run.id || 0 }}
           name_is_regexp: true
           name: escolas-raw-.*
           path: data/
