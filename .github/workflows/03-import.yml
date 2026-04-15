@@ -33,7 +33,6 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           workflow: 02-transform.yml
-          run_id: ${{ github.event.workflow_run.id || 0 }}
           name_is_regexp: true
           name: escolas-transformed-.*
           path: data/
