@@ -35,7 +35,11 @@ def test_connection(session, base: str) -> bool:
         if r.status_code == 200:
             log.info(f"Autenticado como: {r.json().get('name','?')}")
             return True
-        log.error(f"Auth falhou: {r.status_code}")
+        log.error(f"Auth falhou: {r.status_code} — {r.text[:300]}")
+        log.error(f"WP_USER tem {len(session.auth[0])} chars, WP_APP_PASSWORD tem {len(session.auth[1])} chars")
+        # Testa se a API está acessível sem autenticação
+        r2 = requests.get(f"{base}/wp/v2/users/me", timeout=15)
+        log.info(f"Sem auth: {r2.status_code}")
         return False
     except Exception as e:
         log.error(f"Conexão falhou: {e}")
