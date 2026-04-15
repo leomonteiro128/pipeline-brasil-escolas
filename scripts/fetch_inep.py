@@ -26,6 +26,8 @@ log = logging.getLogger(__name__)
 
 DATA_DIR     = Path(os.environ.get("DATA_DIR", "data"))
 OUTPUT_FILE  = DATA_DIR / "escolas_raw.json"
+# Arquivo JSON estático pré-gerado — fallback quando o ZIP do INEP é inacessível
+STATIC_FILE  = Path("data/escolas_inep_static.json")
 # Se definido, o ZIP é salvo/lido deste caminho (permite cache no CI)
 ZIP_CACHE    = Path(os.environ.get("INEP_ZIP_CACHE", "")) if os.environ.get("INEP_ZIP_CACHE") else None
 CENSO_YEAR   = int(os.environ.get("CENSO_YEAR", "2023"))
@@ -101,28 +103,61 @@ def download_zip(url: str, dest: Path) -> bool:
 # ─── extração ────────────────────────────────────────────────────────────────
 
 def find_escolas_entry(zf: zipfile.ZipFile) -> str | None:
-    """Localiza o arquivo ESCOLAS.CSV dentro do ZIP."""
+    """Localiza o arquivo de dados de escolas dentro do ZIP.
+
+    Suporta dois formatos do INEP:
+    - Formato antigo: ...DADOS/ESCOLAS.CSV
+    - Formato novo:   ...dados/microdados_ed_basica_YYYY.csv
+    """
     names = zf.namelist()
-    # Prioridade: arquivo com ESCOLAS no nome dentro de pasta DADOS
+
+    # 1. Arquivo ESCOLAS.CSV dentro de pasta DADOS (formato antigo)
     for candidate in names:
         upper = candidate.upper()
         if "ESCOLAS" in upper and upper.endswith(".CSV"):
             if "/DADOS/" in upper or "\\DADOS\\" in upper:
                 return candidate
-    # Fallback: qualquer arquivo com ESCOLAS no nome
+
+    # 2. microdados_ed_basica_*.csv dentro de pasta dados (formato 2023+)
+    for candidate in names:
+        lower = candidate.lower()
+        if "microdados_ed_basica" in lower and lower.endswith(".csv"):
+            return candidate
+
+    # 3. Qualquer CSV dentro de pasta dados/
+    for candidate in names:
+        upper = candidate.upper()
+        if upper.endswith(".CSV") and ("/DADOS/" in upper or "\\DADOS\\" in upper):
+            return candidate
+
+    # 4. Qualquer arquivo com ESCOLAS no nome
     for candidate in names:
         if "ESCOLAS" in candidate.upper() and candidate.upper().endswith(".CSV"):
             return candidate
+
     return None
 
 
+KEEP_FIELDS = {
+    "SG_UF", "CO_UF", "NO_ENTIDADE", "CO_ENTIDADE", "NO_MUNICIPIO",
+    "TP_DEPENDENCIA", "TP_LOCALIZACAO", "DS_ENDERECO", "NU_CEP", "CO_CEP",
+    "IN_AEE", "TP_AEE", "IN_EDUCACAO_ESPECIAL", "IN_NECESSIDADES_ESPECIAIS",
+    "IN_ACESSIBILIDADE_RAMPAS", "IN_SALA_RECURSOS_MULTIFUNCIONAIS_TIPO_I",
+    "IN_SALA_ATENDIMENTO_ESPECIAL",
+}
+
+
 def parse_csv_bytes(raw: bytes) -> list[dict]:
-    """Tenta decodificar e parsear o CSV com diferentes encodings."""
+    """Decodifica e parseia o CSV, mantendo apenas os campos necessários."""
     for enc in ("latin-1", "utf-8-sig", "utf-8", "cp1252"):
         try:
             text = raw.decode(enc)
             reader = csv.DictReader(io.StringIO(text), delimiter=";")
-            rows = list(reader)
+            # Filtra apenas os campos necessários para reduzir uso de memória
+            rows = [
+                {k: v for k, v in row.items() if k in KEEP_FIELDS}
+                for row in reader
+            ]
             log.info(f"  {len(rows):,} registros (encoding: {enc})")
             return rows
         except UnicodeDecodeError:
@@ -169,6 +204,25 @@ def bool_field(row: dict, key: str) -> bool:
 
 def normalize_row(row: dict) -> dict:
     uf = get_uf(row)
+
+    # CEP field changed name across versions
+    cep = (row.get("NU_CEP") or row.get("CO_CEP") or "").replace("-", "").strip()
+
+    # AEE: old=IN_AEE (bool), new=TP_AEE (0=none, 1=multifunc room, 2=generalist room)
+    aee = bool_field(row, "IN_AEE") or (str(row.get("TP_AEE") or "0").strip() not in ("0", ""))
+
+    # Special ed room: old=IN_SALA_RECURSOS_MULTIFUNCIONAIS_TIPO_I, new=IN_SALA_ATENDIMENTO_ESPECIAL
+    sala_recursos = (
+        bool_field(row, "IN_SALA_RECURSOS_MULTIFUNCIONAIS_TIPO_I")
+        or bool_field(row, "IN_SALA_ATENDIMENTO_ESPECIAL")
+    )
+
+    # Special education inclusion
+    educacao_especial = (
+        bool_field(row, "IN_EDUCACAO_ESPECIAL")
+        or bool_field(row, "IN_NECESSIDADES_ESPECIAIS")
+    )
+
     return {
         "NO_ENTIDADE":  (row.get("NO_ENTIDADE") or "").strip(),
         "CO_ENTIDADE":  (row.get("CO_ENTIDADE") or "").strip(),
@@ -177,12 +231,12 @@ def normalize_row(row: dict) -> dict:
         "TP_DEPENDENCIA": int(row.get("TP_DEPENDENCIA") or 3),
         "TP_LOCALIZACAO": int(row.get("TP_LOCALIZACAO") or 1),
         "DS_ENDERECO":  (row.get("DS_ENDERECO") or "").strip(),
-        "NU_CEP":       (row.get("NU_CEP") or "").replace("-", "").strip(),
-        "IN_AEE":                                    bool_field(row, "IN_AEE"),
-        "IN_EDUCACAO_ESPECIAL":                      bool_field(row, "IN_EDUCACAO_ESPECIAL"),
+        "NU_CEP":       cep,
+        "IN_AEE":                                    aee,
+        "IN_EDUCACAO_ESPECIAL":                      educacao_especial,
         "IN_NECESSIDADES_ESPECIAIS":                 bool_field(row, "IN_NECESSIDADES_ESPECIAIS"),
         "IN_ACESSIBILIDADE_RAMPAS":                  bool_field(row, "IN_ACESSIBILIDADE_RAMPAS"),
-        "IN_SALA_RECURSOS_MULTIFUNCIONAIS_TIPO_I":   bool_field(row, "IN_SALA_RECURSOS_MULTIFUNCIONAIS_TIPO_I"),
+        "IN_SALA_RECURSOS_MULTIFUNCIONAIS_TIPO_I":   sala_recursos,
     }
 
 
@@ -278,6 +332,14 @@ def main() -> int:
     finally:
         if _tmp_ctx:
             _tmp_ctx.cleanup()
+
+    if not escolas and STATIC_FILE.exists():
+        log.info(f"Usando arquivo estático pré-gerado: {STATIC_FILE}")
+        with open(STATIC_FILE, encoding="utf-8") as fh:
+            static = json.load(fh)
+        escolas = static.get("escolas", [])
+        source = static.get("metadata", {}).get("source", "static_file")
+        log.info(f"  {len(escolas):,} escolas carregadas do arquivo estático")
 
     if not escolas:
         log.warning("Download do INEP falhou em todas as URLs. Usando dados de exemplo.")

@@ -1,0 +1,7 @@
+# Large INEP microdata ZIP (download locally, not committed)
+data/censo_cache.zip
+
+# Pipeline output files (generated, not source)
+data/escolas_raw.json
+data/escolas_transformed.json
+data/import_log.json
