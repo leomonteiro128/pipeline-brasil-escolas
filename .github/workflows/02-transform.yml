@@ -1,9 +1,9 @@
-name: "02 — Transform Schools Data"
+name: "02 - Transform Schools Data"
 
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["01 — Fetch INEP Data"]
+    workflows: ["01 - Fetch INEP Data"]
     types: [completed]
 
 jobs:
