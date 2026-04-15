@@ -37,9 +37,10 @@ def test_connection(session, base: str) -> bool:
             return True
         log.error(f"Auth falhou: {r.status_code} — {r.text[:300]}")
         log.error(f"WP_USER tem {len(session.auth[0])} chars, WP_APP_PASSWORD tem {len(session.auth[1])} chars")
-        # Testa se a API está acessível sem autenticação
-        r2 = requests.get(f"{base}/wp/v2/users/me", timeout=15)
-        log.info(f"Sem auth: {r2.status_code}")
+        log.error(f"WWW-Authenticate: {r.headers.get('WWW-Authenticate','(none)')}")
+        # Testa endpoint público para confirmar REST API acessível
+        r2 = requests.get(f"{base}/", timeout=15)
+        log.info(f"REST API root (sem auth): {r2.status_code} — namespaces: {list(r2.json().get('namespaces', []))[:5] if r2.ok else r2.text[:100]}")
         return False
     except Exception as e:
         log.error(f"Conexão falhou: {e}")
