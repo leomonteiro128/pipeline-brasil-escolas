@@ -38,6 +38,8 @@ jobs:
           path: data/
           if_no_artifact_found: warn
         continue-on-error: true
+      - name: Flatten artifact path
+        run: find data -name "escolas_transformed.json" ! -path "data/escolas_transformed.json" -exec cp {} data/ \; 2>/dev/null || true
       - name: Verify input
         run: |
           [ -f data/escolas_transformed.json ] || (echo "ERRO: escolas_transformed.json nao encontrado" && exit 1)
