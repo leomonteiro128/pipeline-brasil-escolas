@@ -1,0 +1,57 @@
+name: "03 — Import to WordPress"
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Modo simulação (não grava dados)"
+        type: boolean
+        default: false
+      batch_size:
+        description: "Tamanho do lote"
+        default: "50"
+  workflow_run:
+    workflows: ["02 — Transform Schools Data"]
+    types: [completed]
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    timeout-minutes: 60
+    concurrency: { group: wp-import, cancel-in-progress: false }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install requests
+      - run: mkdir -p data
+      - name: Download transformed artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: 02-transform.yml
+          name_is_regexp: true
+          name: escolas-transformed-.*
+          path: data/
+          if_no_artifact_found: warn
+        continue-on-error: true
+      - name: Verify input
+        run: |
+          [ -f data/escolas_transformed.json ] || (echo "ERRO: escolas_transformed.json não encontrado" && exit 1)
+          python -c "import json; d=json.load(open('data/escolas_transformed.json')); print(f\"Escolas: {d['metadata']['total']}\")"
+      - name: Run import
+        env:
+          WP_URL: ${{ secrets.WP_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          IMPORT_BATCH_SIZE: ${{ github.event.inputs.batch_size || '50' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          DATA_DIR: data
+        run: python scripts/import_wp.py
+      - name: Upload log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: import-log-${{ github.run_number }}
+          path: data/import_log.json
+          retention-days: 30
