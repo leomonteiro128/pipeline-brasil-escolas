@@ -16,11 +16,12 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
-WP_URL          = os.environ.get("WP_URL", "https://brasilescolas.com.br")
-WP_USER         = os.environ.get("WP_USER", "")
-WP_APP_PASSWORD = os.environ.get("WP_APP_PASSWORD", "")
-BATCH_SIZE      = int(os.environ.get("IMPORT_BATCH_SIZE", "50"))
-DRY_RUN         = os.environ.get("DRY_RUN", "false").lower() == "true"
+WP_URL            = os.environ.get("WP_URL", "https://brasilescolas.com.br")
+WP_USER           = os.environ.get("WP_USER", "")
+WP_APP_PASSWORD   = os.environ.get("WP_APP_PASSWORD", "")
+WP_PIPELINE_TOKEN = os.environ.get("WP_PIPELINE_TOKEN", "")
+BATCH_SIZE        = int(os.environ.get("IMPORT_BATCH_SIZE", "50"))
+DRY_RUN           = os.environ.get("DRY_RUN", "false").lower() == "true"
 
 DATA_DIR    = Path(os.environ.get("DATA_DIR", "data"))
 INPUT_FILE  = DATA_DIR / "escolas_transformed.json"
@@ -29,18 +30,23 @@ LOG_FILE    = DATA_DIR / "import_log.json"
 LISTING_TYPE = "at_biz_dir"
 
 
+def auth_params(extra: dict = None) -> dict:
+    """Retorna parâmetros de autenticação (token ou vazio)."""
+    p = {}
+    if WP_PIPELINE_TOKEN:
+        p["_ptk"] = WP_PIPELINE_TOKEN
+    if extra:
+        p.update(extra)
+    return p
+
+
 def test_connection(session, base: str) -> bool:
     try:
-        r = session.get(f"{base}/wp/v2/users/me", timeout=15)
+        r = session.get(f"{base}/wp/v2/users/me", params=auth_params(), timeout=15)
         if r.status_code == 200:
             log.info(f"Autenticado como: {r.json().get('name','?')}")
             return True
-        log.error(f"Auth falhou: {r.status_code} — {r.text[:300]}")
-        log.error(f"WP_USER tem {len(session.auth[0])} chars, WP_APP_PASSWORD tem {len(session.auth[1])} chars")
-        log.error(f"WWW-Authenticate: {r.headers.get('WWW-Authenticate','(none)')}")
-        # Testa endpoint público para confirmar REST API acessível
-        r2 = requests.get(f"{base}/", timeout=15)
-        log.info(f"REST API root (sem auth): {r2.status_code} — namespaces: {list(r2.json().get('namespaces', []))[:5] if r2.ok else r2.text[:100]}")
+        log.error(f"Auth falhou: {r.status_code} — {r.text[:200]}")
         return False
     except Exception as e:
         log.error(f"Conexão falhou: {e}")
@@ -52,7 +58,7 @@ def get_existing_codes(session, base: str) -> set:
     while True:
         try:
             r = session.get(f"{base}/wp/v2/{LISTING_TYPE}",
-                            params={"per_page": 100, "page": page}, timeout=30)
+                            params=auth_params({"per_page": 100, "page": page}), timeout=30)
             if r.status_code == 400:
                 break
             r.raise_for_status()
@@ -91,7 +97,8 @@ def create_listing(session, base: str, escola: dict):
             "listing_zip":         escola.get("listing_zip", ""),
         }
     }
-    r = session.post(f"{base}/wp/v2/{LISTING_TYPE}", json=payload, timeout=30)
+    r = session.post(f"{base}/wp/v2/{LISTING_TYPE}", json=payload,
+                     params=auth_params(), timeout=30)
     if r.status_code in (200, 201):
         return r.json().get("id")
     log.warning(f"  ERRO {r.status_code}: {escola['listing_title'][:40]} — {r.text[:80]}")

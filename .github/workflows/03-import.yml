@@ -49,6 +49,7 @@ jobs:
           WP_URL: ${{ secrets.WP_URL }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_PIPELINE_TOKEN: ${{ secrets.WP_PIPELINE_TOKEN }}
           IMPORT_BATCH_SIZE: ${{ github.event.inputs.batch_size || '50' }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           DATA_DIR: data
