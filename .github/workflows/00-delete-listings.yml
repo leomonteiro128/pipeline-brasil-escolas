@@ -1,0 +1,23 @@
+name: "⚠️ DELETAR TODAS AS ESCOLAS (usar com cuidado)"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests
+      - name: Deletar todos os listings
+        env:
+          WP_URL: ${{ secrets.WP_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_PIPELINE_TOKEN: ${{ secrets.WP_PIPELINE_TOKEN }}
+        run: python scripts/delete_all_listings.py

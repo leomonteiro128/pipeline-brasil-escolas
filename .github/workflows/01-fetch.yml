@@ -15,7 +15,7 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 90        # download do ZIP pode demorar
+    timeout-minutes: 30
     permissions:
       actions: write
       contents: read
@@ -25,39 +25,31 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
 
-      - run: pip install requests
+      - run: pip install -r requirements.txt
 
       - run: mkdir -p data
-
-      # Cache do ZIP de microdados para evitar re-download a cada execução
-      - name: Cache microdados INEP
-        id: cache-inep
-        uses: actions/cache@v4
-        with:
-          path: data/censo_cache.zip
-          key: inep-censo-${{ github.event.inputs.censo_year || '2023' }}
 
       - name: Fetch escolas
         run: python scripts/fetch_inep.py
         env:
-          DATA_DIR: data
-          CENSO_YEAR: ${{ github.event.inputs.censo_year || '2023' }}
+          DATA_DIR:     data
+          CENSO_YEAR:   ${{ github.event.inputs.censo_year || '2023' }}
           LIMIT_PER_UF: ${{ github.event.inputs.limit_per_uf || '200' }}
-          INEP_ZIP_CACHE: data/censo_cache.zip
+          QEDU_API_KEY: ${{ secrets.QEDU_API_KEY }}
 
       - name: Verificar resultado
         run: |
           python -c "
-          import json
+          import json, sys
           d = json.load(open('data/escolas_raw.json'))
           m = d['metadata']
           print(f\"Fonte: {m['source']}\")
           print(f\"Total: {m['total']}\")
           print(f\"Ano: {m.get('censo_year', '?')}\")
-          if m['source'] == 'sample_data':
-              print('ERRO: usando dados de exemplo — INEP inacessivel e arquivo estatico ausente')
-              exit(1)
-          print('OK: dados reais carregados')
+          if m['total'] < 100:
+              print('ERRO: poucos registros — fonte de dados falhou')
+              sys.exit(1)
+          print('OK: dados carregados')
           "
 
       - uses: actions/upload-artifact@v4
