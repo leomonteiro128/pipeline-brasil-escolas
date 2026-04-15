@@ -58,7 +58,8 @@ def get_existing_codes(session, base: str) -> set:
     while True:
         try:
             r = session.get(f"{base}/wp/v2/{LISTING_TYPE}",
-                            params=auth_params({"per_page": 100, "page": page}), timeout=30)
+                            params=auth_params({"per_page": 100, "page": page,
+                                               "_fields": "id,meta"}), timeout=30)
             if r.status_code == 400:
                 break
             r.raise_for_status()
@@ -68,7 +69,7 @@ def get_existing_codes(session, base: str) -> set:
             for item in items:
                 code = (item.get("meta") or {}).get("_escola_codigo_inep")
                 if code:
-                    existing.add(code)
+                    existing.add(str(code))
             page += 1
         except Exception as e:
             log.warning(f"Erro pág {page}: {e}")
@@ -85,7 +86,11 @@ def create_listing(session, base: str, escola: dict):
         "title":   escola["listing_title"],
         "content": escola.get("listing_content", ""),
         "status":  "publish",
+        "atbdp_listing_types": [2],
         "meta": {
+            "_directory_type":     "2",
+            "_never_expire":       "1",
+            "_featured":           "0",
             "_escola_codigo_inep": escola.get("_escola_codigo_inep", ""),
             "_escola_uf":          escola.get("_escola_uf", ""),
             "_escola_dependencia": escola.get("_escola_dependencia", ""),
