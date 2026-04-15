@@ -2,29 +2,69 @@ name: "01 - Fetch INEP Data"
 
 on:
   schedule:
-    - cron: "0 3 * * 1"
+    - cron: "0 3 * * 1"   # toda segunda-feira às 03h UTC
   workflow_dispatch:
+    inputs:
+      censo_year:
+        description: "Ano do Censo Escolar"
+        default: "2023"
+      limit_per_uf:
+        description: "Limite de escolas por estado (0 = sem limite)"
+        default: "200"
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90        # download do ZIP pode demorar
     permissions:
       actions: write
       contents: read
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+
       - run: pip install requests
+
       - run: mkdir -p data
-      - run: python scripts/fetch_inep.py
-        env: { DATA_DIR: data }
+
+      # Cache do ZIP de microdados para evitar re-download a cada execução
+      - name: Cache microdados INEP
+        id: cache-inep
+        uses: actions/cache@v4
+        with:
+          path: data/censo_cache.zip
+          key: inep-censo-${{ github.event.inputs.censo_year || '2023' }}
+
+      - name: Fetch escolas
+        run: python scripts/fetch_inep.py
+        env:
+          DATA_DIR: data
+          CENSO_YEAR: ${{ github.event.inputs.censo_year || '2023' }}
+          LIMIT_PER_UF: ${{ github.event.inputs.limit_per_uf || '200' }}
+          INEP_ZIP_CACHE: data/censo_cache.zip
+
+      - name: Verificar resultado
+        run: |
+          python -c "
+          import json
+          d = json.load(open('data/escolas_raw.json'))
+          m = d['metadata']
+          print(f\"Fonte: {m['source']}\")
+          print(f\"Total: {m['total']}\")
+          print(f\"Ano: {m.get('censo_year', '?')}\")
+          if m['source'] == 'sample_data':
+              print('AVISO: usando dados de exemplo — INEP inacessivel')
+              exit(1)
+          "
+
       - uses: actions/upload-artifact@v4
         with:
           name: escolas-raw-${{ github.run_number }}
           path: data/escolas_raw.json
           retention-days: 7
+
       - name: Trigger transform
         uses: actions/github-script@v7
         with:
