@@ -1,17 +1,17 @@
-name: "03 — Import to WordPress"
+name: "03 - Import to WordPress"
 
 on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Modo simulação (não grava dados)"
+        description: "Modo simulacao (nao grava dados)"
         type: boolean
         default: false
       batch_size:
         description: "Tamanho do lote"
         default: "50"
   workflow_run:
-    workflows: ["02 — Transform Schools Data"]
+    workflows: ["02 - Transform Schools Data"]
     types: [completed]
 
 jobs:
@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     timeout-minutes: 60
+    permissions:
+      actions: write
+      contents: read
     concurrency: { group: wp-import, cancel-in-progress: false }
     steps:
       - uses: actions/checkout@v4
@@ -37,7 +40,7 @@ jobs:
         continue-on-error: true
       - name: Verify input
         run: |
-          [ -f data/escolas_transformed.json ] || (echo "ERRO: escolas_transformed.json não encontrado" && exit 1)
+          [ -f data/escolas_transformed.json ] || (echo "ERRO: escolas_transformed.json nao encontrado" && exit 1)
           python -c "import json; d=json.load(open('data/escolas_transformed.json')); print(f\"Escolas: {d['metadata']['total']}\")"
       - name: Run import
         env:
