@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato | Brasil Escolas</title>
+  <meta name="description" content="Entre em contato com o Brasil Escolas. Dúvidas, sugestões, parcerias ou suporte ao cadastro de escolas.">
+  <link rel="canonical" href="https://brasilescolas.com.br/contato/">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contato | Brasil Escolas">
+  <meta property="og:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+  <link rel="preload" href="/assets/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/forms.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
+  <style>
+    .contato-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .contato-grid { grid-template-columns: 1fr; }
+    }
+    .contato-info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .contato-info-card h3 {
+      font-family: var(--font-title);
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text-h);
+      margin-bottom: 16px;
+    }
+    .contato-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contato-item:last-child { border-bottom: none; }
+    .contato-item-icon {
+      width: 36px;
+      height: 36px;
+      background: #E8F4FD;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .contato-item-text strong {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-h);
+      margin-bottom: 2px;
+    }
+    .contato-item-text span, .contato-item-text a {
+      font-size: var(--text-sm);
+      color: var(--text-body);
+    }
+    .contato-item-text a {
+      color: var(--azul-autismo);
+      text-decoration: none;
+    }
+    .contato-item-text a:hover { text-decoration: underline; }
+    .tempo-resposta {
+      background: #F0FBF4;
+      border: 1px solid #A7D7B5;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: var(--text-sm);
+      color: #2D6A4F;
+    }
+    .contato-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .contato-form-card h2 {
+      font-family: var(--font-title);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--text-h);
+      margin-bottom: 8px;
+    }
+    .contato-form-card p {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-h);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: var(--text-sm);
+      font-family: var(--font-body);
+      color: var(--text-h);
+      background: white;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--azul-autismo);
+      box-shadow: 0 0 0 3px rgba(0,133,202,.12);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+    .btn-enviar {
+      width: 100%;
+      padding: 14px;
+      background: var(--azul-escuro);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: var(--text-base);
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-enviar:hover { background: #002d5c; }
+    .btn-enviar:active { transform: scale(0.99); }
+    .btn-enviar:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-feedback {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: var(--text-sm);
+      margin-top: 16px;
+    }
+    .form-feedback.success {
+      display: block;
+      background: #F0FBF4;
+      border: 1px solid #A7D7B5;
+      color: #2D6A4F;
+    }
+    .form-feedback.error {
+      display: block;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+    }
+    .assunto-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .assunto-pill {
+      padding: 6px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-size: var(--text-sm);
+      font-family: var(--font-body);
+      background: white;
+      color: var(--text-body);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .assunto-pill:hover,
+    .assunto-pill.active {
+      border-color: var(--azul-autismo);
+      background: #E8F4FD;
+      color: var(--azul-autismo);
+    }
+    .faq-contato {
+      margin-top: 48px;
+    }
+    .faq-contato h2 {
+      font-family: var(--font-title);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--text-h);
+      margin-bottom: 24px;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: none;
+      text-align: left;
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-h);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-body);
+    }
+    .faq-question:hover { background: #F5F8FF; }
+    .faq-chevron {
+      font-size: 12px;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    .faq-question[aria-expanded="true"] .faq-chevron { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 20px 16px;
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: var(--text-body);
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/" class="header-logo"><img src="/assets/img/logo.png" alt="Brasil Escolas" width="180" height="48"></a>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="/">Início</a><a href="/escolas/">Escolas</a><a href="/inclusao/">Inclusão</a>
+      <a href="/artigos/">Artigos</a><a href="/vagas-emprego-estagio/">Vagas</a>
+      <a href="/cadastrar-escola/" class="btn-cadastrar">+ Cadastrar Escola</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu">
+  <button class="mobile-drawer-close" id="drawerClose" aria-label="Fechar menu">✕</button>
+  <nav><a href="/">🏠 Início</a><a href="/escolas/">🏫 Escolas</a><a href="/inclusao/">🧩 Inclusão</a>
+  <a href="/artigos/">📰 Artigos</a><a href="/cadastrar-escola/" class="btn-cadastrar-mobile">+ Cadastrar Escola</a></nav>
+</div>
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+<main id="main" tabindex="-1">
+  <div style="background:linear-gradient(135deg,var(--azul-escuro),var(--azul-autismo));padding:48px 0;color:white;text-align:center;">
+    <div class="container">
+      <h1 style="font-size:clamp(28px,4vw,44px);font-weight:700;margin-bottom:12px;">Entre em Contato</h1>
+      <p style="font-size:var(--text-lg);color:rgba(255,255,255,.85);max-width:600px;margin:0 auto;">
+        Dúvidas, sugestões, parcerias ou suporte — estamos aqui para ajudar.
+      </p>
+    </div>
+  </div>
+
+  <div class="container" style="max-width:960px;padding:48px 20px;">
+    <nav class="breadcrumb"><a href="/">Início</a><span class="breadcrumb-sep">›</span><span aria-current="page">Contato</span></nav>
+
+    <div class="contato-grid">
+      <!-- Formulário -->
+      <div class="contato-form-card">
+        <h2>Envie sua mensagem</h2>
+        <p>Selecione o assunto e preencha o formulário. Respondemos em até 2 dias úteis.</p>
+
+        <div class="assunto-pill-group" role="group" aria-label="Assunto da mensagem">
+          <button type="button" class="assunto-pill active" data-assunto="Dúvida geral">Dúvida geral</button>
+          <button type="button" class="assunto-pill" data-assunto="Cadastro de escola">Cadastro de escola</button>
+          <button type="button" class="assunto-pill" data-assunto="Correção de dados">Correção de dados</button>
+          <button type="button" class="assunto-pill" data-assunto="Parceria / Imprensa">Parceria / Imprensa</button>
+          <button type="button" class="assunto-pill" data-assunto="Outro">Outro</button>
+        </div>
+
+        <form id="contatoForm" novalidate>
+          <input type="hidden" id="assuntoHidden" name="assunto" value="Dúvida geral">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nomeContato">Nome <span aria-hidden="true">*</span></label>
+              <input type="text" id="nomeContato" name="nome" required autocomplete="given-name" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+              <label for="emailContato">E-mail <span aria-hidden="true">*</span></label>
+              <input type="email" id="emailContato" name="email" required autocomplete="email" placeholder="seu@email.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mensagemContato">Mensagem <span aria-hidden="true">*</span></label>
+            <textarea id="mensagemContato" name="mensagem" required minlength="20" placeholder="Descreva sua dúvida ou mensagem com o máximo de detalhes possível..."></textarea>
+          </div>
+
+          <div class="form-group" style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" id="lgpdContato" name="lgpd" required style="width:18px;height:18px;flex-shrink:0;">
+            <label for="lgpdContato" style="font-size:var(--text-sm);color:var(--text-body);cursor:pointer;margin-bottom:0;">
+              Concordo com o uso dos meus dados para resposta a esta mensagem, conforme a <a href="/sobre/#privacidade" style="color:var(--azul-autismo);">Política de Privacidade</a>.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-enviar" id="btnEnviarContato">Enviar mensagem</button>
+
+          <div class="form-feedback" id="contatoFeedback" role="alert" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <!-- Informações de contato -->
+      <aside>
+        <div class="contato-info-card">
+          <h3>Informações de contato</h3>
+
+          <div class="contato-item">
+            <div class="contato-item-icon" aria-hidden="true">📧</div>
+            <div class="contato-item-text">
+              <strong>E-mail</strong>
+              <a href="mailto:contato@brasilescolas.com.br">contato@brasilescolas.com.br</a>
+            </div>
+          </div>
+
+          <div class="contato-item">
+            <div class="contato-item-icon" aria-hidden="true">🏛️</div>
+            <div class="contato-item-text">
+              <strong>Razão social</strong>
+              <span>IBETP — Instituto Brasileiro de Educação, Tecnologia e Pesquisa</span>
+            </div>
+          </div>
+
+          <div class="contato-item">
+            <div class="contato-item-icon" aria-hidden="true">📋</div>
+            <div class="contato-item-text">
+              <strong>CNPJ</strong>
+              <span>39.534.189/0001-38</span>
+            </div>
+          </div>
+
+          <div class="contato-item">
+            <div class="contato-item-icon" aria-hidden="true">✍️</div>
+            <div class="contato-item-text">
+              <strong>Editor responsável</strong>
+              <span>Leonardo Monteiro — MTE 0041108/RJ</span>
+            </div>
+          </div>
+
+          <div class="tempo-resposta" role="note">
+            ⏱️ <strong>Tempo médio de resposta:</strong> até 2 dias úteis.
+          </div>
+        </div>
+
+        <div class="contato-info-card" style="margin-top:16px;">
+          <h3>Atalhos úteis</h3>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+            <li><a href="/cadastrar-escola/" style="display:flex;align-items:center;gap:8px;color:var(--azul-autismo);font-size:var(--text-sm);text-decoration:none;font-weight:600;">🏫 <span>Cadastrar minha escola</span></a></li>
+            <li><a href="/vagas-emprego-estagio/" style="display:flex;align-items:center;gap:8px;color:var(--azul-autismo);font-size:var(--text-sm);text-decoration:none;font-weight:600;">💼 <span>Publicar vaga de emprego</span></a></li>
+            <li><a href="/sobre/" style="display:flex;align-items:center;gap:8px;color:var(--azul-autismo);font-size:var(--text-sm);text-decoration:none;font-weight:600;">ℹ️ <span>Sobre o Brasil Escolas</span></a></li>
+            <li><a href="/sobre/#privacidade" style="display:flex;align-items:center;gap:8px;color:var(--azul-autismo);font-size:var(--text-sm);text-decoration:none;font-weight:600;">🔒 <span>Política de privacidade</span></a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <!-- FAQ -->
+    <section class="faq-contato">
+      <h2>Perguntas frequentes</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq1">
+          Como posso cadastrar minha escola no Brasil Escolas?
+          <span class="faq-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer" id="faq1" role="region">
+          <div class="faq-answer-inner">
+            Acesse a página <a href="/cadastrar-escola/" style="color:var(--azul-autismo);">Cadastrar Escola</a> e preencha o formulário com as informações da sua instituição. Após a revisão da nossa equipe, a escola será adicionada ao diretório em até 5 dias úteis.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq2">
+          Os dados da minha escola estão incorretos. Como corrigir?
+          <span class="faq-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer" id="faq2" role="region">
+          <div class="faq-answer-inner">
+            Selecione o assunto "Correção de dados" no formulário acima e informe o nome da escola, o estado e quais informações precisam ser corrigidas. Nossa equipe editorial verificará e atualizará os dados.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq3">
+          Como publicar uma vaga de emprego ou estágio?
+          <span class="faq-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer" id="faq3" role="region">
+          <div class="faq-answer-inner">
+            Acesse a seção <a href="/vagas-emprego-estagio/" style="color:var(--azul-autismo);">Vagas de Emprego e Estágio</a> e use o formulário de publicação no final da página. A vaga será revisada e publicada em até 2 dias úteis.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq4">
+          O Brasil Escolas aceita parcerias editoriais ou institucionais?
+          <span class="faq-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer" id="faq4" role="region">
+          <div class="faq-answer-inner">
+            Sim. Selecione "Parceria / Imprensa" no formulário e descreva a proposta. O Brasil Escolas está aberto a parcerias com instituições de educação, pesquisa e tecnologia que compartilhem o compromisso com a educação inclusiva.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq5">
+          Posso usar os dados do Brasil Escolas para pesquisa ou projeto?
+          <span class="faq-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer" id="faq5" role="region">
+          <div class="faq-answer-inner">
+            Os dados de escolas são originários do Censo Escolar INEP (fonte pública). Citações com atribuição à fonte "Brasil Escolas (brasilescolas.com.br)" são permitidas. O uso comercial ou treinamento de modelos de IA sem autorização expressa do IBETP é proibido — consulte o <a href="/llms.txt" style="color:var(--azul-autismo);">llms.txt</a>.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" class="footer-logo-img">
+      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva.</p>
+      <p class="footer-cnpj">CNPJ: 39.534.189/0001-38 | MTE 0041108/RJ</p>
+    </div>
+    <nav aria-label="Links"><h3 class="footer-col-title">Links</h3>
+    <ul class="footer-links"><li><a href="/">Início</a></li><li><a href="/escolas/">Escolas</a></li><li><a href="/artigos/">Artigos</a></li><li><a href="/contato/">Contato</a></li></ul></nav>
+    <div></div><div></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Brasil Escolas — IBETP. Todos os direitos reservados.</p></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/utils.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Assunto pills
+    const pills = document.querySelectorAll('.assunto-pill');
+    const assuntoHidden = document.getElementById('assuntoHidden');
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        assuntoHidden.value = pill.dataset.assunto;
+      });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        document.querySelectorAll('.faq-question').forEach(function (b) {
+          b.setAttribute('aria-expanded', 'false');
+          var ans = document.getElementById(b.getAttribute('aria-controls'));
+          if (ans) ans.style.maxHeight = null;
+        });
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          var answer = document.getElementById(btn.getAttribute('aria-controls'));
+          if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Form submission (mailto fallback — sem backend próprio)
+    var form = document.getElementById('contatoForm');
+    var feedback = document.getElementById('contatoFeedback');
+    var btnEnviar = document.getElementById('btnEnviarContato');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      feedback.className = 'form-feedback';
+
+      var nome = document.getElementById('nomeContato').value.trim();
+      var email = document.getElementById('emailContato').value.trim();
+      var mensagem = document.getElementById('mensagemContato').value.trim();
+      var lgpd = document.getElementById('lgpdContato').checked;
+      var assunto = assuntoHidden.value;
+
+      if (!nome || !email || !mensagem) {
+        feedback.className = 'form-feedback error';
+        feedback.textContent = 'Por favor, preencha todos os campos obrigatórios.';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        feedback.className = 'form-feedback error';
+        feedback.textContent = 'Informe um e-mail válido.';
+        return;
+      }
+      if (mensagem.length < 20) {
+        feedback.className = 'form-feedback error';
+        feedback.textContent = 'A mensagem deve ter pelo menos 20 caracteres.';
+        return;
+      }
+      if (!lgpd) {
+        feedback.className = 'form-feedback error';
+        feedback.textContent = 'Você precisa aceitar a Política de Privacidade para enviar.';
+        return;
+      }
+
+      btnEnviar.disabled = true;
+      btnEnviar.textContent = 'Enviando...';
+
+      var subject = encodeURIComponent('[Brasil Escolas] ' + assunto + ' — ' + nome);
+      var body = encodeURIComponent('Nome: ' + nome + '\nE-mail: ' + email + '\nAssunto: ' + assunto + '\n\n' + mensagem);
+      var mailtoLink = 'mailto:contato@brasilescolas.com.br?subject=' + subject + '&body=' + body;
+
+      window.location.href = mailtoLink;
+
+      setTimeout(function () {
+        feedback.className = 'form-feedback success';
+        feedback.textContent = 'Seu cliente de e-mail foi aberto com a mensagem preenchida. Se não abriu, envie diretamente para contato@brasilescolas.com.br.';
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = 'Enviar mensagem';
+        form.reset();
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        pills[0].classList.add('active');
+        assuntoHidden.value = 'Dúvida geral';
+      }, 800);
+    });
+
+    // Menu
+    if (typeof iniciarMenu === 'function') iniciarMenu();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo | Brasil Escolas</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/supabase-client.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #222; }
+
+    /* ── LOGIN SCREEN ── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #001f3f 0%, #003F7F 60%, #0066CC 100%);
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-logo {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #003F7F;
+      margin-bottom: 0.25rem;
+      letter-spacing: -1px;
+    }
+    .login-logo span { color: #FFD700; }
+    .login-card h1 {
+      font-size: 1.25rem;
+      color: #444;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .login-card input[type="password"] {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      text-align: center;
+      letter-spacing: 0.3em;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .login-card input[type="password"]:focus { border-color: #003F7F; outline: none; }
+    .btn-login {
+      width: 100%;
+      background: #003F7F;
+      color: #fff;
+      border: none;
+      padding: 0.85rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-login:hover { background: #0056b3; }
+    .login-error {
+      color: #dc3545;
+      font-size: 0.9rem;
+      margin-top: 0.75rem;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ── DASHBOARD LAYOUT ── */
+    #dashboard { display: none; min-height: 100vh; flex-direction: row; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #003F7F;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 200;
+    }
+    .sidebar-logo {
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar-logo-text {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .sidebar-logo-text span { color: #FFD700; }
+    .sidebar-subtitle { color: rgba(255,255,255,0.6); font-size: 0.75rem; margin-top: 0.2rem; }
+    .sidebar-nav { padding: 1rem 0; flex: 1; }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+      border-radius: 0;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .nav-link.active { background: rgba(255,255,255,0.18); color: #fff; font-weight: 700; border-left: 3px solid #FFD700; }
+    .nav-link .icon { font-size: 1.1rem; width: 20px; text-align: center; }
+    .sidebar-footer { padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .btn-sair {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .btn-sair:hover { background: rgba(255,0,0,0.2); color: #fff; }
+
+    /* Main content */
+    .main-content {
+      margin-left: 240px;
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top header */
+    .top-header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-header h1 { font-size: 1.1rem; color: #003F7F; font-weight: 700; }
+    .top-header .user-info { font-size: 0.85rem; color: #666; }
+
+    /* Tabs */
+    .tab-pane { display: none; padding: 2rem; }
+    .tab-pane.active { display: block; }
+
+    /* Stats cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      border-left: 4px solid;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .stat-card:nth-child(1) { border-color: #003F7F; }
+    .stat-card:nth-child(2) { border-color: #FF8C00; }
+    .stat-card:nth-child(3) { border-color: #28a745; }
+    .stat-card:nth-child(4) { border-color: #dc3545; }
+    .stat-label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .stat-value { font-size: 2rem; font-weight: 900; color: #222; line-height: 1; }
+
+    /* Table */
+    .table-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+    .table-card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .table-card-header h2 { font-size: 1rem; color: #003F7F; font-weight: 700; }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead { background: #f8f9fa; }
+    th { padding: 0.75rem 1rem; text-align: left; font-size: 0.78rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; white-space: nowrap; }
+    td { padding: 0.85rem 1rem; border-top: 1px solid #f0f0f0; vertical-align: middle; }
+    tr:hover td { background: #fafbff; }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 0.2rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+    .badge-pendente { background: #fff3cd; color: #856404; }
+    .badge-aprovado { background: #d4edda; color: #155724; }
+    .badge-rejeitado { background: #f8d7da; color: #721c24; }
+    .badge-publica { background: #cce5ff; color: #004085; }
+    .badge-privada { background: #e2d9f3; color: #4a0080; }
+
+    /* Action buttons */
+    .btn-aprovar { background: #28a745; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; margin-right: 0.3rem; }
+    .btn-aprovar:hover { background: #218838; }
+    .btn-rejeitar { background: #dc3545; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; margin-right: 0.3rem; }
+    .btn-rejeitar:hover { background: #c82333; }
+    .btn-ver { background: #6c757d; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+    .btn-ver:hover { background: #545b62; }
+    .btn-editar { background: #0066CC; color: #fff; border: none; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+    .btn-editar:hover { background: #004499; }
+
+    /* Pipeline section */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .pipeline-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .pipeline-card h3 { color: #003F7F; margin-bottom: 1rem; font-size: 1rem; }
+    .pipeline-card p { color: #666; font-size: 0.88rem; margin-bottom: 1rem; }
+    .form-group-inline { margin-bottom: 0.75rem; }
+    .form-group-inline label { display: block; font-size: 0.82rem; font-weight: 600; color: #555; margin-bottom: 0.25rem; }
+    .form-group-inline input {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1.5px solid #ccc;
+      border-radius: 7px;
+      font-size: 0.9rem;
+    }
+    .btn-pipeline {
+      background: #003F7F;
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .btn-pipeline:hover { background: #0056b3; }
+    .pipeline-log {
+      background: #001f3f;
+      color: #7fff7f;
+      font-family: monospace;
+      font-size: 0.82rem;
+      padding: 1rem;
+      border-radius: 8px;
+      min-height: 80px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 0.75rem;
+      white-space: pre-wrap;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal h2 { color: #003F7F; margin-bottom: 1.25rem; font-size: 1.1rem; }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      line-height: 1;
+    }
+    .detail-row { display: flex; gap: 0.5rem; margin-bottom: 0.65rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 0.65rem; }
+    .detail-label { font-weight: 700; color: #555; font-size: 0.85rem; width: 160px; flex-shrink: 0; }
+    .detail-value { color: #222; font-size: 0.9rem; }
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
+
+    /* Alert / Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      padding: 0.9rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      animation: slideUp 0.3s ease;
+    }
+    .toast-success { background: #28a745; color: #fff; }
+    .toast-error { background: #dc3545; color: #fff; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 3rem 1rem; color: #666; }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+    /* Loading */
+    .spin { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 0.4rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Checkbox toggle */
+    .toggle-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .toggle-grid label { font-size: 0.82rem; display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .pipeline-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">Brasil<span>Escolas</span></div>
+    <h1>Área Administrativa</h1>
+    <input type="password" id="senhaInput" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn-login" onclick="tentarLogin()">Entrar</button>
+    <div class="login-error" id="loginError">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DASHBOARD
+══════════════════════════════════════ -->
+<div id="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">Brasil<span>Escolas</span></div>
+      <div class="sidebar-subtitle">Painel Administrativo</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-link active" onclick="showTab('overview')" id="tab-overview">
+        <span class="icon">📊</span> Visão Geral
+      </button>
+      <button class="nav-link" onclick="showTab('cadastros')" id="tab-cadastros">
+        <span class="icon">📝</span> Cadastros Pendentes
+      </button>
+      <button class="nav-link" onclick="showTab('vagas')" id="tab-vagas">
+        <span class="icon">💼</span> Vagas Pendentes
+      </button>
+      <button class="nav-link" onclick="showTab('escolas')" id="tab-escolas">
+        <span class="icon">🏫</span> Escolas Importadas
+      </button>
+      <button class="nav-link" onclick="showTab('pipeline')" id="tab-pipeline">
+        <span class="icon">⚙️</span> Pipeline
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-sair" onclick="sair()">↩ Sair</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="top-header">
+      <h1>Painel Brasil Escolas</h1>
+      <span class="user-info">Administrador · <span id="dataHoje"></span></span>
+    </header>
+
+    <!-- ── ABA: Visão Geral ── -->
+    <div class="tab-pane active" id="pane-overview">
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="stat-label">Escolas Totais</div><div class="stat-value" id="statEscolas">—</div></div>
+        <div class="stat-card"><div class="stat-label">Cadastros Pendentes</div><div class="stat-value" id="statCadastros">—</div></div>
+        <div class="stat-card"><div class="stat-label">Artigos</div><div class="stat-value" id="statArtigos">—</div></div>
+        <div class="stat-card"><div class="stat-label">Vagas Pendentes</div><div class="stat-value" id="statVagas">—</div></div>
+      </div>
+      <div class="table-card" style="padding:1.5rem;">
+        <p style="color:#666;font-size:0.9rem;">Bem-vindo ao painel administrativo do Brasil Escolas. Use o menu lateral para navegar entre as seções.</p>
+      </div>
+    </div>
+
+    <!-- ── ABA: Cadastros Pendentes ── -->
+    <div class="tab-pane" id="pane-cadastros">
+      <div class="table-card">
+        <div class="table-card-header">
+          <h2>Cadastros Pendentes de Aprovação</h2>
+          <button class="btn-editar" onclick="carregarCadastros()">↻ Atualizar</button>
+        </div>
+        <div class="table-scroll">
+          <table id="tabelaCadastros">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Município</th>
+                <th>UF</th>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="bodyCadastros">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;color:#666;">Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABA: Vagas Pendentes ── -->
+    <div class="tab-pane" id="pane-vagas">
+      <div class="table-card">
+        <div class="table-card-header">
+          <h2>Vagas Pendentes de Aprovação</h2>
+          <button class="btn-editar" onclick="carregarVagasPendentes()">↻ Atualizar</button>
+        </div>
+        <div class="table-scroll">
+          <table id="tabelaVagas">
+            <thead>
+              <tr>
+                <th>Cargo</th>
+                <th>Escola</th>
+                <th>Município</th>
+                <th>UF</th>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="bodyVagas">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;color:#666;">Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABA: Escolas Importadas ── -->
+    <div class="tab-pane" id="pane-escolas">
+      <div class="table-card">
+        <div class="table-card-header">
+          <h2>Últimas 50 Escolas Importadas</h2>
+          <button class="btn-editar" onclick="carregarEscolas()">↻ Atualizar</button>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Município</th>
+                <th>UF</th>
+                <th>Dependência</th>
+                <th>Inclusão</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="bodyEscolas">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;color:#666;">Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABA: Pipeline ── -->
+    <div class="tab-pane" id="pane-pipeline">
+      <div class="pipeline-grid">
+
+        <div class="pipeline-card">
+          <h3>🔑 Configurações GitHub</h3>
+          <p>Token usado para disparar workflows via GitHub Actions.</p>
+          <div class="form-group-inline">
+            <label>Repositório</label>
+            <input type="text" id="ghRepo" value="leomonteiro128/pipeline-brasil-escolas" readonly>
+          </div>
+          <div class="form-group-inline">
+            <label>GitHub Token (sessão)</label>
+            <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          </div>
+          <button class="btn-pipeline" onclick="salvarToken()" style="background:#28a745;">Salvar Token na Sessão</button>
+        </div>
+
+        <div class="pipeline-card">
+          <h3>📰 Publicar Artigo</h3>
+          <p>Dispara o workflow de geração de artigos no GitHub Actions.</p>
+          <button class="btn-pipeline" onclick="dispararWorkflow('gerar_artigo')">Publicar artigo agora</button>
+          <div class="pipeline-log" id="logArtigo">Aguardando ação...</div>
+        </div>
+
+        <div class="pipeline-card">
+          <h3>🏫 Importar Escolas</h3>
+          <p>Dispara o workflow de importação de escolas do INEP.</p>
+          <div class="form-group-inline">
+            <label>Estado (opcional)</label>
+            <input type="text" id="pipelineEstado" placeholder="Ex: SP" maxlength="2" style="text-transform:uppercase;">
+          </div>
+          <button class="btn-pipeline" onclick="dispararWorkflow('importar_escolas')">Importar escolas</button>
+          <div class="pipeline-log" id="logImport">Aguardando ação...</div>
+        </div>
+
+        <div class="pipeline-card">
+          <h3>📋 Log Geral</h3>
+          <p>Últimas ações registradas nesta sessão.</p>
+          <div class="pipeline-log" id="logGeral">— sem ações registradas —</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- .main-content -->
+</div><!-- #dashboard -->
+
+<!-- ══════════════════════════════════════
+     MODAL
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" style="display:none;">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="fecharModal()">×</button>
+    <h2 id="modalTitle">Detalhes</h2>
+    <div id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   AUTH
+══════════════════════════════════════ */
+function verificarAuth() {
+  if (sessionStorage.getItem('admin_auth') === 'true') {
+    mostrarDashboard();
+  }
+}
+
+function tentarLogin() {
+  const senha = document.getElementById('senhaInput').value;
+  const senhaCorreta = (typeof CONFIG_ADMIN_PASSWORD !== 'undefined') ? CONFIG_ADMIN_PASSWORD : 'admin2025';
+  if (senha === senhaCorreta) {
+    sessionStorage.setItem('admin_auth', 'true');
+    document.getElementById('loginError').classList.remove('show');
+    mostrarDashboard();
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    document.getElementById('senhaInput').value = '';
+    document.getElementById('senhaInput').focus();
+  }
+}
+
+document.getElementById('senhaInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') tentarLogin();
+});
+
+function sair() {
+  sessionStorage.removeItem('admin_auth');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('senhaInput').value = '';
+}
+
+function mostrarDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'flex';
+  document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR');
+  carregarStats();
+  carregarCadastros();
+}
+
+/* ══════════════════════════════════════
+   SUPABASE (service key)
+══════════════════════════════════════ */
+function getAdminClient() {
+  const url = (typeof SUPABASE_URL !== 'undefined') ? SUPABASE_URL : '';
+  const key = (typeof CONFIG_ADMIN_SERVICE_KEY !== 'undefined') ? CONFIG_ADMIN_SERVICE_KEY : (typeof SUPABASE_ANON_KEY !== 'undefined' ? SUPABASE_ANON_KEY : '');
+  if (!url || !key) return null;
+  return supabase.createClient(url, key);
+}
+
+/* ══════════════════════════════════════
+   TABS
+══════════════════════════════════════ */
+const TABS = ['overview', 'cadastros', 'vagas', 'escolas', 'pipeline'];
+
+function showTab(tab) {
+  TABS.forEach(t => {
+    document.getElementById('pane-' + t).classList.toggle('active', t === tab);
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'cadastros') carregarCadastros();
+  if (tab === 'vagas') carregarVagasPendentes();
+  if (tab === 'escolas') carregarEscolas();
+}
+
+/* ══════════════════════════════════════
+   STATS
+══════════════════════════════════════ */
+async function carregarStats() {
+  const client = getAdminClient();
+  if (!client) return;
+  try {
+    const [escolas, cadastros, artigos, vagas] = await Promise.all([
+      client.from('escolas').select('id', { count: 'exact', head: true }),
+      client.from('cadastros_manuais').select('id', { count: 'exact', head: true }).eq('status', 'pendente'),
+      client.from('artigos').select('id', { count: 'exact', head: true }),
+      client.from('vagas').select('id', { count: 'exact', head: true }).eq('status', 'pendente'),
+    ]);
+    document.getElementById('statEscolas').textContent = (escolas.count ?? '—').toLocaleString('pt-BR');
+    document.getElementById('statCadastros').textContent = cadastros.count ?? '—';
+    document.getElementById('statArtigos').textContent = (artigos.count ?? '—').toLocaleString('pt-BR');
+    document.getElementById('statVagas').textContent = vagas.count ?? '—';
+  } catch (err) {
+    console.error('Erro ao carregar stats:', err);
+  }
+}
+
+/* ══════════════════════════════════════
+   CADASTROS PENDENTES
+══════════════════════════════════════ */
+async function carregarCadastros() {
+  const client = getAdminClient();
+  const tbody = document.getElementById('bodyCadastros');
+  if (!client) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;">Cliente Supabase não configurado.</td></tr>'; return; }
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#666;">Carregando...</td></tr>';
+  try {
+    const { data, error } = await client.from('cadastros_manuais').select('*').eq('status', 'pendente').order('criado_em', { ascending: false }).limit(100);
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#666;">Nenhum cadastro pendente.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(c => `
+      <tr>
+        <td><strong>${esc(c.nome)}</strong></td>
+        <td>${esc(c.cidade || '')}</td>
+        <td>${esc(c.uf || '')}</td>
+        <td><span class="badge ${c.tipo === 'publica' ? 'badge-publica' : 'badge-privada'}">${c.tipo === 'publica' ? 'Pública' : 'Privada'}</span></td>
+        <td>${c.criado_em ? new Date(c.criado_em).toLocaleDateString('pt-BR') : '—'}</td>
+        <td>
+          <button class="btn-aprovar" onclick="aprovarCadastro('${c.id}')">✓ Aprovar</button>
+          <button class="btn-rejeitar" onclick="rejeitarCadastro('${c.id}')">✗ Rejeitar</button>
+          <button class="btn-ver" onclick="verDetalhesCadastro(${JSON.stringify(c).replace(/"/g, '&quot;')})">Ver</button>
+        </td>
+      </tr>`).join('');
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#dc3545;">Erro ao carregar dados.</td></tr>';
+  }
+}
+
+async function aprovarCadastro(id) {
+  const client = getAdminClient();
+  if (!client) return;
+  if (!confirm('Aprovar este cadastro?')) return;
+  try {
+    const { data: cad } = await client.from('cadastros_manuais').select('*').eq('id', id).single();
+    if (!cad) throw new Error('Cadastro não encontrado');
+
+    // Inserir em escolas
+    const escola = {
+      nome: cad.nome,
+      slug: slugify(cad.nome + '-' + cad.cidade + '-' + cad.uf),
+      uf: cad.uf,
+      municipio: cad.cidade,
+      bairro: cad.bairro,
+      endereco: cad.rua + (cad.numero ? ', ' + cad.numero : ''),
+      cep: cad.cep,
+      telefone: cad.whatsapp || cad.telefone,
+      email: cad.email,
+      site: cad.site,
+      instagram: cad.instagram,
+      descricao: cad.descricao,
+      dependencia: cad.tipo === 'publica' ? 'municipal' : 'privada',
+      niveis_ensino: cad.niveis_ensino,
+      tem_inclusao: cad.inclusao && cad.inclusao.length > 0,
+      infraestrutura: cad.infraestrutura,
+      status: 'ativo',
+      fonte: 'cadastro_manual',
+      criado_em: new Date().toISOString()
+    };
+
+    const { error: insErr } = await client.from('escolas').insert([escola]);
+    if (insErr) throw insErr;
+
+    const { error: updErr } = await client.from('cadastros_manuais').update({ status: 'aprovado' }).eq('id', id);
+    if (updErr) throw updErr;
+
+    showToast('Cadastro aprovado e escola criada com sucesso!', 'success');
+    carregarCadastros();
+    carregarStats();
+  } catch (err) {
+    console.error(err);
+    showToast('Erro ao aprovar: ' + err.message, 'error');
+  }
+}
+
+async function rejeitarCadastro(id) {
+  const client = getAdminClient();
+  if (!client) return;
+  if (!confirm('Rejeitar este cadastro?')) return;
+  try {
+    const { error } = await client.from('cadastros_manuais').update({ status: 'rejeitado' }).eq('id', id);
+    if (error) throw error;
+    showToast('Cadastro rejeitado.', 'success');
+    carregarCadastros();
+    carregarStats();
+  } catch (err) {
+    showToast('Erro ao rejeitar: ' + err.message, 'error');
+  }
+}
+
+function verDetalhesCadastro(c) {
+  if (typeof c === 'string') c = JSON.parse(c);
+  document.getElementById('modalTitle').textContent = 'Detalhes — ' + c.nome;
+  const fields = [
+    ['Nome', c.nome], ['CNPJ', c.cnpj], ['Tipo', c.tipo], ['CEP', c.cep],
+    ['Endereço', (c.rua || '') + ' ' + (c.numero || '')], ['Bairro', c.bairro],
+    ['Cidade', c.cidade], ['UF', c.uf], ['WhatsApp', c.whatsapp],
+    ['E-mail', c.email], ['Site', c.site], ['Instagram', c.instagram],
+    ['Níveis', Array.isArray(c.niveis_ensino) ? c.niveis_ensino.join(', ') : ''],
+    ['Inclusão', Array.isArray(c.inclusao) ? c.inclusao.join(', ') : ''],
+    ['Infraestrutura', Array.isArray(c.infraestrutura) ? c.infraestrutura.join(', ') : ''],
+    ['Descrição', c.descricao ? c.descricao.substring(0, 300) + '...' : ''],
+  ];
+  document.getElementById('modalBody').innerHTML = fields.filter(([,v]) => v).map(([l, v]) =>
+    `<div class="detail-row"><div class="detail-label">${l}</div><div class="detail-value">${esc(String(v))}</div></div>`
+  ).join('');
+  document.getElementById('modalActions').innerHTML = `
+    <button class="btn-rejeitar" onclick="rejeitarCadastro('${c.id}');fecharModal()">✗ Rejeitar</button>
+    <button class="btn-aprovar" onclick="aprovarCadastro('${c.id}');fecharModal()">✓ Aprovar</button>
+  `;
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+/* ══════════════════════════════════════
+   VAGAS PENDENTES
+══════════════════════════════════════ */
+async function carregarVagasPendentes() {
+  const client = getAdminClient();
+  const tbody = document.getElementById('bodyVagas');
+  if (!client) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#999;">Cliente não configurado.</td></tr>'; return; }
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:1.5rem;">Carregando...</td></tr>';
+  try {
+    const { data, error } = await client.from('vagas').select('*').eq('status', 'pendente').order('criado_em', { ascending: false }).limit(100);
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#666;">Nenhuma vaga pendente.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(v => `
+      <tr>
+        <td><strong>${esc(v.cargo || '')}</strong></td>
+        <td>${esc(v.nome_escola || '')}</td>
+        <td>${esc(v.municipio || '')}</td>
+        <td>${esc(v.uf || '')}</td>
+        <td><span class="badge ${v.tipo === 'estagio' ? 'badge-publica' : 'badge-privada'}">${v.tipo === 'estagio' ? 'Estágio' : 'Emprego'}</span></td>
+        <td>${v.criado_em ? new Date(v.criado_em).toLocaleDateString('pt-BR') : '—'}</td>
+        <td>
+          <button class="btn-aprovar" onclick="aprovarVaga('${v.id}')">✓ Aprovar</button>
+          <button class="btn-rejeitar" onclick="rejeitarVaga('${v.id}')">✗ Rejeitar</button>
+        </td>
+      </tr>`).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#dc3545;">Erro ao carregar.</td></tr>';
+  }
+}
+
+async function aprovarVaga(id) {
+  const client = getAdminClient();
+  if (!confirm('Aprovar esta vaga?')) return;
+  try {
+    const { error } = await client.from('vagas').update({ status: 'aprovada' }).eq('id', id);
+    if (error) throw error;
+    showToast('Vaga aprovada!', 'success');
+    carregarVagasPendentes();
+    carregarStats();
+  } catch (err) { showToast('Erro: ' + err.message, 'error'); }
+}
+
+async function rejeitarVaga(id) {
+  const client = getAdminClient();
+  if (!confirm('Rejeitar esta vaga?')) return;
+  try {
+    const { error } = await client.from('vagas').update({ status: 'rejeitado' }).eq('id', id);
+    if (error) throw error;
+    showToast('Vaga rejeitada.', 'success');
+    carregarVagasPendentes();
+    carregarStats();
+  } catch (err) { showToast('Erro: ' + err.message, 'error'); }
+}
+
+/* ══════════════════════════════════════
+   ESCOLAS IMPORTADAS
+══════════════════════════════════════ */
+async function carregarEscolas() {
+  const client = getAdminClient();
+  const tbody = document.getElementById('bodyEscolas');
+  if (!client) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;">Cliente não configurado.</td></tr>'; return; }
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;">Carregando...</td></tr>';
+  try {
+    const { data, error } = await client.from('escolas').select('*').order('criado_em', { ascending: false }).limit(50);
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#666;">Nenhuma escola encontrada.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(e => {
+      const inclusaoItems = ['profissional_apoio','acessibilidade_fisica','experiencia_tea','experiencia_tdah','sala_recursos'];
+      const inclusaoAtual = Array.isArray(e.inclusao) ? e.inclusao : [];
+      const toggles = inclusaoItems.map(item =>
+        `<label><input type="checkbox" ${inclusaoAtual.includes(item) ? 'checked' : ''} onchange="toggleInclusao('${e.id}', '${item}', this.checked, ${JSON.stringify(inclusaoAtual).replace(/"/g,'&quot;')})">${item.replace(/_/g,' ')}</label>`
+      ).join('');
+      return `
+        <tr>
+          <td><strong>${esc(e.nome || '')}</strong></td>
+          <td>${esc(e.municipio || '')}</td>
+          <td>${esc(e.uf || '')}</td>
+          <td>${esc(e.dependencia || '')}</td>
+          <td><div class="toggle-grid">${toggles}</div></td>
+          <td><a href="/escolas/${esc(e.slug || '')}/" target="_blank" class="btn-ver" style="text-decoration:none;">Ver página</a></td>
+        </tr>`;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#dc3545;">Erro ao carregar.</td></tr>';
+  }
+}
+
+async function toggleInclusao(escolaId, item, checked, inclusaoAtual) {
+  const client = getAdminClient();
+  let nova = Array.isArray(inclusaoAtual) ? [...inclusaoAtual] : [];
+  if (checked && !nova.includes(item)) nova.push(item);
+  if (!checked) nova = nova.filter(i => i !== item);
+  try {
+    const { error } = await client.from('escolas').update({ inclusao: nova, tem_inclusao: nova.length > 0 }).eq('id', escolaId);
+    if (error) throw error;
+    showToast('Inclusão atualizada.', 'success');
+  } catch (err) { showToast('Erro: ' + err.message, 'error'); }
+}
+
+/* ══════════════════════════════════════
+   PIPELINE — GITHUB ACTIONS
+══════════════════════════════════════ */
+function salvarToken() {
+  const token = document.getElementById('ghToken').value.trim();
+  if (!token) { showToast('Informe o token.', 'error'); return; }
+  sessionStorage.setItem('gh_token', token);
+  showToast('Token salvo na sessão.', 'success');
+}
+
+async function dispararWorkflow(workflow) {
+  const token = sessionStorage.getItem('gh_token') || document.getElementById('ghToken').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const logEl = document.getElementById(workflow === 'gerar_artigo' ? 'logArtigo' : 'logImport');
+  const logGeral = document.getElementById('logGeral');
+
+  if (!token) { showToast('Informe o GitHub Token primeiro.', 'error'); return; }
+
+  logEl.textContent = '⏳ Disparando workflow...';
+
+  const inputs = {};
+  if (workflow === 'importar_escolas') {
+    const estado = document.getElementById('pipelineEstado').value.trim().toUpperCase();
+    if (estado) inputs.estado = estado;
+  }
+
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/${workflow}.yml/dispatches`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ref: 'main', inputs })
+    });
+
+    const ts = new Date().toLocaleTimeString('pt-BR');
+    if (resp.status === 204) {
+      logEl.textContent = `✅ [${ts}] Workflow "${workflow}" disparado com sucesso!\nVerifique o progresso em github.com/${repo}/actions`;
+      logGeral.textContent += `\n[${ts}] ✅ Workflow "${workflow}" disparado.`;
+      showToast('Workflow disparado!', 'success');
+    } else {
+      const body = await resp.text();
+      logEl.textContent = `❌ [${ts}] Erro ${resp.status}: ${body}`;
+      logGeral.textContent += `\n[${ts}] ❌ Erro ao disparar "${workflow}": ${resp.status}`;
+      showToast('Erro ao disparar workflow.', 'error');
+    }
+  } catch (err) {
+    logEl.textContent = '❌ Erro de rede: ' + err.message;
+    showToast('Erro de rede.', 'error');
+  }
+}
+
+/* ══════════════════════════════════════
+   MODAL
+══════════════════════════════════════ */
+function fecharModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) fecharModal();
+});
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function esc(text) {
+  return String(text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function slugify(text) {
+  return text.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function showToast(msg, type) {
+  const t = document.createElement('div');
+  t.className = 'toast toast-' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+verificarAuth();
+</script>
+</body>
+</html>

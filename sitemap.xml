@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Páginas institucionais -->
+  <url>
+    <loc>https://brasilescolas.com.br/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://brasilescolas.com.br/assets/img/og-image.png</image:loc>
+      <image:title>Brasil Escolas — Encontre a escola ideal para seu filho</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/artigos/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/web-stories/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/cadastrar-escola/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/vagas-emprego-estagio/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/sobre/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/contato/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Páginas de inclusão -->
+  <url>
+    <loc>https://brasilescolas.com.br/inclusao/tea/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/inclusao/tdah/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/inclusao/dislexia/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://brasilescolas.com.br/inclusao/acessibilidade/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Páginas de estado (27 estados) -->
+  <url><loc>https://brasilescolas.com.br/escolas/acre/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/alagoas/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/amazonas/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/amapa/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/bahia/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/ceara/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/distrito-federal/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/espirito-santo/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/goias/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/maranhao/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/minas-gerais/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/mato-grosso-do-sul/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/mato-grosso/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/para/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/paraiba/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/pernambuco/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/piaui/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/parana/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/rio-de-janeiro/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/rio-grande-do-norte/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/rondonia/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/roraima/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/rio-grande-do-sul/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/santa-catarina/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/sergipe/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/sao-paulo/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://brasilescolas.com.br/escolas/tocantins/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- Artigos e escolas serão adicionados dinamicamente pelo pipeline -->
+
+</urlset>

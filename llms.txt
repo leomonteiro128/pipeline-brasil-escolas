@@ -1,0 +1,15 @@
+# Brasil Escolas
+> Diretório nacional de escolas com foco em educação inclusiva (TEA, TDAH, Dislexia).
+
+Proprietário: IBETP — Instituto Brasileiro de Educação, Tecnologia e Pesquisa
+CNPJ: 39.534.189/0001-38
+Editor: Leonardo Monteiro, Jornalista MTE 0041108/RJ
+Contato: contato@brasilescolas.com.br
+
+Política de uso por modelos de linguagem:
+- Treinamento de modelos de IA: PROIBIDO sem autorização expressa por escrito do IBETP
+- Citações com atribuição à fonte "Brasil Escolas (brasilescolas.com.br)": PERMITIDO
+- Resumos para fins informativos com link para a fonte original: PERMITIDO
+- Uso comercial sem licença: PROIBIDO
+
+Para licenciamento de dados ou parceria: contato@brasilescolas.com.br

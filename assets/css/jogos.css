@@ -1,0 +1,219 @@
+/* ============================================================
+   Brasil Escolas — Jogos Educativos CSS
+   (Acessível, sem flashes, fontes grandes, alto contraste)
+   ============================================================ */
+
+.jogos-page { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+.jogos-page-title { font-size: clamp(24px, 3vw, 36px); font-weight: 700; color: var(--text-h); margin-bottom: 8px; }
+.jogos-page-desc { color: var(--text-muted); margin-bottom: 32px; }
+
+/* ─── Jogo Memória ─── */
+.jogo-container { padding: 0; }
+.jogo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.jogo-titulo {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  color: var(--text-h);
+}
+.jogo-placar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.jogo-placar-valor { color: var(--azul-autismo); font-size: var(--text-2xl); }
+
+/* Grid de memória */
+.memoria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 500px;
+  margin: 0 auto 24px;
+}
+.carta {
+  aspect-ratio: 1;
+  cursor: pointer;
+  perspective: 1000px;
+  border-radius: var(--radius-sm);
+}
+.carta:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 4px; }
+.carta-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+  border-radius: var(--radius-sm);
+}
+.carta.virada .carta-inner, .carta.encontrada .carta-inner { transform: rotateY(180deg); }
+.carta-frente, .carta-verso {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: clamp(24px, 5vw, 40px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.carta-frente {
+  background: var(--azul-escuro);
+  color: white;
+  font-size: 24px;
+}
+.carta-verso { background: white; border: 3px solid #E2E8F0; transform: rotateY(180deg); }
+.carta.encontrada .carta-verso { border-color: var(--verde); background: #F0FFF4; }
+
+/* Feedback de jogo */
+.jogo-feedback {
+  text-align: center;
+  padding: 16px;
+  border-radius: var(--radius);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  margin-bottom: 16px;
+  min-height: 60px;
+  display: flex; align-items: center; justify-content: center;
+}
+.jogo-feedback.positivo { background: #F0FFF4; color: var(--verde); }
+.jogo-feedback.neutro { background: var(--bg-primary); color: var(--text-muted); }
+
+/* ─── Quiz ─── */
+.quiz-progress {
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--azul-autismo);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.quiz-pergunta {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.quiz-imagem {
+  width: 160px; height: 160px;
+  object-fit: contain;
+  margin: 0 auto 16px;
+  border-radius: var(--radius);
+  background: var(--bg-primary);
+  font-size: 80px;
+  display: flex; align-items: center; justify-content: center;
+}
+.quiz-texto {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  color: var(--text-h);
+}
+.quiz-opcoes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.quiz-opcao {
+  padding: 16px 20px;
+  border: 3px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  background: white;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  color: var(--text-body);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+.quiz-opcao:hover { border-color: var(--azul-autismo); background: rgba(0,133,202,0.05); }
+.quiz-opcao:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+.quiz-opcao.correta { border-color: var(--verde); background: #F0FFF4; color: var(--verde); }
+.quiz-opcao.proxima { border-color: var(--azul-autismo); background: rgba(0,133,202,0.08); color: var(--azul-escuro); }
+.quiz-resultado {
+  text-align: center;
+  padding: 24px;
+}
+.quiz-resultado-emoji { font-size: 64px; margin-bottom: 12px; }
+.quiz-resultado-titulo { font-family: var(--font-title); font-weight: 700; font-size: var(--text-2xl); color: var(--text-h); margin-bottom: 8px; }
+.quiz-resultado-msg { font-size: var(--text-base); color: var(--text-muted); margin-bottom: 24px; }
+
+/* ─── Jogo Sequência ─── */
+.sequencia-container { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.sequencia-nivel {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 600;
+  align-self: flex-start;
+}
+.sequencia-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.seq-item {
+  width: 64px; height: 64px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  border: 3px solid transparent;
+}
+.seq-item.interrogacao {
+  background: #F7FAFC;
+  border: 3px dashed #CBD5E0;
+  font-size: 28px;
+  color: var(--text-light);
+}
+.sequencia-opcoes {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.seq-opcao {
+  width: 72px; height: 72px;
+  border-radius: var(--radius-sm);
+  border: 3px solid #E2E8F0;
+  background: white;
+  font-size: 36px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.seq-opcao:hover { border-color: var(--azul-autismo); transform: scale(1.08); }
+.seq-opcao:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+.seq-opcao.correta { border-color: var(--verde); background: #F0FFF4; }
+.seq-opcao.errada { border-color: var(--azul-autismo); }
+
+/* ─── Controles comuns ─── */
+.jogo-controles {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* Responsividade jogos */
+@media (max-width: 480px) {
+  .memoria-grid { max-width: 300px; gap: 8px; }
+  .carta-frente, .carta-verso { font-size: 20px; }
+  .quiz-imagem { width: 120px; height: 120px; font-size: 60px; }
+  .seq-item, .seq-opcao { width: 52px; height: 52px; font-size: 28px; }
+}

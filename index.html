@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasil Escolas — Encontre a escola ideal para seu filho | Educação Inclusiva</title>
+  <meta name="description" content="Diretório nacional de escolas com foco em educação inclusiva — TEA, TDAH, Dislexia e Acessibilidade. Mais de 178.500 escolas cadastradas em todo o Brasil.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brasilescolas.com.br/">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brasilescolas.com.br/">
+  <meta property="og:title" content="Brasil Escolas — Encontre a escola ideal para seu filho">
+  <meta property="og:description" content="Diretório nacional de escolas com foco em educação inclusiva — TEA, TDAH, Dislexia e Acessibilidade.">
+  <meta property="og:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Brasil Escolas">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Brasil Escolas — Encontre a escola ideal para seu filho">
+  <meta name="twitter:description" content="Diretório nacional com mais de 178.500 escolas. Foco em educação inclusiva.">
+  <meta name="twitter:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+
+  <!-- Preload fontes locais -->
+  <link rel="preload" href="/assets/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/img/logo.png" as="image">
+
+  <!-- CSS crítico inline (above-the-fold) -->
+  <style>
+    :root{--azul-escuro:#003F7F;--azul-autismo:#0085CA;--amarelo:#EFAA1B;--font-title:'Poppins',sans-serif;--font-body:'Inter',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-body);background:#F0F8FF;color:#1A1A2E;-webkit-font-smoothing:antialiased}
+    .skip-link{position:absolute;top:-100px;left:0;background:var(--azul-escuro);color:white;padding:10px 20px;z-index:9999;font-weight:500}
+    .skip-link:focus{top:0}
+    .site-header{position:sticky;top:0;z-index:1000;background:#fff;box-shadow:0 2px 12px rgba(0,63,127,.08)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 20px;max-width:1280px;margin:0 auto;gap:20px}
+    .header-logo img{height:48px;width:auto}
+    .hero{background:linear-gradient(135deg,#003F7F 0%,#0085CA 100%);padding:80px 0 72px;text-align:center}
+    .hero h1{font-family:var(--font-title);font-size:clamp(32px,5vw,56px);font-weight:700;color:white;margin-bottom:16px;line-height:1.15}
+    .hero-subtitle{font-size:clamp(16px,2vw,20px);color:rgba(255,255,255,.88);max-width:680px;margin:0 auto 40px}
+    .hero-search{display:flex;background:white;border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.2);max-width:680px;margin:0 auto 32px}
+    .hero-search input{flex:1;padding:18px 20px;border:none;background:transparent;font-size:16px;min-width:0}
+    .hero-search input:focus{outline:none}
+    .hero-search-btn{background:var(--amarelo);border:none;padding:18px 28px;border-radius:0 999px 999px 0;font-weight:700;color:#003F7F;cursor:pointer}
+    @media(max-width:768px){.header-inner{height:60px}.hero{padding:48px 0 40px}.hero-search{margin:0 16px 24px}}
+  </style>
+
+  <!-- CSS completo -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
+
+  <!-- AdSense Auto Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
+
+  <!-- Schema.org WebSite + SearchAction -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Brasil Escolas",
+    "url": "https://brasilescolas.com.br",
+    "description": "Diretório nacional de escolas com foco em educação inclusiva",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://brasilescolas.com.br/escolas/?texto={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "IBETP",
+      "url": "https://brasilescolas.com.br",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://brasilescolas.com.br/assets/img/logo.png"
+      }
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- Skip Link Acessibilidade -->
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/" class="header-logo" aria-label="Brasil Escolas — página inicial">
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" width="180" height="48">
+    </a>
+
+    <!-- Busca central desktop -->
+    <div class="header-search" role="search" aria-label="Busca rápida no header">
+      <input type="search" id="headerSearch" placeholder="Buscar escola, cidade, bairro…"
+        aria-label="Buscar escola" autocomplete="off">
+      <button class="header-search-btn" aria-label="Pesquisar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <div class="search-dropdown" id="headerSearchDropdown" style="display:none" role="listbox" aria-label="Sugestões de busca"></div>
+    </div>
+
+    <!-- Navegação desktop -->
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="/">Início</a>
+      <a href="/escolas/">Escolas</a>
+      <a href="/inclusao/">Inclusão</a>
+      <a href="/artigos/">Artigos</a>
+      <a href="/vagas-emprego-estagio/">Vagas</a>
+      <a href="/cadastrar-escola/" class="btn-cadastrar">+ Cadastrar Escola</a>
+    </nav>
+
+    <!-- Botão hamburger mobile -->
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Drawer mobile -->
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <button class="mobile-drawer-close" id="drawerClose" aria-label="Fechar menu">✕</button>
+  <nav aria-label="Menu mobile">
+    <a href="/">🏠 Início</a>
+    <a href="/escolas/">🏫 Escolas</a>
+    <a href="/inclusao/">🧩 Inclusão</a>
+    <a href="/artigos/">📰 Artigos</a>
+    <a href="/vagas-emprego-estagio/">💼 Vagas</a>
+    <a href="/sobre/">ℹ️ Sobre</a>
+    <a href="/contato/">📧 Contato</a>
+    <a href="/cadastrar-escola/" class="btn-cadastrar-mobile">+ Cadastrar Escola</a>
+  </nav>
+</div>
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+<!-- ═══ CONTEÚDO PRINCIPAL ═══ -->
+<main id="main" tabindex="-1">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="container hero-content">
+      <h1 id="heroTitle">Encontre a escola ideal<br>para o seu filho</h1>
+      <p class="hero-subtitle">
+        Diretório nacional com foco em educação inclusiva —<br>
+        TEA, TDAH, Dislexia e Acessibilidade
+      </p>
+
+      <!-- Busca principal -->
+      <div class="hero-search-wrap">
+        <div class="hero-search" role="search" aria-label="Busca principal de escolas">
+          <input type="search" id="heroSearch"
+            aria-label="Buscar escola, cidade ou bairro"
+            autocomplete="off">
+          <button class="hero-search-btn" id="heroBtnBuscar" aria-label="Pesquisar escola">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" style="margin-right:6px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Buscar
+          </button>
+        </div>
+        <div class="hero-search-dropdown search-dropdown" id="heroSearchDropdown" style="display:none" role="listbox" aria-label="Resultados da busca"></div>
+      </div>
+
+      <!-- Filtros rápidos -->
+      <div class="hero-filters" role="navigation" aria-label="Filtros rápidos">
+        <a href="/escolas/?dep=municipal" class="hero-filter-pill" aria-label="Ver escolas públicas municipais">🏛️ Pública Municipal</a>
+        <a href="/escolas/?dep=estadual"  class="hero-filter-pill" aria-label="Ver escolas estaduais">🏫 Pública Estadual</a>
+        <a href="/escolas/?dep=privada"   class="hero-filter-pill" aria-label="Ver escolas privadas">🎓 Privada</a>
+        <a href="/escolas/?nivel=creche"  class="hero-filter-pill" aria-label="Ver creches">👶 Creche</a>
+        <a href="/escolas/?nivel=fundamental" class="hero-filter-pill" aria-label="Ver escolas de ensino fundamental">📚 Fundamental</a>
+        <a href="/escolas/?nivel=medio"   class="hero-filter-pill" aria-label="Ver escolas de ensino médio">🎓 Ensino Médio</a>
+        <a href="/inclusao/tea/"  class="hero-filter-pill" aria-label="Ver escolas com suporte para TEA">🧩 TEA</a>
+        <a href="/inclusao/tdah/" class="hero-filter-pill" aria-label="Ver escolas com suporte para TDAH">⚡ TDAH</a>
+        <a href="/inclusao/dislexia/" class="hero-filter-pill" aria-label="Ver escolas com suporte para Dislexia">📖 Dislexia</a>
+        <a href="/inclusao/acessibilidade/" class="hero-filter-pill" aria-label="Ver escolas acessíveis">♿ Acessível</a>
+      </div>
+
+      <!-- Stats animados -->
+      <div class="hero-stats" aria-label="Estatísticas do Brasil Escolas">
+        <div>
+          <span class="hero-stat-value" data-count="178500" data-suffix="+">178.500+</span>
+          <span class="hero-stat-label">escolas cadastradas</span>
+        </div>
+        <div>
+          <span class="hero-stat-value">27</span>
+          <span class="hero-stat-label">estados + DF</span>
+        </div>
+        <div>
+          <span class="hero-stat-value" data-count="5570">5.570</span>
+          <span class="hero-stat-label">municípios</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEB STORIES -->
+  <section class="section section-sm stories-section" aria-labelledby="storiesTitle">
+    <div class="container">
+      <h2 class="section-title" id="storiesTitle">Conteúdo educativo em destaque</h2>
+      <div id="storiesContainer" aria-label="Carrossel de Web Stories">
+        <div class="stories-carousel" id="storiesTrack" role="list" aria-label="Web Stories educativos">
+          <!-- Carregado via JS do Supabase -->
+          <div class="search-dropdown-empty" style="padding:40px;text-align:center;color:var(--text-muted)">
+            <span class="spinner"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIAS -->
+  <section class="section" style="background:white;" aria-labelledby="categoriasTitle">
+    <div class="container">
+      <h2 class="section-title" id="categoriasTitle">Encontre por tipo de escola</h2>
+      <p class="section-subtitle">Escolha o perfil que melhor se encaixa na sua busca</p>
+      <div class="grid grid-3" role="list">
+        <a href="/escolas/?dep=municipal" class="categoria-card" role="listitem" aria-label="Escolas públicas municipais">
+          <span class="categoria-icon" aria-hidden="true">🏛️</span>
+          <span class="categoria-title">Pública Municipal</span>
+          <span class="categoria-link">Ver escolas →</span>
+        </a>
+        <a href="/escolas/?dep=estadual" class="categoria-card" role="listitem" aria-label="Escolas públicas estaduais">
+          <span class="categoria-icon" aria-hidden="true">🏫</span>
+          <span class="categoria-title">Pública Estadual</span>
+          <span class="categoria-link">Ver escolas →</span>
+        </a>
+        <a href="/escolas/?dep=federal" class="categoria-card" role="listitem" aria-label="Escolas públicas federais">
+          <span class="categoria-icon" aria-hidden="true">🇧🇷</span>
+          <span class="categoria-title">Pública Federal</span>
+          <span class="categoria-link">Ver escolas →</span>
+        </a>
+        <a href="/escolas/?dep=privada" class="categoria-card" role="listitem" aria-label="Escolas privadas">
+          <span class="categoria-icon" aria-hidden="true">🎓</span>
+          <span class="categoria-title">Privada</span>
+          <span class="categoria-link">Ver escolas →</span>
+        </a>
+        <a href="/escolas/?infra=integral" class="categoria-card" role="listitem" aria-label="Escolas de tempo integral">
+          <span class="categoria-icon" aria-hidden="true">⏰</span>
+          <span class="categoria-title">Tempo Integral</span>
+          <span class="categoria-link">Ver escolas →</span>
+        </a>
+        <a href="/escolas/?nivel=tecnico" class="categoria-card" role="listitem" aria-label="Escolas técnicas e EJA">
+          <span class="categoria-icon" aria-hidden="true">🔧</span>
+          <span class="categoria-title">Técnica / EJA</span>
+          <span class="categoria-link">Ver escolas →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOCO EM INCLUSÃO -->
+  <section class="section inclusao-section" aria-labelledby="inclusaoTitle" style="border-top:4px solid var(--azul-autismo);">
+    <div class="container">
+      <div class="inclusao-header">
+        <div class="inclusao-icon-big" aria-hidden="true">🧩</div>
+        <h2 class="section-title" id="inclusaoTitle">Escolas preparadas para educação inclusiva</h2>
+        <p class="section-subtitle" style="margin:0 auto;text-align:center;max-width:620px;">
+          Encontre escolas verificadas com suporte real para crianças neurodivergentes e com necessidades especiais
+        </p>
+      </div>
+      <div class="grid inclusao-cards-grid" role="list">
+        <a href="/inclusao/tea/" class="inclusao-card" role="listitem" aria-label="Escolas com suporte para Autismo TEA">
+          <span class="inclusao-card-icon" aria-hidden="true">🧩</span>
+          <h3 class="inclusao-card-title">Autismo (TEA)</h3>
+          <p class="inclusao-card-desc">Escolas com experiência e estrutura para crianças com Transtorno do Espectro Autista</p>
+          <span class="badge badge-tea" aria-hidden="true">Ver escolas →</span>
+        </a>
+        <a href="/inclusao/tdah/" class="inclusao-card" role="listitem" aria-label="Escolas com suporte para TDAH">
+          <span class="inclusao-card-icon" aria-hidden="true">⚡</span>
+          <h3 class="inclusao-card-title">TDAH</h3>
+          <p class="inclusao-card-desc">Instituições preparadas para alunos com Transtorno de Déficit de Atenção e Hiperatividade</p>
+          <span class="badge badge-tdah" aria-hidden="true">Ver escolas →</span>
+        </a>
+        <a href="/inclusao/dislexia/" class="inclusao-card" role="listitem" aria-label="Escolas com suporte para Dislexia">
+          <span class="inclusao-card-icon" aria-hidden="true">📖</span>
+          <h3 class="inclusao-card-title">Dislexia</h3>
+          <p class="inclusao-card-desc">Escolas com metodologias adaptadas para alunos com dislexia e dificuldades de aprendizagem</p>
+          <span class="badge badge-disl" aria-hidden="true">Ver escolas →</span>
+        </a>
+        <a href="/inclusao/acessibilidade/" class="inclusao-card" role="listitem" aria-label="Escolas com acessibilidade física">
+          <span class="inclusao-card-icon" aria-hidden="true">♿</span>
+          <h3 class="inclusao-card-title">Acessibilidade</h3>
+          <p class="inclusao-card-desc">Escolas com estrutura física acessível e profissional de apoio escolar (AT)</p>
+          <span class="badge badge-acess" aria-hidden="true">Ver escolas →</span>
+        </a>
+      </div>
+      <p class="inclusao-aviso" aria-label="Nota informativa sobre dados de inclusão">
+        ℹ️ Os dados de suporte à inclusão são verificados manualmente pela equipe Brasil Escolas.
+      </p>
+    </div>
+  </section>
+
+  <!-- POR ESTADO -->
+  <section class="section estados-section" aria-labelledby="estadosTitle">
+    <div class="container">
+      <h2 class="section-title" id="estadosTitle">Busque por estado</h2>
+      <div class="estados-search-wrap">
+        <div style="position:relative;">
+          <input type="search" class="form-control" id="estadosBusca"
+            placeholder="Filtrar estados…" aria-label="Filtrar estados"
+            style="border-radius:999px;padding:10px 16px;">
+        </div>
+      </div>
+      <div class="grid estados-grid" id="estadosGrid" role="list" aria-label="Lista de estados brasileiros">
+        <!-- Gerado via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ÚLTIMOS ARTIGOS -->
+  <section class="section artigos-section" aria-labelledby="artigosTitle">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 class="section-title" id="artigosTitle">Artigos sobre educação</h2>
+          <p style="color:var(--text-muted);font-size:var(--text-base);">Conteúdo especializado para pais e educadores</p>
+        </div>
+        <a href="/artigos/" class="btn btn-secondary">Ver todos os artigos →</a>
+      </div>
+      <div class="grid grid-3" id="artigosGrid" role="list" aria-label="Últimos artigos publicados">
+        <!-- Carregado via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA CADASTRO -->
+  <section class="cta-section" aria-labelledby="ctaTitle">
+    <div class="container text-center">
+      <h2 id="ctaTitle">Sua escola ainda não está aqui?</h2>
+      <p>Cadastro 100% gratuito. Mostre sua escola para milhares de famílias que buscam educação de qualidade.</p>
+      <div class="cta-beneficios" aria-label="Benefícios do cadastro gratuito">
+        <span class="cta-beneficio"><span class="cta-check" aria-hidden="true">✅</span> Sem taxa</span>
+        <span class="cta-beneficio"><span class="cta-check" aria-hidden="true">✅</span> Sem contrato</span>
+        <span class="cta-beneficio"><span class="cta-check" aria-hidden="true">✅</span> Aprovação em 48h</span>
+      </div>
+      <a href="/cadastrar-escola/" class="btn btn-primary btn-lg"
+         aria-label="Cadastrar minha escola gratuitamente">
+        Cadastrar minha escola grátis →
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" class="footer-logo-img">
+      <p class="footer-desc">
+        Diretório nacional de escolas com foco em educação inclusiva. Ajudamos famílias a encontrar a escola ideal para cada criança.
+      </p>
+      <p class="footer-desc">
+        IBETP — Instituto Brasileiro de Educação, Tecnologia e Pesquisa
+      </p>
+      <p class="footer-cnpj">CNPJ: 39.534.189/0001-38<br>Jornalista responsável: Leonardo Monteiro — MTE 0041108/RJ</p>
+      <div class="footer-social" aria-label="Redes sociais">
+        <a href="https://instagram.com/brasilescolas" target="_blank" rel="noopener" aria-label="Instagram Brasil Escolas">📸</a>
+        <a href="https://facebook.com/brasilescolas" target="_blank" rel="noopener" aria-label="Facebook Brasil Escolas">👍</a>
+        <a href="https://youtube.com/@brasilescolas" target="_blank" rel="noopener" aria-label="YouTube Brasil Escolas">▶️</a>
+      </div>
+    </div>
+
+    <nav aria-label="Links rápidos do footer">
+      <h3 class="footer-col-title">Links Rápidos</h3>
+      <ul class="footer-links">
+        <li><a href="/">Início</a></li>
+        <li><a href="/escolas/">Escolas</a></li>
+        <li><a href="/inclusao/">Inclusão</a></li>
+        <li><a href="/artigos/">Artigos</a></li>
+        <li><a href="/vagas-emprego-estagio/">Vagas</a></li>
+        <li><a href="/cadastrar-escola/">Cadastrar Escola</a></li>
+        <li><a href="/sobre/">Sobre nós</a></li>
+        <li><a href="/contato/">Contato</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Estados brasileiros">
+      <h3 class="footer-col-title">Por Estado</h3>
+      <ul class="footer-links">
+        <li><a href="/escolas/sao-paulo/">São Paulo</a></li>
+        <li><a href="/escolas/rio-de-janeiro/">Rio de Janeiro</a></li>
+        <li><a href="/escolas/minas-gerais/">Minas Gerais</a></li>
+        <li><a href="/escolas/bahia/">Bahia</a></li>
+        <li><a href="/escolas/parana/">Paraná</a></li>
+        <li><a href="/escolas/rio-grande-do-sul/">Rio Grande do Sul</a></li>
+        <li><a href="/escolas/ceara/">Ceará</a></li>
+        <li><a href="/escolas/">Ver todos os estados →</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h3 class="footer-col-title">Contato e Política</h3>
+      <ul class="footer-links">
+        <li><a href="mailto:contato@brasilescolas.com.br">contato@brasilescolas.com.br</a></li>
+        <li><a href="mailto:contatoibetp@gmail.com">contatoibetp@gmail.com</a></li>
+        <li><a href="/sobre/">Política editorial</a></li>
+        <li><a href="/sobre/#privacidade">Política de privacidade</a></li>
+        <li><a href="/sobre/#termos">Termos de uso</a></li>
+        <li><a href="/contato/">Fale conosco</a></li>
+        <li><a href="/admin-panel/" aria-label="Acesso administrativo restrito">Área admin</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Brasil Escolas — IBETP. Todos os direitos reservados.</p>
+    <p>Desenvolvido com ❤️ para a educação brasileira</p>
+  </div>
+</footer>
+
+<!-- Scripts (defer) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/supabase-client.js" defer></script>
+<script src="/assets/js/utils.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
+<script src="/assets/js/stories-carousel.js" defer></script>
+
+<script defer>
+const ESTADOS_DADOS = [
+  {uf:'AC',nome:'Acre',slug:'acre'},{uf:'AL',nome:'Alagoas',slug:'alagoas'},
+  {uf:'AM',nome:'Amazonas',slug:'amazonas'},{uf:'AP',nome:'Amapá',slug:'amapa'},
+  {uf:'BA',nome:'Bahia',slug:'bahia'},{uf:'CE',nome:'Ceará',slug:'ceara'},
+  {uf:'DF',nome:'Distrito Federal',slug:'distrito-federal'},{uf:'ES',nome:'Espírito Santo',slug:'espirito-santo'},
+  {uf:'GO',nome:'Goiás',slug:'goias'},{uf:'MA',nome:'Maranhão',slug:'maranhao'},
+  {uf:'MG',nome:'Minas Gerais',slug:'minas-gerais'},{uf:'MS',nome:'Mato Grosso do Sul',slug:'mato-grosso-do-sul'},
+  {uf:'MT',nome:'Mato Grosso',slug:'mato-grosso'},{uf:'PA',nome:'Pará',slug:'para'},
+  {uf:'PB',nome:'Paraíba',slug:'paraiba'},{uf:'PE',nome:'Pernambuco',slug:'pernambuco'},
+  {uf:'PI',nome:'Piauí',slug:'piaui'},{uf:'PR',nome:'Paraná',slug:'parana'},
+  {uf:'RJ',nome:'Rio de Janeiro',slug:'rio-de-janeiro'},{uf:'RN',nome:'Rio Grande do Norte',slug:'rio-grande-do-norte'},
+  {uf:'RO',nome:'Rondônia',slug:'rondonia'},{uf:'RR',nome:'Roraima',slug:'roraima'},
+  {uf:'RS',nome:'Rio Grande do Sul',slug:'rio-grande-do-sul'},{uf:'SC',nome:'Santa Catarina',slug:'santa-catarina'},
+  {uf:'SE',nome:'Sergipe',slug:'sergipe'},{uf:'SP',nome:'São Paulo',slug:'sao-paulo'},
+  {uf:'TO',nome:'Tocantins',slug:'tocantins'}
+];
+
+async function carregarPagina() {
+  // Busca hero
+  const heroInput = document.getElementById('heroSearch');
+  const heroDropdown = document.getElementById('heroSearchDropdown');
+  if (heroInput && heroDropdown) {
+    iniciarPlaceholderAnimado(heroInput, [
+      'Busque por cidade…',
+      'Busque por bairro…',
+      'Busque por nome da escola…',
+      'Busque por estado…',
+    ]);
+    new BrasilEscolasSearch(heroInput, heroDropdown);
+    document.getElementById('heroBtnBuscar').addEventListener('click', () => {
+      const v = heroInput.value.trim();
+      if (v) { salvarBuscaRecente(v); location.href = `/escolas/?texto=${encodeURIComponent(v)}`; }
+      else location.href = '/escolas/';
+    });
+  }
+
+  // Busca header
+  const hInput = document.getElementById('headerSearch');
+  const hDrop  = document.getElementById('headerSearchDropdown');
+  if (hInput && hDrop) new BrasilEscolasSearch(hInput, hDrop);
+
+  // Stories
+  await iniciarStoriesCarrossel(document.getElementById('storiesContainer'));
+
+  // Estados grid
+  const estadosGrid = document.getElementById('estadosGrid');
+  const estadosBusca = document.getElementById('estadosBusca');
+  let contadores = {};
+  try { contadores = await contarEscolasPorUF(); } catch {}
+
+  function renderEstados(filtro = '') {
+    const fil = filtro.toLowerCase().trim();
+    const filtrado = ESTADOS_DADOS.filter(e =>
+      !fil || e.nome.toLowerCase().includes(fil) || e.uf.toLowerCase().includes(fil)
+    );
+    estadosGrid.innerHTML = filtrado.map(e => `
+      <a href="/escolas/${e.slug}/" class="estado-card" role="listitem"
+         aria-label="Escolas em ${e.nome}">
+        <span class="estado-sigla">${e.uf}</span>
+        <span class="estado-nome">${e.nome}</span>
+        <span class="estado-count">${(contadores[e.uf] || 0).toLocaleString('pt-BR')} escolas</span>
+      </a>`).join('');
+  }
+  renderEstados();
+  if (estadosBusca) estadosBusca.addEventListener('input', debounce(() => renderEstados(estadosBusca.value), 200));
+
+  // Artigos recentes
+  const artigosGrid = document.getElementById('artigosGrid');
+  if (artigosGrid) {
+    try {
+      const { artigos } = await buscarArtigos({ limit: 3 });
+      if (artigos.length) {
+        artigosGrid.innerHTML = artigos.map(a => `
+          <article class="card artigo-card" role="listitem">
+            <a href="/artigos/${a.slug}/" aria-label="Ler artigo: ${a.titulo}">
+              <img class="artigo-card-img"
+                ${a.imagem_url ? `data-src="${a.imagem_url}"` : `src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'%3E%3Crect fill='%23E8F4FD' width='400' height='225'/%3E%3Ctext x='200' y='120' font-size='60' text-anchor='middle' dominant-baseline='middle'%3E📚%3C/text%3E%3C/svg%3E"`}
+                alt="${a.imagem_alt || a.titulo}" loading="lazy" width="400" height="225">
+              <div class="artigo-card-body">
+                ${a.categoria ? `<span class="artigo-categoria-badge">${a.categoria}</span>` : ''}
+                <h3 class="artigo-card-title">${a.titulo}</h3>
+                <p class="artigo-card-excerpt">${a.excerpt || ''}</p>
+                <div class="artigo-card-meta">
+                  <span>${formatarData(a.publicado_em)}</span>
+                  <span class="artigo-card-link">Ler mais →</span>
+                </div>
+              </div>
+            </a>
+          </article>`).join('');
+        lazyLoadImages();
+      } else {
+        artigosGrid.innerHTML = '<p style="color:var(--text-muted);">Nenhum artigo publicado ainda.</p>';
+      }
+    } catch {
+      artigosGrid.innerHTML = '';
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', carregarPagina);
+</script>
+</body>
+</html>

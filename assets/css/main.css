@@ -1,0 +1,262 @@
+/* ============================================================
+   Brasil Escolas — Estilos Globais (header, footer, nav)
+   ============================================================ */
+@import url('design-system.css');
+
+/* ─── Header ─── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--bg-header);
+  box-shadow: 0 2px 12px rgba(0,63,127,0.08);
+  border-bottom: 1px solid rgba(0,63,127,0.06);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 72px;
+  padding: 0 20px;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+.header-logo img {
+  height: 48px;
+  width: auto;
+}
+.header-logo:focus-visible {
+  outline: 3px solid var(--azul-autismo);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Busca central no header (desktop) */
+.header-search {
+  flex: 1;
+  max-width: 520px;
+  position: relative;
+}
+.header-search input {
+  width: 100%;
+  padding: 10px 44px 10px 16px;
+  border: 2px solid #E2E8F0;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  background: var(--bg-primary);
+  transition: border-color 0.2s;
+}
+.header-search input:focus {
+  border-color: var(--azul-autismo);
+  background: white;
+  outline: none;
+}
+.header-search-btn {
+  position: absolute;
+  right: 6px; top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--azul-autismo);
+  border: none; border-radius: 50%;
+  color: white; cursor: pointer;
+  transition: background 0.2s;
+}
+.header-search-btn:hover { background: var(--azul-escuro); }
+
+/* Navegação principal */
+.main-nav { display: flex; align-items: center; gap: 4px; }
+.main-nav a {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-body);
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.main-nav a:hover { background: var(--bg-primary); color: var(--azul-autismo); }
+.main-nav a.active { color: var(--azul-autismo); font-weight: 600; }
+.main-nav .btn-cadastrar {
+  background: var(--amarelo);
+  color: var(--azul-escuro);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+.main-nav .btn-cadastrar:hover { background: #d4940f; }
+
+/* Menu hamburguer mobile */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px; height: 44px;
+  background: none; border: none;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  width: 100%; height: 3px;
+  background: var(--azul-escuro);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.hamburger[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg) translate(5.5px, 5.5px); }
+.hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger[aria-expanded="true"] span:nth-child(3) { transform: rotate(-45deg) translate(5.5px, -5.5px); }
+
+/* Drawer mobile */
+.mobile-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 300px; height: 100vh;
+  background: var(--azul-escuro);
+  z-index: 1200;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+.mobile-drawer.open { transform: translateX(0); }
+.mobile-drawer-close {
+  align-self: flex-end;
+  background: none; border: none;
+  color: white; font-size: 28px;
+  cursor: pointer; padding: 4px;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+.mobile-drawer nav { display: flex; flex-direction: column; gap: 4px; }
+.mobile-drawer nav a {
+  display: block;
+  padding: 14px 16px;
+  color: white;
+  font-size: var(--text-lg);
+  font-family: var(--font-title);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+.mobile-drawer nav a:hover { background: rgba(255,255,255,0.12); }
+.mobile-drawer nav .btn-cadastrar-mobile {
+  background: var(--amarelo);
+  color: var(--azul-escuro);
+  margin-top: 16px;
+  text-align: center;
+}
+.mobile-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.mobile-overlay.open { opacity: 1; pointer-events: all; }
+
+/* ─── Footer ─── */
+.site-footer {
+  background: var(--bg-footer);
+  color: white;
+  padding: 56px 0 0;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.footer-logo-img { height: 44px; filter: brightness(0) invert(1); margin-bottom: 16px; }
+.footer-desc { font-size: var(--text-sm); color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 12px; }
+.footer-cnpj { font-size: var(--text-xs); color: rgba(255,255,255,0.5); margin-top: 8px; }
+.footer-col-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-base);
+  margin-bottom: 20px;
+  color: white;
+}
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.75);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--amarelo); }
+.footer-social { display: flex; gap: 12px; margin-top: 20px; }
+.footer-social a {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  transition: background 0.2s;
+}
+.footer-social a:hover { background: var(--amarelo); color: var(--azul-escuro); }
+.footer-bottom {
+  background: var(--bg-footer-bot);
+  text-align: center;
+  padding: 20px;
+  margin-top: 48px;
+}
+.footer-bottom p {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+.footer-bottom p:last-child { color: rgba(255,255,255,0.4); font-size: var(--text-xs); }
+
+/* ─── Busca — dropdown ─── */
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0; right: 0;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  z-index: 500;
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+}
+.search-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid #F7FAFC;
+}
+.search-dropdown-item:last-child { border-bottom: none; }
+.search-dropdown-item:hover { background: var(--bg-primary); }
+.search-dropdown-item-icon { color: var(--azul-autismo); font-size: 18px; flex-shrink: 0; }
+.search-dropdown-item-name { font-weight: 600; font-size: var(--text-sm); color: var(--text-body); }
+.search-dropdown-item-sub { font-size: var(--text-xs); color: var(--text-muted); margin-top: 2px; }
+.search-dropdown-empty { padding: 20px; text-align: center; color: var(--text-muted); font-size: var(--text-sm); }
+
+/* ─── Responsividade do header e footer ─── */
+@media (max-width: 1024px) {
+  .header-search { max-width: 340px; }
+  .main-nav a { padding: 8px 10px; font-size: 13px; }
+}
+@media (max-width: 768px) {
+  .header-search { display: none; }
+  .main-nav { display: none; }
+  .hamburger { display: flex; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 375px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .header-inner { height: 60px; }
+  .header-logo img { height: 36px; }
+}

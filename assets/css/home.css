@@ -1,0 +1,416 @@
+/* ============================================================
+   Brasil Escolas — Homepage CSS
+   ============================================================ */
+
+/* ─── Hero ─── */
+.hero {
+  background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--azul-autismo) 100%);
+  padding: 80px 0 72px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+.hero-subtitle {
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(255,255,255,0.88);
+  max-width: 680px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+/* Barra de busca hero */
+.hero-search-wrap {
+  max-width: 680px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+.hero-search {
+  display: flex;
+  background: white;
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  overflow: visible;
+  position: relative;
+}
+.hero-search input {
+  flex: 1;
+  padding: 18px 20px;
+  border: none;
+  background: transparent;
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+  color: var(--text-body);
+  border-radius: 999px 0 0 999px;
+  min-width: 0;
+}
+.hero-search input:focus { outline: none; }
+.hero-search input::placeholder { color: var(--text-light); }
+.hero-search-btn {
+  background: var(--amarelo);
+  border: none;
+  padding: 18px 28px;
+  border-radius: 0 999px 999px 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--azul-escuro);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.hero-search-btn:hover { background: #d4940f; }
+.hero-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0; right: 0;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  z-index: 600;
+  overflow: hidden;
+  border: 1px solid #E2E8F0;
+}
+
+/* Filtros rápidos pills hero */
+.hero-filters {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+.hero-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.hero-filter-pill:hover,
+.hero-filter-pill.active {
+  background: rgba(255,255,255,0.95);
+  color: var(--azul-escuro);
+  border-color: white;
+}
+
+/* Stats hero */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.hero-stat-value {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 36px);
+  color: var(--amarelo);
+  display: block;
+}
+.hero-stat-label {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.8);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ─── Web Stories carrossel ─── */
+.stories-section { background: var(--bg-card); }
+.stories-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--azul-autismo) transparent;
+}
+.stories-carousel::-webkit-scrollbar { height: 4px; }
+.stories-carousel::-webkit-scrollbar-track { background: transparent; }
+.stories-carousel::-webkit-scrollbar-thumb { background: var(--azul-autismo); border-radius: 2px; }
+.story-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 180px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 9/16;
+  background: var(--azul-escuro);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+}
+.story-card:hover { transform: scale(1.03); box-shadow: var(--shadow-hover); }
+.story-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+.story-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+}
+.story-card-title {
+  color: white;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  line-height: 1.3;
+}
+
+/* ─── Categorias grid ─── */
+.categoria-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid transparent;
+}
+.categoria-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--azul-autismo);
+}
+.categoria-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+.categoria-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--text-h);
+}
+.categoria-link {
+  font-size: var(--text-sm);
+  color: var(--azul-autismo);
+  font-weight: 600;
+}
+
+/* ─── Seção inclusão ─── */
+.inclusao-section { background: var(--bg-inclusao); }
+.inclusao-header { text-align: center; margin-bottom: 48px; }
+.inclusao-icon-big { font-size: 56px; margin-bottom: 16px; }
+.inclusao-cards-grid { grid-template-columns: repeat(4, 1fr); }
+.inclusao-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border-top: 4px solid var(--azul-autismo);
+}
+.inclusao-card:nth-child(2) { border-top-color: var(--amarelo); }
+.inclusao-card:nth-child(3) { border-top-color: var(--roxo); }
+.inclusao-card:nth-child(4) { border-top-color: var(--verde); }
+.inclusao-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.inclusao-card-icon { font-size: 36px; }
+.inclusao-card-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--text-h);
+}
+.inclusao-card-desc { font-size: var(--text-sm); color: var(--text-muted); line-height: 1.6; }
+.inclusao-aviso {
+  text-align: center;
+  margin-top: 24px;
+  font-size: var(--text-xs);
+  color: var(--text-light);
+}
+
+/* ─── Por estado ─── */
+.estados-section { background: white; }
+.estados-search-wrap { max-width: 400px; margin-bottom: 32px; }
+.estados-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.estado-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  padding: 16px 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: var(--transition);
+  border: 2px solid transparent;
+  display: block;
+}
+.estado-card:hover {
+  background: var(--azul-autismo);
+  border-color: var(--azul-autismo);
+  transform: translateY(-2px);
+}
+.estado-card:hover .estado-sigla,
+.estado-card:hover .estado-nome,
+.estado-card:hover .estado-count { color: white; }
+.estado-sigla {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  color: var(--azul-escuro);
+  display: block;
+}
+.estado-nome {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.estado-count {
+  font-size: var(--text-xs);
+  color: var(--azul-autismo);
+  font-weight: 600;
+  display: block;
+  margin-top: 4px;
+}
+
+/* ─── Artigos recentes ─── */
+.artigos-section { background: var(--bg-primary); }
+.artigo-card { text-decoration: none; display: block; }
+.artigo-card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  background: var(--bg-inclusao);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.artigo-card-body { padding: 20px; }
+.artigo-categoria-badge {
+  display: inline-block;
+  background: var(--bg-inclusao);
+  color: var(--azul-autismo);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.artigo-card-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--text-h);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
+}
+.artigo-card-excerpt {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.artigo-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--text-light);
+}
+.artigo-card-link { color: var(--azul-autismo); font-weight: 600; }
+
+/* ─── CTA Cadastro ─── */
+.cta-section {
+  background: var(--amarelo);
+  padding: 64px 0;
+  text-align: center;
+}
+.cta-section h2 {
+  font-size: clamp(24px, 3vw, 40px);
+  color: var(--azul-escuro);
+  margin-bottom: 12px;
+}
+.cta-section p { font-size: var(--text-lg); color: rgba(0,63,127,0.8); margin-bottom: 28px; }
+.cta-beneficios {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.cta-beneficio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--azul-escuro);
+  font-size: var(--text-base);
+}
+.cta-check { color: var(--verde); font-size: 20px; }
+
+/* ─── Responsividade homepage ─── */
+@media (max-width: 1024px) {
+  .inclusao-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .estados-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 768px) {
+  .hero { padding: 56px 0 48px; }
+  .hero-stats { gap: 28px; }
+  .hero-filter-pill { font-size: 12px; padding: 6px 12px; }
+  .inclusao-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .estados-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-search input { padding: 14px 16px; font-size: var(--text-sm); }
+  .hero-search-btn { padding: 14px 20px; font-size: var(--text-sm); }
+}
+@media (max-width: 480px) {
+  .hero-filters { display: none; }
+  .inclusao-cards-grid { grid-template-columns: 1fr; }
+  .estados-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-beneficios { flex-direction: column; align-items: center; gap: 12px; }
+}

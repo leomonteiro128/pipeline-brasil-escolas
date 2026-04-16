@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vagas de Emprego e Estágio em Escolas | Brasil Escolas</title>
+  <meta name="description" content="Encontre vagas de emprego e estágio em escolas e universidades de todo o Brasil. Filtre por estado, tipo e área de atuação.">
+  <link rel="canonical" href="https://brasilescolas.com.br/vagas-emprego-estagio/">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/forms.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Vagas de Emprego e Estágio em Escolas | Brasil Escolas",
+    "description": "Encontre vagas de emprego e estágio em escolas e universidades de todo o Brasil.",
+    "url": "https://www.brasilescolas.com/vagas-emprego-estagio/",
+    "inLanguage": "pt-BR"
+  }
+  </script>
+  <style>
+    /* Page hero */
+    .vagas-hero {
+      background: linear-gradient(135deg, #003F7F 0%, #0066CC 100%);
+      color: #fff;
+      padding: 2.5rem 0 2rem;
+      margin-bottom: 0;
+    }
+    .vagas-hero h1 { color: #fff; margin: 0 0 0.5rem; }
+    .vagas-hero p { opacity: 0.9; margin: 0; }
+
+    /* Filters */
+    .filters-bar {
+      background: #f8f9fa;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 1.25rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .filters-inner {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex: 1;
+      min-width: 150px;
+    }
+    .filter-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .filter-group select {
+      padding: 0.55rem 0.75rem;
+      border: 1.5px solid #ccc;
+      border-radius: 7px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+    .btn-filtrar {
+      background: #003F7F;
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 7px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      align-self: flex-end;
+      white-space: nowrap;
+    }
+    .btn-filtrar:hover { background: #0056b3; }
+
+    /* Vaga cards */
+    .vagas-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .vaga-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .vaga-card:hover {
+      box-shadow: 0 4px 16px rgba(0,63,127,0.12);
+      border-color: #003F7F;
+    }
+    .vaga-icon {
+      width: 48px;
+      height: 48px;
+      background: #e8f0fe;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .vaga-body { flex: 1; }
+    .vaga-cargo {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #003F7F;
+      margin: 0 0 0.25rem;
+    }
+    .vaga-escola {
+      color: #444;
+      font-size: 0.92rem;
+      margin: 0 0 0.4rem;
+    }
+    .vaga-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .vaga-meta span { display: flex; align-items: center; gap: 0.2rem; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-emprego { background: #d4edda; color: #155724; }
+    .badge-estagio { background: #cce5ff; color: #004085; }
+    .badge-area { background: #fff3cd; color: #856404; }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid #ccc;
+      border-radius: 7px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .page-btn:hover, .page-btn.active {
+      background: #003F7F;
+      color: #fff;
+      border-color: #003F7F;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #666;
+    }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state h3 { color: #444; margin-bottom: 0.5rem; }
+
+    /* Divider */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 3rem 0 2rem;
+    }
+    .section-divider::before, .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #003F7F, transparent);
+    }
+    .section-divider span {
+      color: #003F7F;
+      font-weight: 700;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+
+    /* Form card */
+    .form-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #222;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1.5px solid #ccc;
+      border-radius: 7px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #003F7F;
+      outline: none;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+    .field-error {
+      color: #dc3545;
+      font-size: 0.82rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .field-error.show { display: block; }
+
+    .btn-submit {
+      background: #003F7F;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .btn-submit:hover { background: #0056b3; }
+
+    /* Aviso institucional */
+    .aviso-institucional {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 0.9rem 1.2rem;
+      color: #856404;
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Alert */
+    .alert { padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.97rem; }
+    .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+    /* Loading */
+    .loading-spinner {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .spin {
+      width: 36px;
+      height: 36px;
+      border: 4px solid #e0e0e0;
+      border-top-color: #003F7F;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* AdSense in-feed */
+    .adsense-infeed {
+      background: #f8f9fa;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      text-align: center;
+      padding: 1rem;
+      color: #999;
+      font-size: 0.8rem;
+    }
+
+    /* Results info */
+    .results-info {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <img src="/assets/img/logo.svg" alt="Brasil Escolas" width="160" height="40">
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="/">Início</a>
+      <a href="/escolas/">Escolas</a>
+      <a href="/inclusao/">Educação Inclusiva</a>
+      <a href="/artigos/">Artigos</a>
+      <a href="/vagas-emprego-estagio/" class="nav-active">Vagas</a>
+      <a href="/cadastrar-escola/" style="color:#FFD700;font-weight:700;">Cadastrar Escola</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+    <button class="drawer-close" id="drawerClose" aria-label="Fechar menu">&times;</button>
+    <nav class="drawer-nav">
+      <a href="/">Início</a>
+      <a href="/escolas/">Escolas</a>
+      <a href="/inclusao/">Educação Inclusiva</a>
+      <a href="/artigos/">Artigos</a>
+      <a href="/vagas-emprego-estagio/">Vagas</a>
+      <a href="/cadastrar-escola/" style="color:#FFD700;font-weight:700;">Cadastrar Escola</a>
+    </nav>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+</header>
+
+<!-- HERO -->
+<section class="vagas-hero">
+  <div class="container">
+    <nav aria-label="Breadcrumb">
+      <ol style="color:rgba(255,255,255,0.8);font-size:0.88rem;list-style:none;padding:0;margin:0 0 1rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
+        <li><a href="/" style="color:rgba(255,255,255,0.8);">Início</a></li>
+        <li aria-hidden="true">›</li>
+        <li aria-current="page" style="color:#fff;">Vagas de Emprego e Estágio</li>
+      </ol>
+    </nav>
+    <h1>Vagas de Emprego e Estágio em Escolas</h1>
+    <p>Oportunidades em escolas, colégios e universidades de todo o Brasil.</p>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<div class="filters-bar">
+  <div class="container">
+    <div class="filters-inner">
+      <div class="filter-group">
+        <label for="filtroEstado">Estado</label>
+        <select id="filtroEstado">
+          <option value="">Todos os estados</option>
+          <option value="AC">Acre</option>
+          <option value="AL">Alagoas</option>
+          <option value="AP">Amapá</option>
+          <option value="AM">Amazonas</option>
+          <option value="BA">Bahia</option>
+          <option value="CE">Ceará</option>
+          <option value="DF">Distrito Federal</option>
+          <option value="ES">Espírito Santo</option>
+          <option value="GO">Goiás</option>
+          <option value="MA">Maranhão</option>
+          <option value="MT">Mato Grosso</option>
+          <option value="MS">Mato Grosso do Sul</option>
+          <option value="MG">Minas Gerais</option>
+          <option value="PA">Pará</option>
+          <option value="PB">Paraíba</option>
+          <option value="PR">Paraná</option>
+          <option value="PE">Pernambuco</option>
+          <option value="PI">Piauí</option>
+          <option value="RJ">Rio de Janeiro</option>
+          <option value="RN">Rio Grande do Norte</option>
+          <option value="RS">Rio Grande do Sul</option>
+          <option value="RO">Rondônia</option>
+          <option value="RR">Roraima</option>
+          <option value="SC">Santa Catarina</option>
+          <option value="SP">São Paulo</option>
+          <option value="SE">Sergipe</option>
+          <option value="TO">Tocantins</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filtroTipo">Tipo</label>
+        <select id="filtroTipo">
+          <option value="">Emprego e Estágio</option>
+          <option value="emprego">Emprego</option>
+          <option value="estagio">Estágio</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filtroArea">Área</label>
+        <select id="filtroArea">
+          <option value="">Todas as áreas</option>
+          <option value="docencia">Docência</option>
+          <option value="coordenacao">Coordenação Pedagógica</option>
+          <option value="direcao">Direção</option>
+          <option value="administrativo">Administrativo</option>
+          <option value="auxiliar">Auxiliar de Classe</option>
+          <option value="educacao_especial">Educação Especial</option>
+          <option value="psicologia">Psicologia</option>
+          <option value="fonoaudiologia">Fonoaudiologia</option>
+          <option value="ti">Tecnologia da Informação</option>
+          <option value="secretaria">Secretaria</option>
+          <option value="outros">Outros</option>
+        </select>
+      </div>
+      <button class="btn-filtrar" onclick="carregarVagas(1)">Filtrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="container" style="max-width:900px;">
+
+  <!-- SEÇÃO A: Listagem -->
+  <section aria-label="Listagem de vagas">
+    <div id="resultsInfo" class="results-info" style="margin-top:1.5rem;"></div>
+    <div id="vagasContainer">
+      <div class="loading-spinner"><div class="spin"></div></div>
+    </div>
+    <div class="pagination" id="paginacao"></div>
+  </section>
+
+  <!-- SEÇÃO B: Publicar vaga -->
+  <div class="section-divider">
+    <span>📋 Publicar uma vaga</span>
+  </div>
+
+  <section aria-label="Publicar vaga">
+    <div class="aviso-institucional">
+      ⚠️ <strong>Apenas escolas e universidades podem publicar vagas.</strong> Vagas de empresas terceiras ou de pessoas físicas serão removidas.
+    </div>
+
+    <div id="formAlertArea"></div>
+
+    <div class="form-card">
+      <h2 style="margin-top:0;color:#003F7F;">Publicar uma vaga</h2>
+
+      <form id="vagaForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vagaNomeEscola">Nome da Escola / Universidade <span style="color:#dc3545">*</span></label>
+            <input type="text" id="vagaNomeEscola" placeholder="Nome completo da instituição">
+            <div class="field-error" id="err-vagaNome">Informe o nome da instituição.</div>
+          </div>
+          <div class="form-group">
+            <label for="vagaCnpj">CNPJ <span style="color:#dc3545">*</span></label>
+            <input type="text" id="vagaCnpj" placeholder="XX.XXX.XXX/XXXX-XX" maxlength="18" inputmode="numeric">
+            <div class="field-error" id="err-vagaCnpj">CNPJ inválido.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="vagaCargo">Cargo / Função <span style="color:#dc3545">*</span></label>
+          <input type="text" id="vagaCargo" placeholder="Ex: Professor de Matemática, Auxiliar de Classe...">
+          <div class="field-error" id="err-vagaCargo">Informe o cargo ou função.</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vagaTipo">Tipo <span style="color:#dc3545">*</span></label>
+            <select id="vagaTipo">
+              <option value="">Selecione</option>
+              <option value="emprego">Emprego</option>
+              <option value="estagio">Estágio</option>
+            </select>
+            <div class="field-error" id="err-vagaTipo">Selecione o tipo.</div>
+          </div>
+          <div class="form-group">
+            <label for="vagaArea">Área <span style="color:#dc3545">*</span></label>
+            <select id="vagaArea">
+              <option value="">Selecione a área</option>
+              <option value="docencia">Docência</option>
+              <option value="coordenacao">Coordenação Pedagógica</option>
+              <option value="direcao">Direção</option>
+              <option value="administrativo">Administrativo</option>
+              <option value="auxiliar">Auxiliar de Classe</option>
+              <option value="educacao_especial">Educação Especial</option>
+              <option value="psicologia">Psicologia</option>
+              <option value="fonoaudiologia">Fonoaudiologia</option>
+              <option value="ti">Tecnologia da Informação</option>
+              <option value="secretaria">Secretaria</option>
+              <option value="outros">Outros</option>
+            </select>
+            <div class="field-error" id="err-vagaArea">Selecione a área.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="vagaRequisitos">Requisitos / Descrição <span style="color:#dc3545">*</span></label>
+          <textarea id="vagaRequisitos" rows="5" placeholder="Descreva os requisitos, responsabilidades e demais informações da vaga..."></textarea>
+          <div class="field-error" id="err-vagaRequisitos">Descreva os requisitos da vaga.</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vagaCargaHoraria">Carga Horária</label>
+            <input type="text" id="vagaCargaHoraria" placeholder="Ex: 40h semanais, 20h semanais">
+          </div>
+          <div class="form-group">
+            <label for="vagaRemuneracao">Remuneração</label>
+            <input type="text" id="vagaRemuneracao" placeholder="A combinar" value="A combinar">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vagaPrazo">Prazo de Inscrição <span style="color:#dc3545">*</span></label>
+            <input type="date" id="vagaPrazo">
+            <div class="field-error" id="err-vagaPrazo">Informe o prazo de inscrição.</div>
+          </div>
+          <div class="form-group">
+            <label for="vagaContato">Contato para inscrição <span style="color:#dc3545">*</span></label>
+            <input type="text" id="vagaContato" placeholder="E-mail ou WhatsApp">
+            <div class="field-error" id="err-vagaContato">Informe o contato para inscrições.</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vagaUF">Estado (UF) <span style="color:#dc3545">*</span></label>
+            <select id="vagaUF">
+              <option value="">Selecione</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+            </select>
+            <div class="field-error" id="err-vagaUF">Selecione o estado.</div>
+          </div>
+          <div class="form-group">
+            <label for="vagaMunicipio">Município <span style="color:#dc3545">*</span></label>
+            <input type="text" id="vagaMunicipio" placeholder="Cidade onde a vaga está disponível">
+            <div class="field-error" id="err-vagaMunicipio">Informe o município.</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Publicar Vaga</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="/assets/img/logo-white.svg" alt="Brasil Escolas" width="140" height="36">
+        <p style="color:rgba(255,255,255,0.7);font-size:0.88rem;margin-top:0.75rem;">O maior guia de escolas do Brasil.</p>
+      </div>
+      <div>
+        <h4>Links úteis</h4>
+        <ul>
+          <li><a href="/escolas/">Buscar escolas</a></li>
+          <li><a href="/inclusao/">Educação inclusiva</a></li>
+          <li><a href="/artigos/">Artigos</a></li>
+          <li><a href="/vagas-emprego-estagio/">Vagas</a></li>
+          <li><a href="/cadastrar-escola/">Cadastrar escola</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="/sobre/">Sobre</a></li>
+          <li><a href="/contato/">Contato</a></li>
+          <li><a href="/politica-de-privacidade/">Privacidade</a></li>
+          <li><a href="/termos-de-uso/">Termos de uso</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Brasil Escolas. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/supabase-client.js" defer></script>
+<script src="/assets/js/utils.js" defer></script>
+
+<script>
+  /* ==============================
+     HAMBURGER
+  ============================== */
+  const hamburger = document.getElementById('hamburger');
+  const navDrawer = document.getElementById('navDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  const drawerClose = document.getElementById('drawerClose');
+  hamburger.addEventListener('click', () => { navDrawer.classList.add('open'); drawerOverlay.classList.add('open'); hamburger.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; });
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+  function closeDrawer() { navDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); hamburger.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+
+  /* ==============================
+     VAGAS — CARREGAR
+  ============================== */
+  let currentPage = 1;
+  const PAGE_SIZE = 6;
+  let totalVagas = 0;
+
+  async function carregarVagas(page = 1) {
+    currentPage = page;
+    const container = document.getElementById('vagasContainer');
+    container.innerHTML = '<div class="loading-spinner"><div class="spin"></div></div>';
+
+    const estado = document.getElementById('filtroEstado').value;
+    const tipo = document.getElementById('filtroTipo').value;
+    const area = document.getElementById('filtroArea').value;
+
+    try {
+      let query = window.supabaseClient
+        .from('vagas')
+        .select('*', { count: 'exact' })
+        .eq('status', 'aprovada')
+        .order('criado_em', { ascending: false });
+
+      if (estado) query = query.eq('uf', estado);
+      if (tipo) query = query.eq('tipo', tipo);
+      if (area) query = query.eq('area', area);
+
+      const from = (page - 1) * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+      query = query.range(from, to);
+
+      const { data, error, count } = await query;
+      if (error) throw error;
+
+      totalVagas = count || 0;
+      renderVagas(data || [], count || 0, page);
+    } catch (err) {
+      console.error('Erro ao buscar vagas:', err);
+      container.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><h3>Erro ao carregar vagas</h3><p>Tente novamente em instantes.</p></div>';
+    }
+  }
+
+  function renderVagas(vagas, total, page) {
+    const container = document.getElementById('vagasContainer');
+    const info = document.getElementById('resultsInfo');
+
+    if (total === 0) {
+      info.textContent = '';
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🔍</div>
+          <h3>Nenhuma vaga encontrada</h3>
+          <p>Tente ajustar os filtros ou verifique novamente mais tarde.</p>
+        </div>`;
+      document.getElementById('paginacao').innerHTML = '';
+      return;
+    }
+
+    info.textContent = `Exibindo ${(page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, total)} de ${total} vaga${total !== 1 ? 's' : ''}`;
+
+    const icons = { docencia: '📚', coordenacao: '📋', direcao: '🏫', administrativo: '💼', auxiliar: '🤝', educacao_especial: '♿', psicologia: '🧠', fonoaudiologia: '🗣️', ti: '💻', secretaria: '📁', outros: '📌' };
+    let html = '<div class="vagas-grid">';
+
+    vagas.forEach((vaga, idx) => {
+      // AdSense a cada 6 vagas
+      if (idx > 0 && idx % 6 === 0) {
+        html += `<div class="adsense-infeed">
+          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-6391161522269960" data-ad-slot="XXXXXXXXXX"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
+        </div>`;
+      }
+
+      const prazo = vaga.prazo_inscricao ? new Date(vaga.prazo_inscricao).toLocaleDateString('pt-BR') : 'Consultar';
+      const icon = icons[vaga.area] || '📌';
+      const badgeClass = vaga.tipo === 'estagio' ? 'badge-estagio' : 'badge-emprego';
+      const badgeLabel = vaga.tipo === 'estagio' ? 'Estágio' : 'Emprego';
+
+      html += `
+        <div class="vaga-card">
+          <div class="vaga-icon">${icon}</div>
+          <div class="vaga-body">
+            <div class="vaga-cargo">${escapeHtml(vaga.cargo || '')}</div>
+            <div class="vaga-escola">🏫 ${escapeHtml(vaga.nome_escola || '')}</div>
+            <div class="vaga-meta">
+              <span>📍 ${escapeHtml(vaga.municipio || '')} / ${escapeHtml(vaga.uf || '')}</span>
+              <span><span class="badge ${badgeClass}">${badgeLabel}</span></span>
+              ${vaga.area ? `<span><span class="badge badge-area">${escapeHtml(vaga.area)}</span></span>` : ''}
+              <span>⏰ Prazo: ${prazo}</span>
+              ${vaga.remuneracao ? `<span>💰 ${escapeHtml(vaga.remuneracao)}</span>` : ''}
+            </div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+
+    // Paginação
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    renderPaginacao(page, totalPages);
+  }
+
+  function renderPaginacao(page, total) {
+    if (total <= 1) { document.getElementById('paginacao').innerHTML = ''; return; }
+    let html = '';
+    if (page > 1) html += `<button class="page-btn" onclick="carregarVagas(${page - 1})">‹</button>`;
+    for (let i = Math.max(1, page - 2); i <= Math.min(total, page + 2); i++) {
+      html += `<button class="page-btn ${i === page ? 'active' : ''}" onclick="carregarVagas(${i})">${i}</button>`;
+    }
+    if (page < total) html += `<button class="page-btn" onclick="carregarVagas(${page + 1})">›</button>`;
+    document.getElementById('paginacao').innerHTML = html;
+  }
+
+  function escapeHtml(text) {
+    return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ==============================
+     CNPJ MASK + VALIDATION
+  ============================== */
+  document.getElementById('vagaCnpj').addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '');
+    v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+    v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+    v = v.replace(/(\d{4})(\d)/, '$1-$2');
+    this.value = v;
+  });
+
+  function validarCNPJ(cnpj) {
+    cnpj = cnpj.replace(/\D/g, '');
+    if (cnpj.length !== 14) return false;
+    if (/^(\d)\1+$/.test(cnpj)) return false;
+    let soma = 0, peso = 2;
+    for (let i = 11; i >= 0; i--) { soma += parseInt(cnpj[i]) * peso; peso = peso === 9 ? 2 : peso + 1; }
+    let d1 = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (parseInt(cnpj[12]) !== d1) return false;
+    soma = 0; peso = 2;
+    for (let i = 12; i >= 0; i--) { soma += parseInt(cnpj[i]) * peso; peso = peso === 9 ? 2 : peso + 1; }
+    let d2 = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    return parseInt(cnpj[13]) === d2;
+  }
+
+  /* ==============================
+     FORM SUBMIT
+  ============================== */
+  document.getElementById('vagaForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    const checks = [
+      { id: 'vagaNomeEscola', key: 'vagaNome', test: v => v.trim().length >= 3 },
+      { id: 'vagaCnpj', key: 'vagaCnpj', test: v => validarCNPJ(v) },
+      { id: 'vagaCargo', key: 'vagaCargo', test: v => v.trim().length >= 2 },
+      { id: 'vagaTipo', key: 'vagaTipo', test: v => !!v },
+      { id: 'vagaArea', key: 'vagaArea', test: v => !!v },
+      { id: 'vagaRequisitos', key: 'vagaRequisitos', test: v => v.trim().length >= 20 },
+      { id: 'vagaPrazo', key: 'vagaPrazo', test: v => !!v },
+      { id: 'vagaContato', key: 'vagaContato', test: v => v.trim().length >= 5 },
+      { id: 'vagaUF', key: 'vagaUF', test: v => !!v },
+      { id: 'vagaMunicipio', key: 'vagaMunicipio', test: v => v.trim().length >= 2 },
+    ];
+
+    checks.forEach(c => {
+      const el = document.getElementById(c.id);
+      const ok = c.test(el.value);
+      const errEl = document.getElementById('err-' + c.key);
+      if (errEl) errEl.classList.toggle('show', !ok);
+      if (!ok) valid = false;
+    });
+
+    if (!valid) return;
+
+    const btn = this.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    document.getElementById('formAlertArea').innerHTML = '';
+
+    const payload = {
+      nome_escola: document.getElementById('vagaNomeEscola').value.trim(),
+      cnpj: document.getElementById('vagaCnpj').value.replace(/\D/g, ''),
+      cargo: document.getElementById('vagaCargo').value.trim(),
+      tipo: document.getElementById('vagaTipo').value,
+      area: document.getElementById('vagaArea').value,
+      requisitos: document.getElementById('vagaRequisitos').value.trim(),
+      carga_horaria: document.getElementById('vagaCargaHoraria').value.trim(),
+      remuneracao: document.getElementById('vagaRemuneracao').value.trim() || 'A combinar',
+      prazo_inscricao: document.getElementById('vagaPrazo').value,
+      contato: document.getElementById('vagaContato').value.trim(),
+      uf: document.getElementById('vagaUF').value,
+      municipio: document.getElementById('vagaMunicipio').value.trim(),
+      status: 'pendente',
+      criado_em: new Date().toISOString()
+    };
+
+    try {
+      if (typeof inserirVaga === 'function') {
+        await inserirVaga(payload);
+      } else {
+        const { error } = await window.supabaseClient.from('vagas').insert([payload]);
+        if (error) throw error;
+      }
+
+      document.getElementById('formAlertArea').innerHTML = '<div class="alert alert-success">✅ Vaga enviada com sucesso! Será publicada após análise da nossa equipe (até 48 horas).</div>';
+      document.getElementById('vagaForm').reset();
+      document.getElementById('vagaRemuneracao').value = 'A combinar';
+    } catch (err) {
+      console.error('Erro ao inserir vaga:', err);
+      document.getElementById('formAlertArea').innerHTML = '<div class="alert alert-danger">Ocorreu um erro ao publicar a vaga. Tente novamente em instantes.</div>';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Publicar Vaga';
+    }
+  });
+
+  /* ==============================
+     INIT
+  ============================== */
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wait for supabase to be ready
+    const waitForSupabase = setInterval(() => {
+      if (window.supabaseClient) {
+        clearInterval(waitForSupabase);
+        carregarVagas(1);
+      }
+    }, 100);
+    setTimeout(() => clearInterval(waitForSupabase), 5000);
+  });
+
+  // Also try immediately after scripts load
+  window.addEventListener('load', () => {
+    if (!document.querySelector('.vaga-card') && !document.querySelector('.empty-state')) {
+      if (window.supabaseClient) carregarVagas(1);
+    }
+  });
+</script>
+</body>
+</html>

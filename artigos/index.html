@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artigos sobre Educação | Brasil Escolas</title>
+  <meta name="description" content="Artigos e guias sobre educação inclusiva, TEA, TDAH, ENEM, escola pública e privada, dicas para pais e muito mais. Conteúdo feito por jornalistas especializados.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brasilescolas.com.br/artigos/">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brasilescolas.com.br/artigos/">
+  <meta property="og:title" content="Artigos sobre Educação | Brasil Escolas">
+  <meta property="og:description" content="Artigos e guias sobre educação inclusiva, TEA, TDAH, ENEM, escola pública e privada e dicas para pais.">
+  <meta property="og:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Brasil Escolas">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Artigos sobre Educação | Brasil Escolas">
+  <meta name="twitter:description" content="Artigos e guias sobre educação inclusiva, TEA, TDAH, ENEM e muito mais.">
+  <meta name="twitter:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+
+  <!-- Preload fontes -->
+  <link rel="preload" href="/assets/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/artigos-feed.css">
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
+
+  <!-- Schema.org ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Artigos sobre Educação",
+    "description": "Artigos e guias sobre educação inclusiva, TEA, TDAH, ENEM, escola pública e privada e dicas para pais.",
+    "url": "https://brasilescolas.com.br/artigos/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Brasil Escolas",
+      "url": "https://brasilescolas.com.br",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://brasilescolas.com.br/assets/img/logo.png"
+      }
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://brasilescolas.com.br/"},
+        {"@type": "ListItem", "position": 2, "name": "Artigos", "item": "https://brasilescolas.com.br/artigos/"}
+      ]
+    }
+  }
+  </script>
+
+  <style>
+    /* Estilos críticos inline */
+    :root {
+      --azul-escuro: #003F7F;
+      --azul-autismo: #0085CA;
+      --amarelo: #EFAA1B;
+      --laranja: #E8640A;
+      --font-title: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --text-muted: #6B7280;
+    }
+    .artigos-hero {
+      background: linear-gradient(135deg, #003F7F 0%, #0085CA 100%);
+      padding: 56px 0 48px;
+      text-align: center;
+      color: white;
+    }
+    .artigos-hero h1 {
+      font-family: var(--font-title);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .artigos-hero p {
+      font-size: 18px;
+      opacity: .88;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .artigos-search-wrap {
+      display: flex;
+      background: white;
+      border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .artigos-search-wrap input {
+      flex: 1;
+      padding: 16px 20px;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      min-width: 0;
+      color: #1A1A2E;
+    }
+    .artigos-search-wrap input:focus { outline: none; }
+    .artigos-search-btn {
+      background: var(--amarelo);
+      border: none;
+      padding: 14px 24px;
+      border-radius: 0 999px 999px 0;
+      font-weight: 700;
+      color: #003F7F;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .categorias-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 32px 20px 0;
+    }
+    .pill {
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: white;
+      border: 2px solid #E5E7EB;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      color: #374151;
+    }
+    .pill:hover, .pill.active {
+      background: var(--azul-escuro);
+      border-color: var(--azul-escuro);
+      color: white;
+    }
+    .artigos-feed-section { padding: 48px 0 64px; background: #F0F8FF; }
+    .artigos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 1024px) { .artigos-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .artigos-grid { grid-template-columns: 1fr; gap: 16px; } }
+    .artigo-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,63,127,.07);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .artigo-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,63,127,.13); }
+    .artigo-card-link { text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%; }
+    .artigo-card-img-wrap { position: relative; padding-top: 56.25%; overflow: hidden; }
+    .artigo-card-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .artigo-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .artigo-badge {
+      display: inline-block;
+      background: #EFF6FF;
+      color: var(--azul-escuro);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      border: 1px solid #BFDBFE;
+    }
+    .artigo-card-titulo {
+      font-family: var(--font-title);
+      font-size: 17px;
+      font-weight: 700;
+      color: #1A1A2E;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .artigo-card-excerpt {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .artigo-card-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
+    .paginacao {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .paginacao-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 2px solid #E5E7EB;
+      background: white;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #374151;
+      transition: all .2s;
+    }
+    .paginacao-btn:hover, .paginacao-btn.active {
+      background: var(--azul-escuro);
+      border-color: var(--azul-escuro);
+      color: white;
+    }
+    .paginacao-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .artigos-vazio {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+    .artigos-vazio h3 { font-size: 20px; margin-bottom: 8px; color: #374151; }
+    .spinner {
+      display: inline-block;
+      width: 32px; height: 32px;
+      border: 3px solid #E5E7EB;
+      border-top-color: var(--azul-escuro);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .artigos-loading { grid-column: 1/-1; text-align: center; padding: 60px; }
+  </style>
+</head>
+<body>
+
+<!-- Skip Link -->
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/" class="header-logo" aria-label="Brasil Escolas — página inicial">
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" width="180" height="48">
+    </a>
+    <div class="header-search" role="search" aria-label="Busca rápida no header">
+      <input type="search" id="headerSearch" placeholder="Buscar escola, cidade, bairro…"
+        aria-label="Buscar escola" autocomplete="off">
+      <button class="header-search-btn" aria-label="Pesquisar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <div class="search-dropdown" id="headerSearchDropdown" style="display:none" role="listbox" aria-label="Sugestões de busca"></div>
+    </div>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="/">Início</a>
+      <a href="/escolas/">Escolas</a>
+      <a href="/inclusao/">Inclusão</a>
+      <a href="/artigos/" aria-current="page" class="active">Artigos</a>
+      <a href="/vagas-emprego-estagio/">Vagas</a>
+      <a href="/cadastrar-escola/" class="btn-cadastrar">+ Cadastrar Escola</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Drawer mobile -->
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <button class="mobile-drawer-close" id="drawerClose" aria-label="Fechar menu">&#x2715;</button>
+  <nav aria-label="Menu mobile">
+    <a href="/">&#x1F3E0; Início</a>
+    <a href="/escolas/">&#x1F3EB; Escolas</a>
+    <a href="/inclusao/">&#x1F9E9; Inclusão</a>
+    <a href="/artigos/" aria-current="page">&#x1F4F0; Artigos</a>
+    <a href="/vagas-emprego-estagio/">&#x1F4BC; Vagas</a>
+    <a href="/sobre/">&#x2139;&#xFE0F; Sobre</a>
+    <a href="/contato/">&#x1F4E7; Contato</a>
+    <a href="/cadastrar-escola/" class="btn-cadastrar-mobile">+ Cadastrar Escola</a>
+  </nav>
+</div>
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+<!-- ═══ CONTEÚDO ═══ -->
+<main id="main" tabindex="-1">
+
+  <!-- Hero -->
+  <section class="artigos-hero" aria-labelledby="artigosTitle">
+    <div class="container">
+      <h1 id="artigosTitle">Artigos sobre Educação</h1>
+      <p>Guias, dicas e informações para pais e educadores sobre inclusão, ENEM, escolas e muito mais.</p>
+      <div class="artigos-search-wrap" role="search" aria-label="Busca de artigos">
+        <input type="search" id="artigosSearch" placeholder="Buscar artigos…"
+               aria-label="Buscar artigos" autocomplete="off">
+        <button class="artigos-search-btn" id="artigosBtnBuscar" aria-label="Pesquisar artigos">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Buscar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filtros por categoria -->
+  <div class="categorias-pills-wrap" role="navigation" aria-label="Filtrar por categoria">
+    <div class="container">
+      <div class="categorias-pills" id="categoriasPills" role="list" aria-label="Categorias de artigos">
+        <button class="pill active" data-categoria="" role="listitem" aria-pressed="true">Todos</button>
+        <button class="pill" data-categoria="Educação Inclusiva" role="listitem" aria-pressed="false">Educação Inclusiva</button>
+        <button class="pill" data-categoria="TEA" role="listitem" aria-pressed="false">TEA</button>
+        <button class="pill" data-categoria="TDAH" role="listitem" aria-pressed="false">TDAH</button>
+        <button class="pill" data-categoria="Escola Pública" role="listitem" aria-pressed="false">Escola Pública</button>
+        <button class="pill" data-categoria="Escola Privada" role="listitem" aria-pressed="false">Escola Privada</button>
+        <button class="pill" data-categoria="ENEM" role="listitem" aria-pressed="false">ENEM</button>
+        <button class="pill" data-categoria="Dica para Pais" role="listitem" aria-pressed="false">Dica para Pais</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feed de artigos -->
+  <section class="artigos-feed-section" aria-labelledby="feedTitle">
+    <div class="container">
+      <h2 class="sr-only" id="feedTitle">Lista de artigos</h2>
+
+      <!-- AdSense topo feed -->
+      <div class="adsense-block" aria-label="Publicidade" style="margin-bottom:32px">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6391161522269960"
+             data-ad-slot="auto"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- Estado de busca / categoria ativa -->
+      <div class="artigos-filtro-info" id="filtroInfo" aria-live="polite" style="margin-bottom:20px;font-size:14px;color:var(--text-muted);"></div>
+
+      <!-- Grid de artigos -->
+      <div class="artigos-grid" id="artigosGrid" role="list" aria-label="Artigos sobre educação" aria-live="polite">
+        <div class="artigos-loading">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="sr-only">Carregando artigos…</span>
+        </div>
+      </div>
+
+      <!-- Paginação -->
+      <nav class="paginacao" id="paginacao" aria-label="Paginação dos artigos" role="navigation" style="display:none">
+        <button class="paginacao-btn" id="paginacaoAnterior" aria-label="Página anterior" disabled>
+          &#x2190; Anterior
+        </button>
+        <div class="paginacao-numeros" id="paginacaoNumeros" role="list"></div>
+        <button class="paginacao-btn" id="paginacaoProxima" aria-label="Próxima página">
+          Próxima &#x2192;
+        </button>
+      </nav>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" aria-label="Brasil Escolas — página inicial">
+        <img src="/assets/img/logo.png" alt="Brasil Escolas" width="140" height="37" loading="lazy">
+      </a>
+      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva.</p>
+    </div>
+    <nav class="footer-nav" aria-label="Links do rodapé">
+      <div class="footer-nav-col">
+        <h3>Navegar</h3>
+        <a href="/">Início</a>
+        <a href="/escolas/">Escolas</a>
+        <a href="/inclusao/">Inclusão</a>
+        <a href="/artigos/">Artigos</a>
+        <a href="/vagas-emprego-estagio/">Vagas</a>
+      </div>
+      <div class="footer-nav-col">
+        <h3>Inclusão</h3>
+        <a href="/inclusao/tea/">TEA</a>
+        <a href="/inclusao/tdah/">TDAH</a>
+        <a href="/inclusao/dislexia/">Dislexia</a>
+        <a href="/inclusao/acessibilidade/">Acessibilidade</a>
+      </div>
+      <div class="footer-nav-col">
+        <h3>Brasil Escolas</h3>
+        <a href="/sobre/">Sobre</a>
+        <a href="/contato/">Contato</a>
+        <a href="/cadastrar-escola/">Cadastrar Escola</a>
+        <a href="/politica-privacidade/">Privacidade</a>
+        <a href="/termos-de-uso/">Termos de Uso</a>
+      </div>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p>&copy; 2025 Brasil Escolas. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script defer src="/assets/js/config.js"></script>
+<script defer src="/assets/js/supabase-client.js"></script>
+<script defer src="/assets/js/utils.js"></script>
+<script defer src="/assets/js/search.js"></script>
+
+<script>
+(function () {
+  const ARTIGOS_POR_PAGINA = 12;
+  let paginaAtual = 1;
+  let totalArtigos = 0;
+  let categoriaAtiva = '';
+  let termoBusca = '';
+  let debounceTimer = null;
+
+  const grid = document.getElementById('artigosGrid');
+  const paginacaoEl = document.getElementById('paginacao');
+  const paginacaoAnterior = document.getElementById('paginacaoAnterior');
+  const paginacaoProxima = document.getElementById('paginacaoProxima');
+  const paginacaoNumeros = document.getElementById('paginacaoNumeros');
+  const filtroInfo = document.getElementById('filtroInfo');
+  const searchInput = document.getElementById('artigosSearch');
+
+  function formatarData(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  function renderCard(art) {
+    return `
+      <article class="artigo-card" role="listitem" itemscope itemtype="https://schema.org/Article">
+        <a href="/artigos/${art.slug}/" class="artigo-card-link" aria-label="Ler artigo: ${art.titulo}">
+          <div class="artigo-card-img-wrap">
+            <img src="${art.imagem_url || '/assets/img/og-image.png'}"
+                 alt="${art.imagem_alt || art.titulo}"
+                 class="artigo-card-img"
+                 width="400" height="225"
+                 loading="lazy" decoding="async"
+                 itemprop="image"
+                 onerror="this.src='/assets/img/og-image.png'">
+          </div>
+          <div class="artigo-card-body">
+            <span class="artigo-badge">${art.categoria || ''}</span>
+            <h2 class="artigo-card-titulo" itemprop="headline">${art.titulo}</h2>
+            <p class="artigo-card-excerpt">${art.excerpt || ''}</p>
+            <div class="artigo-card-meta">
+              <time datetime="${art.publicado_em || ''}" itemprop="datePublished">${formatarData(art.publicado_em)}</time>
+              ${art.tempo_leitura ? `<span>· ${art.tempo_leitura} min de leitura</span>` : ''}
+            </div>
+          </div>
+        </a>
+      </article>`;
+  }
+
+  function renderVazio() {
+    grid.innerHTML = `
+      <div class="artigos-vazio">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" aria-hidden="true" style="margin-bottom:16px"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <h3>Nenhum artigo publicado ainda. Em breve!</h3>
+        <p>Estamos preparando conteúdo especial para você.</p>
+        ${categoriaAtiva || termoBusca ? '<button class="paginacao-btn" onclick="limparFiltros()" style="margin-top:16px">Ver todos os artigos</button>' : ''}
+      </div>`;
+    paginacaoEl.style.display = 'none';
+  }
+
+  function renderErro() {
+    grid.innerHTML = `
+      <div class="artigos-vazio">
+        <h3>Erro ao carregar artigos</h3>
+        <p>Tente novamente em instantes.</p>
+        <button class="paginacao-btn" onclick="carregarArtigos()" style="margin-top:16px">Tentar novamente</button>
+      </div>`;
+    paginacaoEl.style.display = 'none';
+  }
+
+  function renderPaginacao(total) {
+    const totalPaginas = Math.ceil(total / ARTIGOS_POR_PAGINA);
+    if (totalPaginas <= 1) { paginacaoEl.style.display = 'none'; return; }
+
+    paginacaoEl.style.display = 'flex';
+    paginacaoAnterior.disabled = paginaAtual <= 1;
+    paginacaoProxima.disabled = paginaAtual >= totalPaginas;
+
+    paginacaoNumeros.innerHTML = '';
+    const inicio = Math.max(1, paginaAtual - 2);
+    const fim = Math.min(totalPaginas, paginaAtual + 2);
+    for (let i = inicio; i <= fim; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'paginacao-btn' + (i === paginaAtual ? ' active' : '');
+      btn.textContent = i;
+      btn.setAttribute('aria-label', `Página ${i}`);
+      btn.setAttribute('aria-current', i === paginaAtual ? 'page' : 'false');
+      btn.addEventListener('click', () => { paginaAtual = i; carregarArtigos(); });
+      paginacaoNumeros.appendChild(btn);
+    }
+  }
+
+  async function carregarArtigos() {
+    grid.innerHTML = '<div class="artigos-loading"><span class="spinner" aria-hidden="true"></span><span class="sr-only">Carregando…</span></div>';
+
+    const offset = (paginaAtual - 1) * ARTIGOS_POR_PAGINA;
+
+    // Atualizar info de filtro
+    if (categoriaAtiva) {
+      filtroInfo.textContent = `Filtrando por: ${categoriaAtiva}`;
+    } else if (termoBusca) {
+      filtroInfo.textContent = `Resultados para: "${termoBusca}"`;
+    } else {
+      filtroInfo.textContent = '';
+    }
+
+    try {
+      const params = {
+        limit: ARTIGOS_POR_PAGINA,
+        offset: offset,
+        publicado: true
+      };
+      if (categoriaAtiva) params.categoria = categoriaAtiva;
+      if (termoBusca) params.busca = termoBusca;
+
+      const artigos = await buscarArtigos(params);
+      if (!artigos || artigos.length === 0) { renderVazio(); return; }
+
+      // Estimativa total para paginação (buscarArtigos pode retornar count)
+      totalArtigos = artigos.total || artigos.length;
+      if (artigos.length === ARTIGOS_POR_PAGINA) {
+        // há possivelmente mais páginas
+        totalArtigos = Math.max(totalArtigos, offset + ARTIGOS_POR_PAGINA + 1);
+      }
+
+      grid.innerHTML = artigos.data
+        ? artigos.data.map(renderCard).join('')
+        : artigos.map(renderCard).join('');
+
+      renderPaginacao(totalArtigos);
+
+      // Scroll suave para o topo do grid
+      if (paginaAtual > 1) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (e) {
+      console.error('Erro ao carregar artigos:', e);
+      renderErro();
+    }
+  }
+
+  window.limparFiltros = function () {
+    categoriaAtiva = '';
+    termoBusca = '';
+    paginaAtual = 1;
+    searchInput.value = '';
+    document.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.categoria === '');
+      p.setAttribute('aria-pressed', p.dataset.categoria === '' ? 'true' : 'false');
+    });
+    carregarArtigos();
+  };
+
+  // Filtros por categoria
+  document.querySelectorAll('.pill').forEach(pill => {
+    pill.addEventListener('click', function () {
+      categoriaAtiva = this.dataset.categoria;
+      paginaAtual = 1;
+      termoBusca = '';
+      searchInput.value = '';
+      document.querySelectorAll('.pill').forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      this.classList.add('active');
+      this.setAttribute('aria-pressed', 'true');
+      carregarArtigos();
+    });
+  });
+
+  // Busca
+  searchInput.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      termoBusca = this.value.trim();
+      categoriaAtiva = '';
+      paginaAtual = 1;
+      document.querySelectorAll('.pill').forEach(p => {
+        p.classList.toggle('active', p.dataset.categoria === '');
+        p.setAttribute('aria-pressed', p.dataset.categoria === '' ? 'true' : 'false');
+      });
+      carregarArtigos();
+    }, 400);
+  });
+
+  document.getElementById('artigosBtnBuscar').addEventListener('click', function () {
+    termoBusca = searchInput.value.trim();
+    categoriaAtiva = '';
+    paginaAtual = 1;
+    carregarArtigos();
+  });
+
+  searchInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      clearTimeout(debounceTimer);
+      termoBusca = this.value.trim();
+      categoriaAtiva = '';
+      paginaAtual = 1;
+      carregarArtigos();
+    }
+  });
+
+  // Paginação anterior/próxima
+  paginacaoAnterior.addEventListener('click', () => { if (paginaAtual > 1) { paginaAtual--; carregarArtigos(); } });
+  paginacaoProxima.addEventListener('click', () => { paginaAtual++; carregarArtigos(); });
+
+  // Carregar ao iniciar (após JS carregar)
+  window.addEventListener('load', function () {
+    if (typeof buscarArtigos === 'function') {
+      carregarArtigos();
+    } else {
+      // aguardar scripts defer
+      let tentativas = 0;
+      const intervalo = setInterval(() => {
+        tentativas++;
+        if (typeof buscarArtigos === 'function') {
+          clearInterval(intervalo);
+          carregarArtigos();
+        } else if (tentativas > 20) {
+          clearInterval(intervalo);
+          renderErro();
+        }
+      }, 200);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

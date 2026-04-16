@@ -1,0 +1,261 @@
+/* ============================================================
+   Brasil Escolas — Formulários CSS
+   ============================================================ */
+
+.form-page { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
+.form-page-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 8px;
+}
+.form-page-desc { font-size: var(--text-base); color: var(--text-muted); margin-bottom: 40px; }
+
+/* ─── Stepper ─── */
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  position: relative;
+}
+.stepper::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: calc(40px / 2);
+  right: calc(40px / 2);
+  height: 2px;
+  background: #E2E8F0;
+  z-index: 0;
+}
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+.step-circle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-base);
+  transition: var(--transition);
+}
+.step.active .step-circle, .step.done .step-circle {
+  background: var(--azul-autismo);
+  color: white;
+}
+.step.done .step-circle { background: var(--verde); }
+.step-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.3;
+}
+.step.active .step-label { color: var(--azul-autismo); }
+
+/* Barra de progresso */
+.progress-bar-wrap {
+  height: 6px;
+  background: #E2E8F0;
+  border-radius: 3px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--azul-autismo);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.progress-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+/* ─── Step panel ─── */
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+.step-panel-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-2xl);
+  color: var(--text-h);
+  margin-bottom: 24px;
+}
+
+/* ─── Checkboxes customizados ─── */
+.checkgroup-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--text-h);
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+.checkgroup { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 24px; }
+.check-item { position: relative; }
+.check-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0; width: 0; height: 0;
+}
+.check-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 2px solid #E2E8F0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--text-body);
+  transition: var(--transition);
+  background: white;
+  user-select: none;
+}
+.check-item label::before {
+  content: '';
+  width: 18px; height: 18px;
+  border: 2px solid #CBD5E0;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: var(--transition);
+  background: white;
+}
+.check-item input:checked + label {
+  border-color: var(--azul-autismo);
+  background: rgba(0,133,202,0.05);
+  color: var(--azul-escuro);
+}
+.check-item input:checked + label::before {
+  background: var(--azul-autismo);
+  border-color: var(--azul-autismo);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10'%3E%3Cpath fill='white' d='M10.28.28L3.989 6.575 1.695 4.28A1 1 0 00.28 5.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28.28z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.check-item input:focus-visible + label { outline: 3px solid var(--azul-autismo); outline-offset: 2px; }
+
+/* ─── Upload de imagem ─── */
+.upload-area {
+  border: 2px dashed #CBD5E0;
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--bg-primary);
+}
+.upload-area:hover, .upload-area.dragover {
+  border-color: var(--azul-autismo);
+  background: rgba(0,133,202,0.04);
+}
+.upload-icon { font-size: 40px; margin-bottom: 12px; }
+.upload-text { font-size: var(--text-sm); color: var(--text-muted); }
+.upload-text strong { color: var(--azul-autismo); }
+.upload-limit { font-size: var(--text-xs); color: var(--text-light); margin-top: 4px; }
+.upload-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.preview-img {
+  position: relative;
+  width: 100px; height: 100px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.preview-img img { width: 100%; height: 100%; object-fit: cover; }
+.preview-remove {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 24px; height: 24px;
+  background: var(--vermelho);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+/* Contador de palavras */
+.word-counter {
+  text-align: right;
+  font-size: var(--text-xs);
+  color: var(--text-light);
+  margin-top: 4px;
+}
+.word-counter.insufficient { color: var(--vermelho); }
+.word-counter.ok { color: var(--verde); }
+
+/* ─── Navegação entre etapas ─── */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #E2E8F0;
+  gap: 16px;
+}
+.step-nav .btn { min-width: 140px; }
+
+/* ─── Mensagens de sucesso/erro ─── */
+.form-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+.form-success-icon { font-size: 64px; margin-bottom: 16px; }
+.form-success-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: var(--text-2xl);
+  color: var(--verde);
+  margin-bottom: 12px;
+}
+.form-success-text { font-size: var(--text-base); color: var(--text-muted); }
+
+/* ─── Vagas ─── */
+.vagas-layout { display: grid; grid-template-columns: 1fr 400px; gap: 40px; max-width: var(--container); margin: 0 auto; padding: 40px 20px 64px; align-items: start; }
+.vaga-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid #E2E8F0;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+.vaga-card:hover { border-color: var(--azul-autismo); box-shadow: var(--shadow); }
+.vaga-cargo { font-family: var(--font-title); font-weight: 700; font-size: var(--text-lg); color: var(--text-h); margin-bottom: 4px; }
+.vaga-escola { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: 10px; }
+.vaga-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.vaga-meta-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  background: var(--bg-primary);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Responsividade forms */
+@media (max-width: 768px) {
+  .stepper::before { display: none; }
+  .step-label { display: none; }
+  .checkgroup { grid-template-columns: 1fr; }
+  .vagas-layout { grid-template-columns: 1fr; }
+  .step-nav { flex-direction: column-reverse; }
+  .step-nav .btn { width: 100%; }
+}
