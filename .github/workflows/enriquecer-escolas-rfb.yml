@@ -67,4 +67,4 @@ jobs:
           UF:                       ${{ github.event.inputs.uf || '' }}
           FUZZY_MIN:                ${{ github.event.inputs.fuzzy_min || '72' }}
         run: |
-          python pipeline-brasil-escolas/scripts/enriquecer_escolas_rfb.py
+          python scripts/enriquecer_escolas_rfb.py
