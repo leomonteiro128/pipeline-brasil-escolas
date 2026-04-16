@@ -177,6 +177,16 @@ def main():
         html = gerar_html_story(template_html, story)
         destino.write_text(html, encoding="utf-8")
 
+        # Criar .htaccess na pasta da story para desativar rewrites e servir
+        # index.html diretamente (ignora qualquer .htaccess legado do WordPress/Drupal)
+        htaccess = destino_dir / ".htaccess"
+        htaccess.write_text(
+            "# Brasil Escolas — story page\n"
+            "Options -Indexes\n"
+            "RewriteEngine Off\n",
+            encoding="utf-8"
+        )
+
         print(f"  OK web-stories/{slug}/index.html")
         geradas += 1
 

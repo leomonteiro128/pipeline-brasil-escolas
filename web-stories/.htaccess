@@ -1,9 +1,6 @@
-RewriteEngine On
-RewriteBase /web-stories/
-
-# index.html em si: servir sem reescrita
-RewriteRule ^index\.html$ - [L]
-
-# Slug sem ponto (ex: story-meu-titulo) → index.html
-# [a-z0-9-] exclui "." evitando loop de reescrita
-RewriteRule ^[a-z0-9][a-z0-9-]+/?$ index.html [L]
+# Brasil Escolas — web-stories directory
+# O routing desta pasta é feito pela regra no .htaccess raiz.
+# Este arquivo desativa o RewriteEngine localmente para evitar
+# conflito com .htaccess legado do WordPress/Drupal Web Stories.
+Options -Indexes
+RewriteEngine Off
