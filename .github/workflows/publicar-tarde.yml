@@ -1,18 +1,83 @@
-name: "\U0001F4F0 Publicar Tarde (Artigo + Web Story)"
+name: "Publicar Artigo Tarde (15h BRT)"
 
 on:
   schedule:
-    - cron: '0 18 * * *'  # 15:00 BRT = 18:00 UTC
+    - cron: '0 18 * * *'
   workflow_dispatch:
     inputs:
       tema_forcado:
-        description: 'Tema específico (opcional)'
+        description: 'Tema especifico (opcional)'
         required: false
         default: ''
 
 jobs:
   publicar:
-    uses: ./.github/workflows/gerar-artigo.yml
-    secrets: inherit
-    with:
-      tema_forcado: ${{ inputs.tema_forcado || '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Configurar variaveis de ambiente
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}" >> $GITHUB_ENV
+          echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> $GITHUB_ENV
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
+          echo "TEMA_FORCADO=${{ github.event.inputs.tema_forcado }}" >> $GITHUB_ENV
+
+      - name: Gerar artigo
+        id: gerar_artigo
+        run: |
+          python scripts/gerar_artigo.py > /tmp/artigo_result.txt
+          python -c "import json; data=open('/tmp/artigo_result.txt').read(); j=data.split('--- JSON ---')[-1].strip(); d=json.loads(j); open('/tmp/artigo_result.json','w').write(json.dumps(d)); print('slug:',d['slug'])"
+          echo "artigo_slug=$(python -c "import json; print(json.load(open('/tmp/artigo_result.json'))['slug'])")" >> $GITHUB_OUTPUT
+          echo "artigo_id=$(python -c "import json; print(json.load(open('/tmp/artigo_result.json'))['id'])")" >> $GITHUB_OUTPUT
+
+      - name: Gerar Web Story
+        run: cat /tmp/artigo_result.json | python scripts/gerar_webstory.py
+
+      - name: Configurar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.HOSTINGER_PORT }} ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy artigo via rsync
+        run: |
+          rsync -avz \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
+            artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/domains/brasilescolas.com.br/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
+          && echo "Deploy concluido" \
+          || echo "Aviso: erro no rsync"
+
+      - name: Atualizar sitemap
+        run: python -c "import sys; sys.path.insert(0,'scripts'); from utils import atualizar_sitemap; atualizar_sitemap('https://brasilescolas.com.br/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/', '.')"
+
+      - name: Commit progresso
+        run: |
+          git config user.name  "Brasil Escolas Pipeline"
+          git config user.email "pipeline@brasilescolas.com.br"
+          git add data/temas_usados.json sitemap.xml 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "pipeline: artigo tarde publicado $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push
+
+      - name: Resumo
+        run: |
+          echo "## Publicacao tarde concluida" >> $GITHUB_STEP_SUMMARY
+          echo "- Artigo: ${{ steps.gerar_artigo.outputs.artigo_slug }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Horario: $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
