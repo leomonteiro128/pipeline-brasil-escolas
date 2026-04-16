@@ -69,6 +69,16 @@ jobs:
           path: site-files
         continue-on-error: true
 
+      - name: Corrigir permissões no servidor (pre-rsync)
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -o StrictHostKeyChecking=no \
+            -p ${{ secrets.HOSTINGER_PORT }} \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }} \
+            'find ~/domains/brasilescolas.com.br/public_html -name ".htaccess" -exec chmod 644 {} \; 2>/dev/null || true; \
+             chmod -R u+w ~/domains/brasilescolas.com.br/public_html/ 2>/dev/null || true; \
+             echo "Permissoes corrigidas"'
+
       - name: Deploy via rsync (chave SSH)
         run: |
           # Deploy do site estático (branch site ou pasta site-files)
@@ -79,7 +89,7 @@ jobs:
             SITE_PATH="."
           fi
 
-          rsync -avz \
+          rsync -avz --chmod=Du+rwx,Fu+rw,go+r \
             --exclude='.git' \
             --exclude='*.pyc' \
             --exclude='__pycache__' \
@@ -91,7 +101,7 @@ jobs:
             --exclude='.github/' \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
             "$SITE_PATH" \
-            "${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/" \
+            "${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/domains/brasilescolas.com.br/public_html/" \
           && echo "rsync concluído com sucesso" \
           || echo "Aviso: rsync com problemas. Verifique a chave SSH no Hostinger hPanel."
 
