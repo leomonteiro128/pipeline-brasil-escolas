@@ -94,7 +94,7 @@ jobs:
           git config user.email "pipeline@brasilescolas.com.br"
           git add data/estado_progresso.json
           git diff --staged --quiet || git commit -m "pipeline: escolas importadas $(date -u +'%Y-%m-%d %H:%M') UTC"
-          git push
+          git pull --rebase origin main && git push || echo "Push ignorado (race condition com outro job paralelo)"
 
       - name: Resumo de importação
         run: |
