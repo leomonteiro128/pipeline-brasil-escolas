@@ -1,6 +1,9 @@
-# Brasil Escolas — Site Estático
+# Brasil Escolas — Site Estático v-273ce8b
 # Servir index.html antes de index.php (substituir WordPress)
 DirectoryIndex index.html index.php
+
+# Header de diagnóstico para confirmar versão do .htaccess no servidor
+Header always set X-BE-Htaccess "273ce8b"
 
 Options -Indexes
 RewriteEngine On
