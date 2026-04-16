@@ -6,7 +6,7 @@
   <title>Web Stories Educativos | Brasil Escolas</title>
   <meta name="description" content="Conteúdo educativo em formato de Web Stories — TEA, TDAH, Educação Inclusiva, ENEM e dicas para pais. Rápido, visual e informativo.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://brasilescolas.com.br/web-stories/">
+  <link rel="canonical" href="https://brasilescolas.com.br/web-stories/" id="pageCanonical">
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
@@ -16,20 +16,20 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" content="#003F7F">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://brasilescolas.com.br/web-stories/">
-  <meta property="og:title" content="Web Stories Educativos | Brasil Escolas">
-  <meta property="og:description" content="Conteúdo educativo em formato de Web Stories. Rápido, visual e informativo.">
-  <meta property="og:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+  <!-- Open Graph (updated dynamically for story pages) -->
+  <meta property="og:type" content="website" id="ogType">
+  <meta property="og:url" content="https://brasilescolas.com.br/web-stories/" id="ogUrl">
+  <meta property="og:title" content="Web Stories Educativos | Brasil Escolas" id="ogTitle">
+  <meta property="og:description" content="Conteúdo educativo em formato de Web Stories. Rápido, visual e informativo." id="ogDesc">
+  <meta property="og:image" content="https://brasilescolas.com.br/assets/img/og-image.png" id="ogImage">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Brasil Escolas">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Web Stories Educativos | Brasil Escolas">
-  <meta name="twitter:description" content="Conteúdo educativo em formato de Web Stories.">
-  <meta name="twitter:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+  <meta name="twitter:title" content="Web Stories Educativos | Brasil Escolas" id="twTitle">
+  <meta name="twitter:description" content="Conteúdo educativo em formato de Web Stories." id="twDesc">
+  <meta name="twitter:image" content="https://brasilescolas.com.br/assets/img/og-image.png" id="twImage">
 
   <!-- Preload fontes -->
   <link rel="preload" href="/assets/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
@@ -42,35 +42,8 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
 
-  <!-- Schema.org CollectionPage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Web Stories Educativos",
-    "description": "Conteúdo educativo em formato de Web Stories sobre educação inclusiva, TEA, TDAH e muito mais.",
-    "url": "https://brasilescolas.com.br/web-stories/",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Brasil Escolas",
-      "url": "https://brasilescolas.com.br",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://brasilescolas.com.br/assets/img/logo.png"
-      }
-    },
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://brasilescolas.com.br/"},
-        {"@type": "ListItem", "position": 2, "name": "Web Stories", "item": "https://brasilescolas.com.br/web-stories/"}
-      ]
-    }
-  }
-  </script>
-
   <style>
-    /* Estilos críticos inline */
+    /* ── Variáveis ── */
     :root {
       --azul-escuro: #003F7F;
       --azul-autismo: #0085CA;
@@ -78,10 +51,9 @@
       --font-title: 'Poppins', sans-serif;
       --font-body: 'Inter', sans-serif;
       --text-muted: #6B7280;
-      --story-ratio: calc(9 / 16);
     }
 
-    /* Hero */
+    /* ── LISTING VIEW ── */
     .stories-hero {
       background: linear-gradient(135deg, #003F7F 0%, #0085CA 100%);
       padding: 56px 0 48px;
@@ -94,235 +66,193 @@
       font-weight: 700;
       margin-bottom: 12px;
     }
-    .stories-hero p {
-      font-size: 18px;
-      opacity: .88;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    .stories-hero-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-      display: block;
-    }
+    .stories-hero p { font-size: 18px; opacity: .88; max-width: 560px; margin: 0 auto; }
+    .stories-hero-icon { font-size: 48px; margin-bottom: 16px; display: block; }
 
-    /* Breadcrumb */
     .breadcrumb-nav { background: white; border-bottom: 1px solid #E5E7EB; padding: 10px 0; }
-    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); list-style: none; padding: 0; margin: 0; }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); list-style: none; padding: 0; margin: 0; flex-wrap: wrap; }
     .breadcrumb a { color: var(--azul-escuro); text-decoration: none; }
     .breadcrumb a:hover { text-decoration: underline; }
 
-    /* Seção feed */
-    .stories-feed-section {
-      padding: 48px 0 64px;
-      background: #F0F8FF;
-    }
-    .stories-feed-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 32px;
-    }
-    .stories-feed-header h2 {
-      font-family: var(--font-title);
-      font-size: 26px;
-      font-weight: 700;
-      color: #1A1A2E;
-    }
-    .stories-count {
-      font-size: 13px;
-      color: var(--text-muted);
-      background: white;
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid #E5E7EB;
-    }
+    .stories-feed-section { padding: 48px 0 64px; background: #F0F8FF; }
+    .stories-feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .stories-feed-header h2 { font-family: var(--font-title); font-size: 26px; font-weight: 700; color: #1A1A2E; }
+    .stories-count { font-size: 13px; color: var(--text-muted); background: white; padding: 6px 14px; border-radius: 999px; border: 1px solid #E5E7EB; }
 
-    /* Grid de stories — formato 9:16 */
     .stories-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 16px;
     }
-    @media (min-width: 640px) {
-      .stories-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-    }
-    @media (min-width: 1024px) {
-      .stories-grid { grid-template-columns: repeat(5, 1fr); gap: 24px; }
-    }
+    @media (min-width: 640px) { .stories-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; } }
+    @media (min-width: 1024px) { .stories-grid { grid-template-columns: repeat(5, 1fr); gap: 24px; } }
 
-    /* Card de story */
     .story-card {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      /* proporção 9:16 */
-      aspect-ratio: 9 / 16;
-      background: #1A1A2E;
+      position: relative; border-radius: 16px; overflow: hidden;
+      aspect-ratio: 9 / 16; background: #1A1A2E;
       box-shadow: 0 4px 16px rgba(0,63,127,.12);
-      transition: transform .25s, box-shadow .25s;
-      cursor: pointer;
+      transition: transform .25s, box-shadow .25s; cursor: pointer;
     }
-    .story-card:hover {
-      transform: scale(1.04) translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,63,127,.22);
-    }
-    .story-card a {
-      display: block;
-      width: 100%;
-      height: 100%;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-    }
-
-    /* Thumbnail */
-    .story-card-thumb {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .4s;
-    }
+    .story-card:hover { transform: scale(1.04) translateY(-4px); box-shadow: 0 12px 32px rgba(0,63,127,.22); }
+    .story-card a { display: block; width: 100%; height: 100%; text-decoration: none; color: inherit; position: relative; }
+    .story-card-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
     .story-card:hover .story-card-thumb { transform: scale(1.06); }
-
-    /* Overlay gradiente */
     .story-card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.85) 0%,
-        rgba(0,0,0,0.35) 45%,
-        rgba(0,0,0,0.05) 100%
-      );
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.05) 100%);
     }
-
-    /* Conteúdo sobre o card */
-    .story-card-content {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 14px 12px;
-    }
-
-    /* Logo topo */
-    .story-card-logo {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 10px;
-      font-weight: 700;
-      color: white;
-      opacity: 0.85;
-    }
-    .story-card-logo img {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-    }
-
-    /* Badge categoria */
-    .story-card-badge {
-      display: inline-block;
-      background: #EFAA1B;
-      color: #003F7F;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      margin-bottom: 6px;
-    }
-
-    /* Título */
-    .story-card-titulo {
-      font-family: var(--font-title);
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
-      line-height: 1.3;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-      margin: 0;
-    }
-
-    /* Ícone play */
-    .story-card-play {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 48px;
-      height: 48px;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(4px);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity .25s;
-      pointer-events: none;
-    }
+    .story-card-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 12px; }
+    .story-card-logo { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: white; opacity: 0.85; }
+    .story-card-logo img { width: 18px; height: 18px; border-radius: 4px; }
+    .story-card-badge { display: inline-block; background: #EFAA1B; color: #003F7F; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 6px; }
+    .story-card-titulo { font-family: var(--font-title); font-size: 13px; font-weight: 700; color: white; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 0 1px 4px rgba(0,0,0,0.6); margin: 0; }
+    .story-card-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; pointer-events: none; }
     .story-card:hover .story-card-play { opacity: 1; }
     .story-card-play svg { margin-left: 3px; }
 
-    /* Skeleton loading */
-    .story-skeleton {
-      aspect-ratio: 9 / 16;
-      border-radius: 16px;
-      background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
+    .story-skeleton { aspect-ratio: 9 / 16; border-radius: 16px; background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    /* Estado vazio */
-    .stories-vazio {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--text-muted);
-    }
+    .stories-vazio { grid-column: 1 / -1; text-align: center; padding: 80px 20px; color: var(--text-muted); }
     .stories-vazio h3 { font-size: 20px; margin-bottom: 8px; color: #374151; font-family: var(--font-title); }
     .stories-vazio p { font-size: 15px; line-height: 1.6; max-width: 400px; margin: 0 auto; }
 
-    /* CTA artigos */
-    .stories-cta-artigos {
-      margin-top: 48px;
-      padding: 40px;
-      background: white;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 2px 12px rgba(0,63,127,.07);
-    }
-    .stories-cta-artigos h3 {
-      font-family: var(--font-title);
-      font-size: 22px;
-      font-weight: 700;
-      color: #1A1A2E;
-      margin-bottom: 8px;
-    }
+    .stories-cta-artigos { margin-top: 48px; padding: 40px; background: white; border-radius: 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,63,127,.07); }
+    .stories-cta-artigos h3 { font-family: var(--font-title); font-size: 22px; font-weight: 700; color: #1A1A2E; margin-bottom: 8px; }
     .stories-cta-artigos p { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
-    .btn-primary {
-      display: inline-block;
-      background: var(--azul-escuro);
-      color: white;
-      font-weight: 700;
-      padding: 12px 28px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 15px;
-      transition: background .2s;
-    }
+
+    .btn-primary { display: inline-block; background: var(--azul-escuro); color: white; font-weight: 700; padding: 12px 28px; border-radius: 999px; text-decoration: none; font-size: 15px; transition: background .2s; border: none; cursor: pointer; }
     .btn-primary:hover { background: var(--azul-autismo); }
+
+    /* ── STORY READER VIEW ── */
+    #viewStory { background: #0a0a0f; min-height: 100vh; }
+
+    .story-reader-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      padding: 12px 20px;
+      display: flex; align-items: center; gap: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .story-back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: white; text-decoration: none; font-size: 14px; font-weight: 600;
+      padding: 8px 16px; border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      transition: background 0.2s;
+      border: none; cursor: pointer;
+    }
+    .story-back-btn:hover { background: rgba(255,255,255,0.22); color: white; }
+    .story-reader-bar-title { color: white; font-family: var(--font-title); font-size: 15px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Story cover + slides container */
+    .story-viewer-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+      gap: 32px;
+    }
+
+    /* Mobile phone frame */
+    .story-phone-frame {
+      width: min(380px, 90vw);
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 3px rgba(255,255,255,0.1);
+      position: relative;
+      background: #111;
+    }
+
+    /* Progress bar */
+    .story-progress {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+      display: flex; gap: 4px; padding: 12px 12px 8px;
+    }
+    .story-progress-bar {
+      flex: 1; height: 3px; background: rgba(255,255,255,0.35); border-radius: 999px; overflow: hidden;
+    }
+    .story-progress-fill { height: 100%; background: white; border-radius: 999px; transition: width 0.3s; width: 0%; }
+    .story-progress-fill.done { width: 100%; }
+    .story-progress-fill.active { width: 100%; transition: width 5s linear; }
+
+    /* Slide */
+    .story-slide {
+      aspect-ratio: 9 / 16;
+      position: relative;
+      overflow: hidden;
+      display: none;
+      background: #111;
+    }
+    .story-slide.active { display: flex; flex-direction: column; justify-content: flex-end; }
+    .story-slide-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .story-slide-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 100%); }
+    .story-slide-content { position: relative; z-index: 2; padding: 20px 20px 32px; color: white; }
+    .story-slide-badge { display: inline-block; background: var(--amarelo); color: var(--azul-escuro); font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; margin-bottom: 10px; }
+    .story-slide-title { font-family: var(--font-title); font-size: clamp(18px, 5vw, 26px); font-weight: 700; line-height: 1.25; margin-bottom: 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+    .story-slide-text { font-size: 14px; line-height: 1.6; opacity: 0.88; }
+
+    /* Nav tap areas */
+    .story-nav {
+      position: absolute; inset: 0; z-index: 5; display: flex;
+    }
+    .story-nav-prev, .story-nav-next {
+      flex: 1; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Nav buttons below phone */
+    .story-btn-row {
+      display: flex; gap: 16px; align-items: center;
+    }
+    .story-nav-btn {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: white; border-radius: 999px; padding: 12px 24px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background 0.2s; display: flex; align-items: center; gap: 8px;
+    }
+    .story-nav-btn:hover { background: rgba(255,255,255,0.2); }
+    .story-nav-btn:disabled { opacity: 0.35; cursor: default; }
+    .story-slide-counter { color: rgba(255,255,255,0.7); font-size: 13px; min-width: 60px; text-align: center; }
+
+    /* Story metadata below phone */
+    .story-meta-card {
+      width: min(520px, 90vw);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px;
+      color: white;
+    }
+    .story-meta-category { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--amarelo); margin-bottom: 10px; }
+    .story-meta-title { font-family: var(--font-title); font-size: 22px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+    .story-meta-desc { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.75); margin-bottom: 20px; }
+    .story-meta-date { font-size: 12px; color: rgba(255,255,255,0.45); }
+    .story-share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--azul-autismo); color: white; font-weight: 700;
+      padding: 10px 22px; border-radius: 999px; border: none; cursor: pointer;
+      font-size: 14px; transition: background 0.2s; text-decoration: none; margin-top: 8px;
+    }
+    .story-share-btn:hover { background: #006fa8; }
+
+    /* Related stories */
+    .story-related { width: min(600px, 90vw); }
+    .story-related h3 { font-family: var(--font-title); font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 16px; }
+    .story-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+    /* Loading overlay */
+    .story-reader-loading {
+      position: fixed; inset: 0; background: rgba(10,10,15,0.9);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 999; flex-direction: column; gap: 16px;
+    }
+    .story-reader-loading p { color: rgba(255,255,255,0.7); font-size: 15px; }
+    .story-reader-error {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 60vh; color: white; text-align: center; padding: 40px 20px;
+    }
+    .story-reader-error h2 { font-family: var(--font-title); font-size: 26px; margin-bottom: 12px; }
+    .story-reader-error p { color: rgba(255,255,255,0.65); font-size: 16px; margin-bottom: 24px; }
   </style>
 </head>
 <body>
@@ -379,113 +309,205 @@
 <!-- ═══ CONTEÚDO ═══ -->
 <main id="main" tabindex="-1">
 
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb-nav" aria-label="Caminho de navegação">
-    <div class="container">
-      <ol class="breadcrumb">
-        <li><a href="/">Início</a></li>
-        <li aria-hidden="true">&#x203A;</li>
-        <li aria-current="page">Web Stories</li>
-      </ol>
+  <!-- ══ LISTING VIEW ══ -->
+  <div id="viewListing">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-nav" aria-label="Caminho de navegação">
+      <div class="container">
+        <ol class="breadcrumb">
+          <li><a href="/">Início</a></li>
+          <li aria-hidden="true">&#x203A;</li>
+          <li aria-current="page">Web Stories</li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="stories-hero" aria-labelledby="storiesTitle">
+      <div class="container">
+        <span class="stories-hero-icon" aria-hidden="true">&#x1F4F1;</span>
+        <h1 id="storiesTitle">Conteúdo Educativo em Destaque</h1>
+        <p>Stories visuais e rápidos sobre educação inclusiva, TEA, TDAH, ENEM e dicas para pais.</p>
+      </div>
+    </section>
+
+    <!-- Feed de Web Stories -->
+    <section class="stories-feed-section" aria-labelledby="storiesFeedTitle">
+      <div class="container">
+        <div class="stories-feed-header">
+          <h2 id="storiesFeedTitle">Todos os Stories</h2>
+          <span class="stories-count" id="storiesCount" aria-live="polite"></span>
+        </div>
+
+        <!-- AdSense -->
+        <div class="adsense-block" aria-label="Publicidade" style="margin-bottom:32px;overflow:hidden">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6391161522269960"
+               data-ad-slot="auto"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Grid -->
+        <div class="stories-grid" id="storiesGrid" role="list" aria-label="Web Stories educativos" aria-live="polite">
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <div class="story-skeleton" aria-hidden="true"></div>
+          <span class="sr-only" aria-live="polite">Carregando Web Stories…</span>
+        </div>
+
+        <!-- CTA para artigos -->
+        <div class="stories-cta-artigos">
+          <h3>&#x1F4DA; Quer se aprofundar?</h3>
+          <p>Leia nossos artigos completos sobre educação inclusiva, TEA, TDAH e muito mais.</p>
+          <a href="/artigos/" class="btn-primary">Ver todos os artigos</a>
+        </div>
+      </div>
+    </section>
+  </div><!-- /viewListing -->
+
+  <!-- ══ STORY READER VIEW ══ -->
+  <div id="viewStory" style="display:none">
+    <!-- Top bar with back button -->
+    <div class="story-reader-bar">
+      <a href="/web-stories/" class="story-back-btn" aria-label="Voltar para todos os stories">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Todos os stories
+      </a>
+      <span class="story-reader-bar-title" id="storyBarTitle"></span>
     </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="stories-hero" aria-labelledby="storiesTitle">
-    <div class="container">
-      <span class="stories-hero-icon" aria-hidden="true">&#x1F4F1;</span>
-      <h1 id="storiesTitle">Conteúdo Educativo em Destaque</h1>
-      <p>Stories visuais e rápidos sobre educação inclusiva, TEA, TDAH, ENEM e dicas para pais.</p>
+    <!-- Loading state -->
+    <div class="story-reader-loading" id="storyLoading">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Carregando story…</p>
     </div>
-  </section>
 
-  <!-- Feed de Web Stories -->
-  <section class="stories-feed-section" aria-labelledby="storiesFeedTitle">
-    <div class="container">
+    <!-- Story content (hidden until loaded) -->
+    <div class="story-viewer-wrap" id="storyContent" style="display:none">
 
-      <div class="stories-feed-header">
-        <h2 id="storiesFeedTitle">Todos os Stories</h2>
-        <span class="stories-count" id="storiesCount" aria-live="polite"></span>
+      <!-- Phone frame with slides -->
+      <div class="story-phone-frame" id="storyPhoneFrame">
+        <!-- Progress bars injected by JS -->
+        <div class="story-progress" id="storyProgress" aria-hidden="true"></div>
+        <!-- Slides injected by JS -->
+        <div id="storySlidesWrap"></div>
+        <!-- Tap nav areas -->
+        <div class="story-nav" role="group" aria-label="Navegação entre slides">
+          <div class="story-nav-prev" id="storyNavPrev" role="button" tabindex="0" aria-label="Slide anterior" title="Slide anterior"></div>
+          <div class="story-nav-next" id="storyNavNext" role="button" tabindex="0" aria-label="Próximo slide" title="Próximo slide"></div>
+        </div>
       </div>
 
-      <!-- AdSense -->
-      <div class="adsense-block" aria-label="Publicidade" style="margin-bottom:32px">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6391161522269960"
-             data-ad-slot="auto"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- Nav buttons -->
+      <div class="story-btn-row">
+        <button class="story-nav-btn" id="storyBtnPrev" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          Anterior
+        </button>
+        <span class="story-slide-counter" id="storySlideCounter" aria-live="polite">1 / 1</span>
+        <button class="story-nav-btn" id="storyBtnNext">
+          Próximo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
 
-      <!-- Grid -->
-      <div class="stories-grid" id="storiesGrid" role="list" aria-label="Web Stories educativos" aria-live="polite">
-        <!-- Skeletons de loading -->
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <div class="story-skeleton" aria-hidden="true"></div>
-        <span class="sr-only" aria-live="polite">Carregando Web Stories…</span>
+      <!-- Story metadata -->
+      <div class="story-meta-card">
+        <div class="story-meta-category" id="storyMetaCategory"></div>
+        <h1 class="story-meta-title" id="storyMetaTitle"></h1>
+        <p class="story-meta-desc" id="storyMetaDesc"></p>
+        <div class="story-meta-date" id="storyMetaDate"></div>
+        <br>
+        <button class="story-share-btn" id="storyShareBtn" onclick="compartilharStory()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Compartilhar
+        </button>
       </div>
 
-      <!-- CTA para artigos -->
-      <div class="stories-cta-artigos">
-        <h3>&#x1F4DA; Quer se aprofundar?</h3>
-        <p>Leia nossos artigos completos sobre educação inclusiva, TEA, TDAH e muito mais.</p>
-        <a href="/artigos/" class="btn-primary">Ver todos os artigos</a>
+      <!-- Related stories -->
+      <div class="story-related" id="storyRelatedWrap" style="display:none">
+        <h3>&#x1F4F1; Mais stories</h3>
+        <div class="stories-grid story-related-grid" id="storyRelatedGrid"></div>
       </div>
 
+    </div><!-- /storyContent -->
+
+    <!-- Error state -->
+    <div class="story-reader-error" id="storyError" style="display:none">
+      <div style="font-size:56px;margin-bottom:16px" aria-hidden="true">&#x1F614;</div>
+      <h2>Story não encontrado</h2>
+      <p>Este story pode ter sido removido ou o link está incorreto.</p>
+      <a href="/web-stories/" class="btn-primary">← Ver todos os stories</a>
     </div>
-  </section>
+  </div><!-- /viewStory -->
 
 </main>
 
 <!-- ═══ FOOTER ═══ -->
 <footer class="site-footer" role="contentinfo">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <a href="/" aria-label="Brasil Escolas — página inicial">
-        <img src="/assets/img/logo.png" alt="Brasil Escolas" width="140" height="37" loading="lazy">
-      </a>
-      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva.</p>
+  <div class="footer-grid">
+    <div>
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" class="footer-logo-img">
+      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva. Ajudamos famílias a encontrar a escola ideal para cada criança.</p>
+      <p class="footer-desc">IBETP — Instituto Brasileiro de Educação, Tecnologia e Pesquisa</p>
+      <p class="footer-cnpj">CNPJ: 39.534.189/0001-38<br>Jornalista responsável: Leonardo Monteiro — MTE 0041108/RJ</p>
+      <div class="footer-social" aria-label="Redes sociais">
+        <a href="https://instagram.com/brasilescolas" target="_blank" rel="noopener" aria-label="Instagram Brasil Escolas">📸</a>
+        <a href="https://facebook.com/brasilescolas" target="_blank" rel="noopener" aria-label="Facebook Brasil Escolas">👍</a>
+        <a href="https://youtube.com/@brasilescolas" target="_blank" rel="noopener" aria-label="YouTube Brasil Escolas">▶️</a>
+      </div>
     </div>
-    <nav class="footer-nav" aria-label="Links do rodapé">
-      <div class="footer-nav-col">
-        <h3>Navegar</h3>
-        <a href="/">Início</a>
-        <a href="/escolas/">Escolas</a>
-        <a href="/inclusao/">Inclusão</a>
-        <a href="/artigos/">Artigos</a>
-        <a href="/vagas-emprego-estagio/">Vagas</a>
-      </div>
-      <div class="footer-nav-col">
-        <h3>Inclusão</h3>
-        <a href="/inclusao/tea/">TEA</a>
-        <a href="/inclusao/tdah/">TDAH</a>
-        <a href="/inclusao/dislexia/">Dislexia</a>
-        <a href="/inclusao/acessibilidade/">Acessibilidade</a>
-      </div>
-      <div class="footer-nav-col">
-        <h3>Brasil Escolas</h3>
-        <a href="/sobre/">Sobre</a>
-        <a href="/contato/">Contato</a>
-        <a href="/cadastrar-escola/">Cadastrar Escola</a>
-        <a href="/politica-privacidade/">Privacidade</a>
-        <a href="/termos-de-uso/">Termos de Uso</a>
-      </div>
+    <nav aria-label="Links rápidos do footer">
+      <h3 class="footer-col-title">Links Rápidos</h3>
+      <ul class="footer-links">
+        <li><a href="/">Início</a></li>
+        <li><a href="/escolas/">Escolas</a></li>
+        <li><a href="/inclusao/">Inclusão</a></li>
+        <li><a href="/artigos/">Artigos</a></li>
+        <li><a href="/vagas-emprego-estagio/">Vagas</a></li>
+        <li><a href="/cadastrar-escola/">Cadastrar Escola</a></li>
+        <li><a href="/sobre/">Sobre nós</a></li>
+        <li><a href="/contato/">Contato</a></li>
+      </ul>
     </nav>
+    <nav aria-label="Estados brasileiros">
+      <h3 class="footer-col-title">Por Estado</h3>
+      <ul class="footer-links">
+        <li><a href="/escolas/sao-paulo/">São Paulo</a></li>
+        <li><a href="/escolas/rio-de-janeiro/">Rio de Janeiro</a></li>
+        <li><a href="/escolas/minas-gerais/">Minas Gerais</a></li>
+        <li><a href="/escolas/bahia/">Bahia</a></li>
+        <li><a href="/escolas/parana/">Paraná</a></li>
+        <li><a href="/escolas/rio-grande-do-sul/">Rio Grande do Sul</a></li>
+        <li><a href="/escolas/ceara/">Ceará</a></li>
+        <li><a href="/escolas/">Ver todos os estados →</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3 class="footer-col-title">Contato e Política</h3>
+      <ul class="footer-links">
+        <li><a href="mailto:contato@brasilescolas.com.br">contato@brasilescolas.com.br</a></li>
+        <li><a href="mailto:contatoibetp@gmail.com">contatoibetp@gmail.com</a></li>
+        <li><a href="/sobre/">Política editorial</a></li>
+        <li><a href="/sobre/#privacidade">Política de privacidade</a></li>
+        <li><a href="/sobre/#termos">Termos de uso</a></li>
+        <li><a href="/contato/">Fale conosco</a></li>
+      </ul>
+    </div>
   </div>
   <div class="footer-bottom">
-    <div class="container">
-      <p>&copy; 2025 Brasil Escolas. Todos os direitos reservados.</p>
-    </div>
+    <p>© 2026 Brasil Escolas — IBETP. Todos os direitos reservados.</p>
+    <p>Desenvolvido com ❤️ para a educação brasileira</p>
   </div>
 </footer>
 
@@ -497,116 +519,298 @@
 <script defer src="/assets/js/search.js"></script>
 
 <script>
+/* ══════════════════════════════════════════════
+   ROTEAMENTO: detectar se é story individual
+══════════════════════════════════════════════ */
 (function () {
-  const grid = document.getElementById('storiesGrid');
-  const storiesCount = document.getElementById('storiesCount');
-  const LIMIT = 20;
+  'use strict';
 
+  /* ── helpers ── */
+  function txt(id, v) { var e = document.getElementById(id); if (e) e.textContent = v || ''; }
+  function show(id)   { var e = document.getElementById(id); if (e) e.style.display = ''; }
+  function hide(id)   { var e = document.getElementById(id); if (e) e.style.display = 'none'; }
+  function htm(id, v) { var e = document.getElementById(id); if (e) e.innerHTML = v || ''; }
+
+  /* ────────────────────────────────────────────
+     LISTING MODE (default)
+  ──────────────────────────────────────────── */
   function renderCard(story) {
-    const thumb = story.capa_url || story.imagem_url || '/assets/img/og-image.png';
-    const href  = story.url || story.link || `/web-stories/?s=${story.slug}`;
-    const titulo = story.titulo || '';
-    const categoria = story.categoria || 'Educação';
-
-    return `
-      <div class="story-card" role="listitem">
-        <a href="${href}" aria-label="Ver story: ${titulo}">
-          <img
-            src="${thumb}"
-            alt="${titulo}"
-            class="story-card-thumb"
-            width="360"
-            height="640"
-            loading="lazy"
-            decoding="async"
-            onerror="this.src='/assets/img/og-image.png'">
-          <div class="story-card-overlay" aria-hidden="true"></div>
-          <div class="story-card-content">
-            <div class="story-card-logo" aria-hidden="true">
-              <img src="/assets/img/favicon.png" alt="" width="18" height="18">
-              Brasil Escolas
-            </div>
-            <div>
-              <span class="story-card-badge">${categoria}</span>
-              <h2 class="story-card-titulo">${titulo}</h2>
-            </div>
-          </div>
-          <!-- Ícone play ao hover -->
-          <div class="story-card-play" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
-          </div>
-        </a>
-      </div>`;
+    var thumb    = story.capa_url || story.imagem_url || '/assets/img/og-image.png';
+    var href     = '/web-stories/' + story.slug + '/';
+    var titulo   = story.titulo   || '';
+    var categoria = story.categoria || 'Educação';
+    return '<div class="story-card" role="listitem">' +
+      '<a href="' + href + '" aria-label="Ver story: ' + titulo + '">' +
+        '<img src="' + thumb + '" alt="' + titulo + '" class="story-card-thumb" width="360" height="640" loading="lazy" decoding="async" onerror="this.src=\'/assets/img/og-image.png\'">' +
+        '<div class="story-card-overlay" aria-hidden="true"></div>' +
+        '<div class="story-card-content">' +
+          '<div class="story-card-logo" aria-hidden="true"><img src="/assets/img/favicon.png" alt="" width="18" height="18"> Brasil Escolas</div>' +
+          '<div><span class="story-card-badge">' + categoria + '</span><h2 class="story-card-titulo">' + titulo + '</h2></div>' +
+        '</div>' +
+        '<div class="story-card-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>' +
+      '</a></div>';
   }
 
   function renderVazio() {
-    grid.innerHTML = `
-      <div class="stories-vazio">
-        <div style="font-size:56px;margin-bottom:16px;" aria-hidden="true">&#x1F4F1;</div>
-        <h3>Nenhuma story publicada ainda</h3>
-        <p>Em breve publicaremos conteúdo educativo visual e envolvente. Volte em breve!</p>
-        <a href="/artigos/" class="btn-primary" style="margin-top:20px;display:inline-block;">
-          Enquanto isso, leia nossos artigos
-        </a>
-      </div>`;
-    if (storiesCount) storiesCount.textContent = '';
+    document.getElementById('storiesGrid').innerHTML =
+      '<div class="stories-vazio"><div style="font-size:56px;margin-bottom:16px" aria-hidden="true">📱</div>' +
+      '<h3>Nenhuma story publicada ainda</h3>' +
+      '<p>Em breve publicaremos conteúdo educativo visual e envolvente. Volte em breve!</p>' +
+      '<a href="/artigos/" class="btn-primary" style="margin-top:20px;display:inline-block;">Enquanto isso, leia nossos artigos</a></div>';
+    txt('storiesCount', '');
   }
 
-  function renderErro() {
-    grid.innerHTML = `
-      <div class="stories-vazio">
-        <div style="font-size:48px;margin-bottom:16px;" aria-hidden="true">&#x26A0;&#xFE0F;</div>
-        <h3>Erro ao carregar stories</h3>
-        <p>Não foi possível conectar ao servidor. Tente novamente em instantes.</p>
-        <button onclick="carregarStories()" class="btn-primary" style="margin-top:20px;border:none;cursor:pointer;">
-          Tentar novamente
-        </button>
-      </div>`;
+  function renderErroListing() {
+    document.getElementById('storiesGrid').innerHTML =
+      '<div class="stories-vazio"><div style="font-size:48px;margin-bottom:16px" aria-hidden="true">⚠️</div>' +
+      '<h3>Erro ao carregar stories</h3>' +
+      '<p>Não foi possível conectar ao servidor. Tente novamente em instantes.</p>' +
+      '<button onclick="window.carregarStories()" class="btn-primary" style="margin-top:20px;border:none;cursor:pointer;">Tentar novamente</button></div>';
   }
 
   async function carregarStories() {
-    // Mostrar skeletons
-    grid.innerHTML = Array.from({length: 10}).map(() =>
-      '<div class="story-skeleton" aria-hidden="true"></div>'
-    ).join('') + '<span class="sr-only" aria-live="polite">Carregando Web Stories…</span>';
-
+    var grid = document.getElementById('storiesGrid');
+    grid.innerHTML = Array.from({length:10}).map(function(){ return '<div class="story-skeleton" aria-hidden="true"></div>'; }).join('') +
+      '<span class="sr-only" aria-live="polite">Carregando Web Stories…</span>';
     try {
-      const stories = await buscarStories(LIMIT);
-      if (!stories || stories.length === 0) { renderVazio(); return; }
-
+      var stories = await buscarStories(20);
+      if (!stories || !stories.length) { renderVazio(); return; }
       grid.innerHTML = stories.map(renderCard).join('');
-
-      if (storiesCount) {
-        storiesCount.textContent = `${stories.length} stor${stories.length === 1 ? 'y' : 'ies'}`;
-      }
-    } catch (e) {
-      console.error('Erro ao carregar stories:', e);
-      renderErro();
+      txt('storiesCount', stories.length + ' stor' + (stories.length === 1 ? 'y' : 'ies'));
+    } catch(e) {
+      console.error('Erro stories:', e);
+      renderErroListing();
     }
   }
 
   window.carregarStories = carregarStories;
 
-  // Aguardar JS defer carregar
-  window.addEventListener('load', function () {
-    if (typeof buscarStories === 'function') {
-      carregarStories();
-    } else {
-      let tentativas = 0;
-      const intervalo = setInterval(() => {
-        tentativas++;
-        if (typeof buscarStories === 'function') {
-          clearInterval(intervalo);
-          carregarStories();
-        } else if (tentativas > 20) {
-          clearInterval(intervalo);
-          renderErro();
-        }
-      }, 200);
+  /* ────────────────────────────────────────────
+     STORY READER MODE
+  ──────────────────────────────────────────── */
+  var slugMatch = window.location.pathname.match(/^\/web-stories\/([a-z0-9][a-z0-9-]+)\/?$/);
+
+  if (slugMatch) {
+    /* ── Entrar em modo story ── */
+    var SLUG = slugMatch[1];
+    hide('viewListing');
+    show('viewStory');
+
+    /* Atualizar meta tags */
+    document.title = 'Carregando story… | Brasil Escolas';
+
+    var currentSlide = 0;
+    var slides = [];
+
+    function buildSlides(story) {
+      /* Tentar campos de slides em vários formatos possíveis */
+      var raw = story.slides || story.conteudo_slides || story.paginas || null;
+      if (raw && typeof raw === 'string') {
+        try { raw = JSON.parse(raw); } catch(_) { raw = null; }
+      }
+      if (Array.isArray(raw) && raw.length) return raw;
+
+      /* Fallback: construir slide único a partir dos campos básicos */
+      return [{
+        titulo:    story.titulo,
+        texto:     story.descricao || story.resumo || story.conteudo || '',
+        imagem:    story.capa_url || story.imagem_url || '/assets/img/og-image.png',
+        categoria: story.categoria || 'Educação'
+      }];
     }
-  });
+
+    function renderSlide(slide, idx) {
+      var img      = slide.imagem || slide.capa_url || slide.imagem_url || '/assets/img/og-image.png';
+      var titulo   = slide.titulo || '';
+      var texto    = slide.texto  || slide.descricao || slide.conteudo || '';
+      var badge    = slide.categoria || slide.badge || '';
+      return '<div class="story-slide' + (idx === 0 ? ' active' : '') + '" id="slide-' + idx + '" aria-hidden="' + (idx !== 0) + '">' +
+        '<img src="' + img + '" alt="' + titulo + '" class="story-slide-img" loading="' + (idx === 0 ? 'eager' : 'lazy') + '" onerror="this.src=\'/assets/img/og-image.png\'">' +
+        '<div class="story-slide-gradient" aria-hidden="true"></div>' +
+        '<div class="story-slide-content">' +
+          (badge ? '<span class="story-slide-badge">' + badge + '</span><br>' : '') +
+          (titulo ? '<h2 class="story-slide-title">' + titulo + '</h2>' : '') +
+          (texto  ? '<p class="story-slide-text">' + texto + '</p>' : '') +
+        '</div></div>';
+    }
+
+    function renderProgress(total) {
+      var bars = '';
+      for (var i = 0; i < total; i++) {
+        bars += '<div class="story-progress-bar"><div class="story-progress-fill' + (i === 0 ? ' active' : '') + '" id="prog-' + i + '"></div></div>';
+      }
+      htm('storyProgress', bars);
+    }
+
+    function goToSlide(n) {
+      if (n < 0 || n >= slides.length) return;
+      /* Hide current */
+      var prev = document.getElementById('slide-' + currentSlide);
+      var prevProg = document.getElementById('prog-' + currentSlide);
+      if (prev) { prev.classList.remove('active'); prev.setAttribute('aria-hidden','true'); }
+      if (prevProg) { prevProg.className = 'story-progress-fill done'; }
+      /* Show new */
+      currentSlide = n;
+      var cur = document.getElementById('slide-' + currentSlide);
+      var curProg = document.getElementById('prog-' + currentSlide);
+      if (cur) { cur.classList.add('active'); cur.setAttribute('aria-hidden','false'); }
+      if (curProg) { curProg.className = 'story-progress-fill active'; }
+      /* Update counter & buttons */
+      txt('storySlideCounter', (currentSlide + 1) + ' / ' + slides.length);
+      document.getElementById('storyBtnPrev').disabled = currentSlide === 0;
+      document.getElementById('storyBtnNext').disabled = currentSlide === slides.length - 1;
+      /* Reset future progress bars */
+      for (var i = currentSlide + 1; i < slides.length; i++) {
+        var fp = document.getElementById('prog-' + i);
+        if (fp) fp.className = 'story-progress-fill';
+      }
+    }
+
+    function exibirStory(story) {
+      /* Meta */
+      var titulo   = story.titulo    || 'Web Story';
+      var descricao = story.descricao || story.resumo || '';
+      var categoria = story.categoria || 'Educação';
+      var capa     = story.capa_url  || story.imagem_url || '/assets/img/og-image.png';
+      var pubDate  = story.publicado_em ? new Date(story.publicado_em).toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'}) : '';
+      var pageUrl  = 'https://brasilescolas.com.br/web-stories/' + SLUG + '/';
+
+      document.title = titulo + ' | Brasil Escolas';
+      var canon = document.getElementById('pageCanonical'); if (canon) canon.href = pageUrl;
+      var ogTitle = document.getElementById('ogTitle'); if (ogTitle) ogTitle.content = titulo + ' | Brasil Escolas';
+      var ogDesc  = document.getElementById('ogDesc');  if (ogDesc)  ogDesc.content  = descricao;
+      var ogImg   = document.getElementById('ogImage'); if (ogImg)   ogImg.content   = capa;
+      var ogUrl   = document.getElementById('ogUrl');   if (ogUrl)   ogUrl.content   = pageUrl;
+      var twTitle = document.getElementById('twTitle'); if (twTitle) twTitle.content = titulo;
+      var twDesc  = document.getElementById('twDesc');  if (twDesc)  twDesc.content  = descricao;
+      var twImg   = document.getElementById('twImage'); if (twImg)   twImg.content   = capa;
+
+      txt('storyBarTitle', titulo);
+      txt('storyMetaCategory', categoria);
+      txt('storyMetaTitle', titulo);
+      txt('storyMetaDesc', descricao);
+      txt('storyMetaDate', pubDate ? 'Publicado em ' + pubDate : '');
+
+      /* Schema.org */
+      var schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        'headline': titulo,
+        'description': descricao,
+        'image': capa,
+        'url': pageUrl,
+        'publisher': { '@type': 'Organization', 'name': 'Brasil Escolas', 'url': 'https://brasilescolas.com.br' }
+      };
+      if (story.publicado_em) schema.datePublished = story.publicado_em;
+      var s = document.createElement('script'); s.type = 'application/ld+json';
+      s.textContent = JSON.stringify(schema); document.head.appendChild(s);
+
+      /* Build slides */
+      slides = buildSlides(story);
+      var slidesHtml = slides.map(renderSlide).join('');
+      htm('storySlidesWrap', slidesHtml);
+      renderProgress(slides.length);
+
+      /* Counter */
+      txt('storySlideCounter', '1 / ' + slides.length);
+      document.getElementById('storyBtnPrev').disabled = true;
+      document.getElementById('storyBtnNext').disabled = slides.length <= 1;
+
+      /* Show content */
+      hide('storyLoading');
+      show('storyContent');
+
+      /* Load related */
+      buscarStories(6).then(function(all) {
+        var related = (all || []).filter(function(s){ return s.slug !== SLUG; }).slice(0, 3);
+        if (!related.length) return;
+        htm('storyRelatedGrid', related.map(renderCard).join(''));
+        show('storyRelatedWrap');
+      }).catch(function(){});
+    }
+
+    /* ── Nav events ── */
+    document.getElementById('storyNavPrev').addEventListener('click', function(){ goToSlide(currentSlide - 1); });
+    document.getElementById('storyNavNext').addEventListener('click', function(){ goToSlide(currentSlide + 1); });
+    document.getElementById('storyBtnPrev').addEventListener('click', function(){ goToSlide(currentSlide - 1); });
+    document.getElementById('storyBtnNext').addEventListener('click', function(){ goToSlide(currentSlide + 1); });
+
+    /* Keyboard nav */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft')  goToSlide(currentSlide - 1);
+      if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+    });
+
+    /* Touch swipe */
+    var touchStartX = 0;
+    var phoneFrame = document.getElementById('storyPhoneFrame');
+    phoneFrame.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX; }, {passive:true});
+    phoneFrame.addEventListener('touchend', function(e){
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { dx < 0 ? goToSlide(currentSlide + 1) : goToSlide(currentSlide - 1); }
+    }, {passive:true});
+
+    /* ── Share ── */
+    window.compartilharStory = function() {
+      var url = window.location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function(){});
+      } else {
+        navigator.clipboard.writeText(url).then(function(){
+          var btn = document.getElementById('storyShareBtn');
+          var orig = btn.innerHTML;
+          btn.innerHTML = '✅ Link copiado!';
+          setTimeout(function(){ btn.innerHTML = orig; }, 2000);
+        }).catch(function(){});
+      }
+    };
+
+    /* ── Load story ── */
+    function aguardar(tentativas) {
+      if (typeof buscarStoryPorSlug === 'function') {
+        buscarStoryPorSlug(SLUG).then(function(story) {
+          if (!story) {
+            hide('storyLoading');
+            show('storyError');
+            document.title = 'Story não encontrado | Brasil Escolas';
+            return;
+          }
+          exibirStory(story);
+        }).catch(function(e) {
+          console.error('Erro ao carregar story:', e);
+          hide('storyLoading');
+          show('storyError');
+        });
+      } else if (tentativas < 40) {
+        setTimeout(function(){ aguardar(tentativas + 1); }, 150);
+      } else {
+        hide('storyLoading');
+        show('storyError');
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function(){ aguardar(0); });
+    } else {
+      aguardar(0);
+    }
+
+  } else {
+    /* ── Listing mode: carregar grid ── */
+    window.addEventListener('load', function() {
+      if (typeof buscarStories === 'function') {
+        carregarStories();
+      } else {
+        var t = 0;
+        var iv = setInterval(function() {
+          t++;
+          if (typeof buscarStories === 'function') { clearInterval(iv); carregarStories(); }
+          else if (t > 20) { clearInterval(iv); renderErroListing(); }
+        }, 200);
+      }
+    });
+  }
+
 })();
 </script>
 

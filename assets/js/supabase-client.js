@@ -137,11 +137,21 @@ async function buscarArtigoPorSlug(slug) {
 
 async function buscarStories(limit = 4) {
   const { data } = await db.from('web_stories')
-    .select('id,titulo,slug,capa_url')
+    .select('id,titulo,slug,capa_url,imagem_url,categoria,descricao,publicado_em')
     .eq('status', 'publicado')
     .order('publicado_em', { ascending: false })
     .limit(limit);
   return data || [];
+}
+
+async function buscarStoryPorSlug(slug) {
+  const { data, error } = await db.from('web_stories')
+    .select('*')
+    .eq('slug', slug)
+    .eq('status', 'publicado')
+    .single();
+  if (error) return null;
+  return data;
 }
 
 /* ── Vagas ── */
