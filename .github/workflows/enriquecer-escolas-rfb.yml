@@ -1,0 +1,70 @@
+name: Enriquecer Escolas — INEP + Receita Federal
+
+# ────────────────────────────────────────────────────────────────────
+# Secrets obrigatórios (GitHub → Settings → Secrets → Actions):
+#
+#   SUPABASE_URL              URL do projeto Supabase
+#   SUPABASE_SERVICE_KEY      chave service_role (para PATCH)
+#   GCP_PROJECT_ID            ID do projeto Google Cloud (ex: meu-projeto-123)
+#   GOOGLE_CREDENTIALS_JSON   conteúdo JSON da service account GCP
+#                             (BigQuery Data Viewer + BigQuery Job User)
+#
+# Como criar a service account GCP:
+#   1. console.cloud.google.com → IAM & Admin → Service Accounts
+#   2. Criar conta → conceder roles:
+#      • BigQuery Data Viewer
+#      • BigQuery Job User
+#   3. Manage Keys → Add Key → JSON → copiar conteúdo para o secret
+# ────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      uf:
+        description: 'Estado a processar (ex: SP, MG). Vazio = todos.'
+        required: false
+        default: ''
+      fuzzy_min:
+        description: 'Score mínimo de similaridade (0-100, default 72)'
+        required: false
+        default: '72'
+
+  schedule:
+    # Domingo à meia-noite UTC — processa tudo em background
+    - cron: '0 0 * * 0'
+
+jobs:
+  enriquecer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependências
+        run: |
+          pip install --upgrade pip
+          pip install \
+            basedosdados \
+            rapidfuzz \
+            pandas \
+            pyarrow \
+            requests
+
+      - name: Enriquecer escolas (INEP + RFB)
+        env:
+          SUPABASE_URL:             ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY:     ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GCP_PROJECT_ID:           ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_CREDENTIALS_JSON:  ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          UF:                       ${{ github.event.inputs.uf || '' }}
+          FUZZY_MIN:                ${{ github.event.inputs.fuzzy_min || '72' }}
+        run: |
+          python pipeline-brasil-escolas/scripts/enriquecer_escolas_rfb.py
