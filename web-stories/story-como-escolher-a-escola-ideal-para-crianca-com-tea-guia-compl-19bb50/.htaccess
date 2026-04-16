@@ -1,3 +1,4 @@
 # Brasil Escolas — story page
+# RewriteEngine On obrigatorio para herdar regras do .htaccess raiz
+RewriteEngine On
 Options -Indexes
-RewriteEngine Off

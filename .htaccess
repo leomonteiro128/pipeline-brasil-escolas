@@ -13,8 +13,9 @@ RewriteRule ^ https://brasilescolas.com.br%{REQUEST_URI} [R=301,L]
 # Estas regras vêm ANTES do bloco "arquivo/dir existe" para que
 # slugs com diretórios físicos legados (WordPress) sejam interceptados.
 
-# Web Stories: rotas individuais servidas via arquivos físicos em web-stories/{slug}/index.html
-# (não usa mod_rewrite — o Apache serve o DirectoryIndex diretamente)
+# Web Stories: /web-stories/{slug}[/] → web-stories/index.html (client-side routing)
+# Padrão [a-z0-9][a-z0-9-]+ exclui ponto — evita loop em /web-stories/index.html
+RewriteRule ^web-stories/([a-z0-9][a-z0-9-]+)/?$ /web-stories/index.html [L]
 
 # Escolas: /escolas/{slug}/ (sem UF) → index.html
 RewriteRule ^escolas/([a-z0-9][a-z0-9-]+)/?$ /escolas/index.html [L]

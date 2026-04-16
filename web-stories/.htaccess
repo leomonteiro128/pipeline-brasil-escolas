@@ -1,6 +1,5 @@
 # Brasil Escolas — web-stories directory
-# O routing desta pasta é feito pela regra no .htaccess raiz.
-# Este arquivo desativa o RewriteEngine localmente para evitar
-# conflito com .htaccess legado do WordPress/Drupal Web Stories.
+# IMPORTANTE: RewriteEngine On é necessário para que as regras do
+# .htaccess raiz sejam herdadas neste diretório.
+RewriteEngine On
 Options -Indexes
-RewriteEngine Off
