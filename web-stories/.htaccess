@@ -1,7 +1,9 @@
 RewriteEngine On
 RewriteBase /web-stories/
 
-# Qualquer slug → index.html (ANTES de verificar se arquivo/dir existe)
-# Exclui arquivos com extensão (css, js, png, etc.) e o index.html em si
+# index.html em si: servir sem reescrita
 RewriteRule ^index\.html$ - [L]
-RewriteRule ^[^.]+/?$ index.html [L]
+
+# Slug sem ponto (ex: story-meu-titulo) → index.html
+# [a-z0-9-] exclui "." evitando loop de reescrita
+RewriteRule ^[a-z0-9][a-z0-9-]+/?$ index.html [L]
