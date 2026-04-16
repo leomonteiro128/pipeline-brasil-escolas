@@ -1,4 +1,4 @@
-name: "\U0001F4F0 Publicar Manhã (Artigo + Web Story)"
+name: "Publicar Artigo + Web Story"
 
 on:
   schedule:
@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
     inputs:
       tema_forcado:
-        description: 'Tema específico (opcional — deixe em branco para rotação automática)'
+        description: 'Tema especifico (opcional - deixe em branco para rotacao automatica)'
         required: false
         default: ''
   workflow_call:
     inputs:
       tema_forcado:
-        description: 'Tema específico (opcional)'
+        description: 'Tema especifico (opcional)'
         required: false
         type: string
         default: ''
@@ -23,7 +23,7 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: Checkout repositório
+      - name: Checkout repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Python 3.12
@@ -32,10 +32,10 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
-      - name: Instalar dependências
+      - name: Instalar dependencias
         run: pip install -r requirements.txt
 
-      - name: Configurar variáveis de ambiente
+      - name: Configurar variaveis de ambiente
         run: |
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
           echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
@@ -45,7 +45,7 @@ jobs:
           echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
           echo "TEMA_FORCADO=${{ github.event.inputs.tema_forcado }}" >> $GITHUB_ENV
 
-      - name: Gerar artigo (Claude → Gemini fallback)
+      - name: Gerar artigo (Claude -> Gemini fallback)
         id: gerar_artigo
         run: |
           python scripts/gerar_artigo.py > /tmp/artigo_result.txt
@@ -62,7 +62,7 @@ print('id:', d['id'])
           echo "artigo_slug=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['slug'])")" >> $GITHUB_OUTPUT
           echo "artigo_id=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['id'])")" >> $GITHUB_OUTPUT
 
-      - name: Gerar Web Story (DALL-E 3 → Gemini fallback)
+      - name: Gerar Web Story (DALL-E 3 -> Gemini fallback)
         run: |
           cat /tmp/artigo_result.json | python scripts/gerar_webstory.py
 
@@ -79,21 +79,21 @@ print('id:', d['id'])
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
             artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
             ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/domains/brasilescolas.com.br/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
-          && echo "Deploy do artigo concluído" \
+          && echo "Deploy do artigo concluido" \
           || echo "Aviso: Autorize a chave SSH no Hostinger hPanel"
 
       - name: Atualizar sitemap
         run: |
           python -c "
-          from scripts.utils import atualizar_sitemap
-          atualizar_sitemap('https://brasilescolas.com.br/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/', '.')
-          "
+from scripts.utils import atualizar_sitemap
+atualizar_sitemap('https://brasilescolas.com.br/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/', '.')
+"
 
-      - name: Commit progresso (estado_progresso + temas_usados)
+      - name: Commit progresso (temas_usados + sitemap)
         run: |
           git config user.name  "Brasil Escolas Pipeline"
           git config user.email "pipeline@brasilescolas.com.br"
-          git add data/temas_usados.json data/estado_progresso.json sitemap.xml 2>/dev/null || true
+          git add data/temas_usados.json sitemap.xml 2>/dev/null || true
           git diff --staged --quiet || git commit -m "pipeline: artigo publicado $(date -u +'%Y-%m-%d %H:%M') UTC"
           git push
 
