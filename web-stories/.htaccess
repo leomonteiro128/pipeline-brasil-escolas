@@ -1,5 +1,7 @@
 # Brasil Escolas — web-stories directory
-# IMPORTANTE: RewriteEngine On é necessário para que as regras do
-# .htaccess raiz sejam herdadas neste diretório.
+# RewriteEngine On para herdar regras do .htaccess raiz
 RewriteEngine On
 Options -Indexes
+
+# Rota de diagnostico — remover apos confirmar funcionamento
+RewriteRule ^htaccess-ok$ /web-stories/index.html [L]
