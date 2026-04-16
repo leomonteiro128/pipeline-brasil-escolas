@@ -17,6 +17,9 @@ RewriteRule ^ https://brasilescolas.com.br%{REQUEST_URI} [R=301,L]
 # Padrão [a-z0-9][a-z0-9-]+ exclui ponto — evita loop em /web-stories/index.html
 RewriteRule ^web-stories/([a-z0-9][a-z0-9-]+)/?$ /web-stories/index.html [L]
 
+# DIAGNOSTICO: rota fora do diretório web-stories — confirma que root .htaccess funciona
+RewriteRule ^ws-diag/([a-z0-9][a-z0-9-]+)/?$ /web-stories/index.html [L]
+
 # Escolas: /escolas/{slug}/ (sem UF) → index.html
 RewriteRule ^escolas/([a-z0-9][a-z0-9-]+)/?$ /escolas/index.html [L]
 
