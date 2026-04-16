@@ -61,17 +61,22 @@ jobs:
       - name: Gerar páginas de estado atualizadas
         run: python scripts/gerar_paginas_estado.py
 
-      - name: Deploy de escolas novas via SCP
+      - name: Configurar chave SSH
         run: |
-          # Instala sshpass para autenticação por senha
-          sudo apt-get install -y sshpass rsync
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.HOSTINGER_PORT }} ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
 
-          # Sincroniza apenas a pasta escolas/
-          sshpass -p "${{ secrets.HOSTINGER_PASS }}" rsync -avz \
-            --rsh="ssh -o StrictHostKeyChecking=no -p 65002" \
-            "C:/Users/leo-m/OneDrive/Área de Trabalho/BRASIL ESCOLAS v2/escolas/" \
-            "${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/escolas/" \
-            2>/dev/null || echo "Aviso: rsync falhou (path local). Deploy manual necessario."
+      - name: Deploy de escolas novas via rsync (chave SSH)
+        run: |
+          sudo apt-get install -y rsync
+          rsync -avz \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
+            escolas/ \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/escolas/ \
+          && echo "Deploy de escolas concluído" \
+          || echo "Aviso: Autorize a chave SSH no Hostinger hPanel"
 
       - name: Atualizar sitemap com novas escolas
         run: |

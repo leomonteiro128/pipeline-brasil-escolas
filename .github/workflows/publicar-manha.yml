@@ -49,26 +49,21 @@ jobs:
         run: |
           cat /tmp/artigo_result.json | python scripts/gerar_webstory.py
 
-      - name: Deploy para Hostinger via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOSTINGER_HOST }}
-          username: ${{ secrets.HOSTINGER_USER }}
-          password: ${{ secrets.HOSTINGER_PASS }}
-          port: 65002
-          script: |
-            echo "Deploy concluido via rsync"
+      - name: Configurar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p ${{ secrets.HOSTINGER_PORT }} ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
 
-      - name: Sincronizar arquivos via rsync/SCP
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avz --delete
-          path: artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/
-          remote_path: ~/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/
-          remote_host: ${{ secrets.HOSTINGER_HOST }}
-          remote_port: 65002
-          remote_user: ${{ secrets.HOSTINGER_USER }}
-          remote_password: ${{ secrets.HOSTINGER_PASS }}
+      - name: Deploy artigo para Hostinger via rsync
+        run: |
+          rsync -avz \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
+            artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
+          && echo "Deploy do artigo concluído" \
+          || echo "Aviso: Autorize a chave SSH no Hostinger hPanel"
 
       - name: Atualizar sitemap
         run: |
