@@ -74,7 +74,7 @@ jobs:
           rsync -avz \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
             escolas/ \
-            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/escolas/ \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/domains/brasilescolas.com.br/public_html/escolas/ \
           && echo "Deploy de escolas concluído" \
           || echo "Aviso: Autorize a chave SSH no Hostinger hPanel"
 

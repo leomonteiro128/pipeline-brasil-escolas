@@ -9,6 +9,13 @@ on:
         description: 'Tema específico (opcional — deixe em branco para rotação automática)'
         required: false
         default: ''
+  workflow_call:
+    inputs:
+      tema_forcado:
+        description: 'Tema específico (opcional)'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   publicar:
@@ -61,7 +68,7 @@ jobs:
           rsync -avz \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
             artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
-            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/domains/brasilescolas.com.br/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
           && echo "Deploy do artigo concluído" \
           || echo "Aviso: Autorize a chave SSH no Hostinger hPanel"
 
