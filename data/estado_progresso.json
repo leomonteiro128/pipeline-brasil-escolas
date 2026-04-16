@@ -1,9 +1,10 @@
 {
-  "ultimo_estado": "BA",
+  "ultimo_estado": "CE",
   "ultima_execucao": null,
   "estados_concluidos": [
     "SP",
-    "BA"
+    "BA",
+    "CE"
   ],
   "progresso": {
     "AC": {
@@ -127,6 +128,12 @@
       "criadas": 0,
       "duplicatas": 0,
       "erros": 30
+    },
+    {
+      "estado": "CE",
+      "criadas": 10,
+      "duplicatas": 0,
+      "erros": 0
     }
   ]
 }
