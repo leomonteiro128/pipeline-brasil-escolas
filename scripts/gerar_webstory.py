@@ -269,14 +269,11 @@ def inserir_story_supabase(story: dict) -> dict:
 
     payload = {
         "artigo_id":   story["artigo_id"],
-        "artigo_slug": story["artigo_slug"],
         "titulo":      story["titulo"],
         "slug":        story["slug"],
-        "descricao":   story.get("descricao", ""),
         "capa_url":    story["capa_url"],
-        "categoria":   story.get("categoria", "Educação"),
         "paginas":     json.dumps(story["paginas"], ensure_ascii=False),
-        "publicado":   True,
+        "status":      "publicado",
         "publicado_em": story["publicado_em"],
     }
 

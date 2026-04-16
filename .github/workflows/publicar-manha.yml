@@ -48,7 +48,17 @@ jobs:
       - name: Gerar artigo (Claude → Gemini fallback)
         id: gerar_artigo
         run: |
-          python scripts/gerar_artigo.py > /tmp/artigo_result.json
+          python scripts/gerar_artigo.py > /tmp/artigo_result.txt
+          python -c "
+import json, sys
+data = open('/tmp/artigo_result.txt').read()
+json_part = data.split('--- JSON ---')[-1].strip()
+d = json.loads(json_part)
+with open('/tmp/artigo_result.json', 'w') as f:
+    json.dump(d, f)
+print('slug:', d['slug'])
+print('id:', d['id'])
+"
           echo "artigo_slug=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['slug'])")" >> $GITHUB_OUTPUT
           echo "artigo_id=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['id'])")" >> $GITHUB_OUTPUT
 

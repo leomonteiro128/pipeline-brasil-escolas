@@ -342,14 +342,10 @@ def mapear_escola(raw: dict) -> dict:
         "site":         "",
         "dependencia":  dependencia,
         "localizacao":  localizacao,
-        "tem_inclusao": False,
-        "inclusao":     [],
-        "niveis_ensino": [],
+        "niveis":        [],
         "infraestrutura": [],
-        "descricao":    "",
         "status":       "ativo",
-        "fonte":        "inep",
-        "criado_em":    None,  # Supabase define via default
+        "fonte":        "inep_automatico",
     }
 
 

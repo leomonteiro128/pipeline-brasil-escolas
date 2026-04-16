@@ -318,11 +318,9 @@ def inserir_artigo_supabase(artigo: dict) -> dict:
         "categoria":        artigo["categoria"],
         "imagem_url":       artigo["imagem_url"],
         "imagem_alt":       artigo["imagem_alt"],
-        "tempo_leitura":    artigo["tempo_leitura"],
         "autor":            "Leonardo Monteiro",
-        "publicado":        True,
+        "status":           "publicado",
         "publicado_em":     artigo["publicado_em"],
-        "modelo_ia":        artigo.get("modelo", "claude-sonnet-4-20250514"),
     }
 
     resp = requests.post(endpoint, headers=headers, json=payload, timeout=30)
