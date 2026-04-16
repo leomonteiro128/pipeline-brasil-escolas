@@ -72,6 +72,16 @@ jobs:
           path: site-files
         continue-on-error: true
 
+      - name: Corrigir permissões no servidor (pre-rsync)
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -o StrictHostKeyChecking=no \
+            -p ${{ secrets.HOSTINGER_PORT }} \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }} \
+            'find ~/public_html -name ".htaccess" -exec chmod 644 {} \; 2>/dev/null || true; \
+             chmod -R u+w ~/public_html/ 2>/dev/null || true; \
+             echo "Permissões corrigidas"'
+
       - name: Deploy via rsync (chave SSH)
         run: |
           # Deploy do site estático (branch site ou pasta site-files)
@@ -82,7 +92,7 @@ jobs:
             SITE_PATH="."
           fi
 
-          rsync -avz \
+          rsync -avz --chmod=Du+rwx,Fu+rw,go+r \
             --exclude='.git' \
             --exclude='*.pyc' \
             --exclude='__pycache__' \
