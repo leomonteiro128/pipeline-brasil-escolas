@@ -232,8 +232,10 @@ def buscar_static(estado: str, quantidade: int) -> list:
         with open(STATIC_FILE, encoding="utf-8") as f:
             todos = json.load(f)
 
+        if isinstance(todos, dict) and "escolas" in todos:
+            todos = todos["escolas"]
         if not isinstance(todos, list):
-            print("[Static] Formato inválido (esperado lista).")
+            print("[Static] Formato inválido (esperado lista ou dict com chave 'escolas').")
             return []
 
         filtrados = [e for e in todos if str(e.get("SG_UF", "")).upper() == estado]
