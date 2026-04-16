@@ -41,9 +41,9 @@ async function buscarEscolas({
 
 async function buscarEscolaPorSlug(slug) {
   const { data, error } = await db.from('escolas')
-    .select('*').eq('slug', slug).eq('status', 'ativo').single();
-  if (error) return null;
-  return data;
+    .select('*').eq('slug', slug).eq('status', 'ativo').limit(1);
+  if (error || !data || !data.length) return null;
+  return data[0];
 }
 
 async function buscarEscolasProximas(uf, municipio, excludeId, limit = 3) {
@@ -128,16 +128,16 @@ async function buscarArtigos({ categoria = null, pagina = 1, limit = null } = {}
 
 async function buscarArtigoPorSlug(slug) {
   const { data, error } = await db.from('artigos')
-    .select('*').eq('slug', slug).eq('status', 'publicado').single();
-  if (error) return null;
-  return data;
+    .select('*').eq('slug', slug).eq('status', 'publicado').limit(1);
+  if (error || !data || !data.length) return null;
+  return data[0];
 }
 
 /* ── Web Stories ── */
 
 async function buscarStories(limit = 4) {
   const { data } = await db.from('web_stories')
-    .select('id,titulo,slug,capa_url,imagem_url,categoria,descricao,publicado_em')
+    .select('*')
     .eq('status', 'publicado')
     .order('publicado_em', { ascending: false })
     .limit(limit);
@@ -149,9 +149,9 @@ async function buscarStoryPorSlug(slug) {
     .select('*')
     .eq('slug', slug)
     .eq('status', 'publicado')
-    .single();
-  if (error) return null;
-  return data;
+    .limit(1);
+  if (error || !data || !data.length) return null;
+  return data[0];
 }
 
 /* ── Vagas ── */
