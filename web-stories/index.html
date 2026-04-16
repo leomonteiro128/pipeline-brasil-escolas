@@ -504,7 +504,7 @@
 
   function renderCard(story) {
     const thumb = story.capa_url || story.imagem_url || '/assets/img/og-image.png';
-    const href  = `/web-stories/${story.slug}/`;
+    const href  = story.url || story.link || `/web-stories/?s=${story.slug}`;
     const titulo = story.titulo || '';
     const categoria = story.categoria || 'Educação';
 

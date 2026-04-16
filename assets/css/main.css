@@ -161,6 +161,52 @@
 }
 .mobile-overlay.open { opacity: 1; pointer-events: all; }
 
+/* nav-drawer (vagas, cadastrar-escola) */
+.nav-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 300px; height: 100vh;
+  background: var(--azul-escuro);
+  z-index: 1200;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+.nav-drawer.open { transform: translateX(0); }
+.drawer-close {
+  align-self: flex-end;
+  background: none; border: none;
+  color: white; font-size: 28px;
+  cursor: pointer; padding: 4px;
+  line-height: 1;
+  margin-bottom: 24px;
+}
+.drawer-nav { display: flex; flex-direction: column; gap: 4px; }
+.drawer-nav a {
+  display: block;
+  padding: 14px 16px;
+  color: white;
+  font-size: var(--text-lg);
+  font-family: var(--font-title);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.drawer-nav a:hover { background: rgba(255,255,255,0.12); }
+.drawer-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  display: none;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: all; display: block; }
+
 /* ─── Footer ─── */
 .site-footer {
   background: var(--bg-footer);
@@ -260,3 +306,128 @@
   .header-inner { height: 60px; }
   .header-logo img { height: 36px; }
 }
+
+/* ─── Barra de Acessibilidade ─── */
+.a11y-bar {
+  background: #1A1A2E;
+  color: white;
+  font-size: 13px;
+  padding: 6px 0;
+  position: relative;
+  z-index: 200;
+}
+.a11y-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.a11y-bar-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: #9CA3AF;
+  margin-right: 4px;
+}
+.a11y-btn {
+  background: transparent;
+  border: 1px solid #4B5563;
+  color: white;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.a11y-btn:hover, .a11y-btn.active {
+  background: #374151;
+  border-color: #9CA3AF;
+}
+.a11y-btn:focus-visible {
+  outline: 2px solid #EFAA1B;
+  outline-offset: 2px;
+}
+.a11y-separator {
+  width: 1px; height: 18px;
+  background: #374151;
+  margin: 0 4px;
+}
+
+/* Modo alto contraste — preto/branco real */
+body.alto-contraste {
+  background: #000 !important;
+  color: #fff !important;
+}
+body.alto-contraste .site-header,
+body.alto-contraste .site-footer,
+body.alto-contraste nav,
+body.alto-contraste section,
+body.alto-contraste main,
+body.alto-contraste article,
+body.alto-contraste aside,
+body.alto-contraste .card,
+body.alto-contraste .escola-card,
+body.alto-contraste .escola-card-body,
+body.alto-contraste .form-card,
+body.alto-contraste .filtros-bar,
+body.alto-contraste .escolas-hero,
+body.alto-contraste .hero {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+body.alto-contraste a { color: #ff0 !important; }
+body.alto-contraste a:hover { color: #0ff !important; }
+body.alto-contraste button,
+body.alto-contraste .btn,
+body.alto-contraste .hero-search-btn,
+body.alto-contraste .paginacao-btn {
+  background: #fff !important;
+  color: #000 !important;
+  border: 2px solid #fff !important;
+}
+body.alto-contraste input,
+body.alto-contraste select,
+body.alto-contraste textarea {
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+body.alto-contraste img { opacity: 0.85; }
+/* Fonte ampliada */
+body.fonte-grande {
+  font-size: 18px !important;
+}
+body.fonte-grande p, body.fonte-grande li, body.fonte-grande td {
+  font-size: 1.1em;
+}
+/* Sublinhar links */
+body.sublinhar-links a {
+  text-decoration: underline !important;
+}
+/* Modo de leitura Braille (alto contraste + fonte serifada grande) */
+body.modo-braille * {
+  font-family: 'Georgia', serif !important;
+  letter-spacing: .04em;
+  line-height: 1.9 !important;
+}
+body.modo-braille {
+  background: #FFFFF0 !important;
+  color: #000 !important;
+}
+body.modo-braille a { color: #00008B !important; }
+body.modo-braille .site-header { background: #FFFFF0 !important; border-bottom: 2px solid #000 !important; }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -999px; left: 0;
+  background: #EFAA1B; color: #003F7F;
+  padding: 8px 16px; border-radius: 0 0 8px 0;
+  font-weight: 700; font-size: 14px;
+  z-index: 9999; text-decoration: none;
+}
+.skip-link:focus { top: 0; }

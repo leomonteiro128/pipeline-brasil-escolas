@@ -166,3 +166,6 @@ async function inserirVaga(dados) {
   if (error) throw error;
   return data;
 }
+
+// Expor como window.supabaseClient para compatibilidade
+window.supabaseClient = db;

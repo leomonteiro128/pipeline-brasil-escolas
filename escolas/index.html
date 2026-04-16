@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Escolas no Brasil | Brasil Escolas</title>
+  <meta name="description" content="Encontre escolas públicas e privadas em todo o Brasil. Filtre por estado, município, tipo de escola e suporte à inclusão (TEA, TDAH, dislexia).">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brasilescolas.com.br/escolas/">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brasilescolas.com.br/escolas/">
+  <meta property="og:title" content="Buscar Escolas no Brasil | Brasil Escolas">
+  <meta property="og:description" content="Encontre escolas públicas e privadas em todo o Brasil com filtros por estado, município e inclusão.">
+  <meta property="og:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Brasil Escolas">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Buscar Escolas no Brasil | Brasil Escolas">
+  <meta name="twitter:description" content="Encontre escolas públicas e privadas em todo o Brasil.">
+  <meta name="twitter:image" content="https://brasilescolas.com.br/assets/img/og-image.png">
+
+  <!-- Preload fontes -->
+  <link rel="preload" href="/assets/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SearchResultsPage",
+    "name": "Buscar Escolas no Brasil",
+    "description": "Encontre escolas públicas e privadas em todo o Brasil.",
+    "url": "https://brasilescolas.com.br/escolas/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Brasil Escolas",
+      "url": "https://brasilescolas.com.br",
+      "logo": {"@type": "ImageObject", "url": "https://brasilescolas.com.br/assets/img/logo.png"}
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://brasilescolas.com.br/"},
+        {"@type": "ListItem", "position": 2, "name": "Escolas", "item": "https://brasilescolas.com.br/escolas/"}
+      ]
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --azul-escuro: #003F7F;
+      --azul-autismo: #0085CA;
+      --amarelo: #EFAA1B;
+      --text-muted: #6B7280;
+      --font-title: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+    .escolas-hero {
+      background: linear-gradient(135deg, #003F7F 0%, #0055A3 60%, #0085CA 100%);
+      padding: 56px 0 48px;
+      text-align: center;
+      color: white;
+    }
+    .escolas-hero h1 { font-family: var(--font-title); font-size: clamp(26px,4vw,42px); font-weight: 700; margin-bottom: 12px; }
+    .escolas-hero p { font-size: 18px; opacity: .88; max-width: 600px; margin: 0 auto 32px; }
+    .hero-search-wrap {
+      display: flex; background: white; border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.22); max-width: 580px; margin: 0 auto;
+    }
+    .hero-search-wrap input {
+      flex: 1; padding: 16px 20px; border: none; background: transparent;
+      font-size: 15px; min-width: 0; color: #1A1A2E; border-radius: 999px 0 0 999px;
+    }
+    .hero-search-wrap input:focus { outline: none; }
+    .hero-search-btn {
+      background: var(--amarelo); border: none; padding: 14px 24px;
+      border-radius: 0 999px 999px 0; font-weight: 700; color: #003F7F;
+      cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap;
+    }
+    .filtros-bar {
+      background: white; border-bottom: 1px solid #E5E7EB;
+      padding: 16px 0; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .filtros-inner {
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    }
+    .filtro-select {
+      padding: 8px 14px; border: 2px solid #E5E7EB; border-radius: 8px;
+      font-size: 14px; font-weight: 500; color: #374151; background: white;
+      cursor: pointer; min-width: 140px;
+    }
+    .filtro-select:focus { outline: 2px solid var(--azul-escuro); }
+    .filtros-inclusao { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill-filtro {
+      padding: 7px 14px; border-radius: 999px; background: #F3F4F6;
+      border: 2px solid transparent; font-size: 13px; font-weight: 500;
+      cursor: pointer; color: #374151; transition: all .18s;
+    }
+    .pill-filtro.active, .pill-filtro:hover { background: var(--azul-escuro); color: white; border-color: var(--azul-escuro); }
+    .filtros-reset { margin-left: auto; font-size: 13px; color: var(--azul-autismo); cursor: pointer; text-decoration: underline; white-space: nowrap; }
+    .escolas-section { padding: 40px 0 64px; background: #F0F8FF; }
+    .resultados-info { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+    .escolas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-bottom: 40px;
+    }
+    @media (max-width: 1024px) { .escolas-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .escolas-grid { grid-template-columns: 1fr; gap: 14px; } }
+    @media (max-width: 768px)  { .filtros-inner { gap: 8px; } .filtro-select { min-width: 110px; } }
+    .escola-card {
+      background: white; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,63,127,.07);
+      transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column;
+    }
+    .escola-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,63,127,.13); }
+    .escola-card-link { text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%; }
+    .escola-card-header {
+      height: 8px;
+      background: linear-gradient(90deg, var(--azul-escuro), var(--azul-autismo));
+    }
+    .escola-card-body { padding: 18px; flex: 1; }
+    .escola-dep-badge {
+      display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 9px;
+      border-radius: 999px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .dep-municipal { background: #DBEAFE; color: #1D4ED8; }
+    .dep-estadual  { background: #D1FAE5; color: #065F46; }
+    .dep-federal   { background: #FDE68A; color: #92400E; }
+    .dep-privada   { background: #EDE9FE; color: #5B21B6; }
+    .escola-nome {
+      font-family: var(--font-title); font-size: 15px; font-weight: 700;
+      color: #1A1A2E; margin-bottom: 6px; line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .escola-local { font-size: 13px; color: var(--text-muted); display: flex; gap: 4px; align-items: center; margin-bottom: 10px; }
+    .escola-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .escola-tag {
+      font-size: 11px; padding: 2px 8px; border-radius: 999px;
+      background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE;
+    }
+    .escola-card-footer {
+      padding: 10px 18px 14px;
+      font-size: 13px; font-weight: 600; color: var(--azul-escuro);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .escolas-loading { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+    .escolas-vazio { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+    .escolas-vazio h3 { font-size: 20px; margin-bottom: 8px; color: #374151; }
+    .spinner {
+      display: inline-block; width: 36px; height: 36px;
+      border: 3px solid #E5E7EB; border-top-color: var(--azul-escuro);
+      border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Perfil de escola ── */
+    .perfil-hero {
+      background: linear-gradient(135deg, #003F7F 0%, #0055A3 60%, #0085CA 100%);
+      padding: 56px 0 40px; color: white;
+    }
+    .perfil-breadcrumb { font-size: 13px; opacity: .75; margin-bottom: 16px; }
+    .perfil-breadcrumb a { color: white; text-decoration: none; }
+    .perfil-breadcrumb a:hover { text-decoration: underline; }
+    .perfil-breadcrumb span { margin: 0 6px; }
+    .perfil-nome { font-family: var(--font-title); font-size: clamp(22px,4vw,36px); font-weight: 700; margin: 10px 0 8px; line-height: 1.2; }
+    .perfil-local { font-size: 16px; opacity: .88; margin-bottom: 12px; }
+    .perfil-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .perfil-tag {
+      font-size: 12px; padding: 4px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35); font-weight: 600;
+    }
+    .perfil-body { background: #F0F8FF; padding: 40px 0 64px; }
+    .perfil-grid { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+    @media (max-width: 768px) { .perfil-grid { grid-template-columns: 1fr; } }
+    .perfil-card {
+      background: white; border-radius: 14px; padding: 22px;
+      box-shadow: 0 2px 10px rgba(0,63,127,.07); margin-bottom: 20px;
+    }
+    .perfil-card-title { font-family: var(--font-title); font-size: 16px; font-weight: 700; color: #1A1A2E; margin-bottom: 14px; }
+    .perfil-card-body { font-size: 14px; color: #374151; line-height: 1.7; }
+    .perfil-card-body a { color: var(--azul-autismo); word-break: break-all; }
+    .perfil-card-body p { margin: 0 0 6px; }
+    .perfil-descricao {
+      background: white; border-radius: 14px; padding: 22px;
+      box-shadow: 0 2px 10px rgba(0,63,127,.07); margin-bottom: 20px;
+      font-size: 15px; line-height: 1.75; color: #374151;
+    }
+    .perfil-card-inclusao { border: 2px solid #DBEAFE; }
+    .inclusao-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-weight: 500; color: #1D4ED8; font-size: 14px; }
+    .perfil-loading { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+    .perfil-erro { text-align: center; padding: 80px 20px; }
+    .perfil-erro h2 { color: #374151; margin-bottom: 8px; }
+    .perfil-nivel-badge {
+      display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 999px;
+      background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; margin: 3px 3px 3px 0;
+    }
+    .similar-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #F3F4F6; }
+    .similar-item:last-child { border-bottom: none; }
+    .similar-info a { font-weight: 600; color: var(--azul-escuro); text-decoration: none; font-size: 14px; }
+    .similar-info a:hover { text-decoration: underline; }
+    .similar-info p { font-size: 12px; color: var(--text-muted); margin: 2px 0 0; }
+    .perfil-cta-cadastrar {
+      display: block; text-align: center; background: var(--amarelo); color: #003F7F;
+      font-weight: 700; font-size: 14px; padding: 13px; border-radius: 10px;
+      text-decoration: none; transition: background .15s;
+    }
+    .perfil-cta-cadastrar:hover { background: #F5C842; }
+
+    .paginacao { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 8px; }
+    .paginacao-btn {
+      padding: 8px 16px; border-radius: 8px; border: 2px solid #E5E7EB;
+      background: white; font-size: 14px; font-weight: 500; cursor: pointer; color: #374151; transition: all .2s;
+    }
+    .paginacao-btn:hover, .paginacao-btn.active { background: var(--azul-escuro); border-color: var(--azul-escuro); color: white; }
+    .paginacao-btn:disabled { opacity: .4; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+<!-- Skip Link -->
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/" class="header-logo" aria-label="Brasil Escolas — página inicial">
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" width="180" height="48">
+    </a>
+    <div class="header-search" role="search" aria-label="Busca rápida no header">
+      <input type="search" id="headerSearch" placeholder="Buscar escola, cidade, bairro…"
+        aria-label="Buscar escola" autocomplete="off">
+      <button class="header-search-btn" aria-label="Pesquisar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <div class="search-dropdown" id="headerSearchDropdown" style="display:none" role="listbox" aria-label="Sugestões de busca"></div>
+    </div>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="/">Início</a>
+      <a href="/escolas/" aria-current="page" class="active">Escolas</a>
+      <a href="/inclusao/">Inclusão</a>
+      <a href="/artigos/">Artigos</a>
+      <a href="/vagas-emprego-estagio/">Vagas</a>
+      <a href="/cadastrar-escola/" class="btn-cadastrar">+ Cadastrar Escola</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Drawer mobile -->
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <button class="mobile-drawer-close" id="drawerClose" aria-label="Fechar menu">&#x2715;</button>
+  <nav aria-label="Menu mobile">
+    <a href="/">&#x1F3E0; Início</a>
+    <a href="/escolas/" aria-current="page">&#x1F3EB; Escolas</a>
+    <a href="/inclusao/">&#x1F9E9; Inclusão</a>
+    <a href="/artigos/">&#x1F4F0; Artigos</a>
+    <a href="/vagas-emprego-estagio/">&#x1F4BC; Vagas</a>
+    <a href="/sobre/">&#x2139;&#xFE0F; Sobre</a>
+    <a href="/contato/">&#x1F4E7; Contato</a>
+    <a href="/cadastrar-escola/" class="btn-cadastrar-mobile">+ Cadastrar Escola</a>
+  </nav>
+</div>
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+<!-- ═══ CONTEÚDO ═══ -->
+<main id="main" tabindex="-1">
+
+<!-- ─── PERFIL DE ESCOLA (visível apenas quando URL tem slug) ─── -->
+<div id="viewPerfil" style="display:none">
+  <section class="perfil-hero" aria-labelledby="perfilNome">
+    <div class="container">
+      <nav class="perfil-breadcrumb" aria-label="Caminho">
+        <a href="/">Início</a> <span aria-hidden="true">›</span>
+        <a href="/escolas/">Escolas</a> <span aria-hidden="true">›</span>
+        <span id="breadNome" aria-current="page"></span>
+      </nav>
+      <div id="perfilDepBadge"></div>
+      <h1 id="perfilNome" class="perfil-nome"></h1>
+      <p id="perfilLocal" class="perfil-local"></p>
+      <div id="perfilTags" class="perfil-tags"></div>
+    </div>
+  </section>
+  <section class="perfil-body">
+    <div class="container perfil-grid">
+      <div class="perfil-main">
+        <div id="perfilDescricao" class="perfil-descricao" style="display:none"></div>
+        <div class="perfil-card">
+          <h2 class="perfil-card-title">📍 Endereço</h2>
+          <div id="perfilEndereco" class="perfil-card-body"></div>
+        </div>
+        <div class="perfil-card" id="perfilNiveisCard">
+          <h2 class="perfil-card-title">🎓 Níveis de Ensino</h2>
+          <div id="perfilNiveis" class="perfil-card-body"></div>
+        </div>
+        <div class="perfil-card" id="perfilSimilaresCard" style="display:none">
+          <h2 class="perfil-card-title">🏫 Escolas Próximas</h2>
+          <div id="perfilSimilares" class="perfil-card-body"></div>
+        </div>
+      </div>
+      <aside class="perfil-aside">
+        <div class="perfil-card">
+          <h2 class="perfil-card-title">📞 Contato</h2>
+          <div id="perfilContato" class="perfil-card-body"></div>
+        </div>
+        <div class="perfil-card perfil-card-inclusao" id="perfilInclusaoCard" style="display:none">
+          <h2 class="perfil-card-title">♿ Suporte Inclusivo</h2>
+          <div id="perfilInclusao" class="perfil-card-body"></div>
+        </div>
+        <a href="/cadastrar-escola/" class="perfil-cta-cadastrar">+ Cadastrar sua escola aqui</a>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<!-- ─── BUSCA (visível normalmente) ─── -->
+<div id="viewBusca">
+
+  <!-- Hero -->
+  <section class="escolas-hero" aria-labelledby="escolasTitle">
+    <div class="container">
+      <h1 id="escolasTitle">Encontre a Escola Ideal</h1>
+      <p>Pesquise entre milhares de escolas públicas e privadas em todo o Brasil.</p>
+      <div class="hero-search-wrap" role="search" aria-label="Busca de escolas">
+        <input type="search" id="escolasSearch" placeholder="Nome da escola, cidade ou bairro…"
+               aria-label="Buscar escola" autocomplete="off">
+        <button class="hero-search-btn" id="escolasBtnBuscar" aria-label="Pesquisar escolas">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Buscar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filtros -->
+  <div class="filtros-bar" role="search" aria-label="Filtros de busca de escolas">
+    <div class="container">
+      <div class="filtros-inner">
+        <select class="filtro-select" id="filtroUF" aria-label="Filtrar por estado">
+          <option value="">Todos os estados</option>
+          <option value="AC">Acre</option><option value="AL">Alagoas</option>
+          <option value="AM">Amazonas</option><option value="AP">Amapá</option>
+          <option value="BA">Bahia</option><option value="CE">Ceará</option>
+          <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option>
+          <option value="GO">Goiás</option><option value="MA">Maranhão</option>
+          <option value="MG">Minas Gerais</option><option value="MS">Mato Grosso do Sul</option>
+          <option value="MT">Mato Grosso</option><option value="PA">Pará</option>
+          <option value="PB">Paraíba</option><option value="PE">Pernambuco</option>
+          <option value="PI">Piauí</option><option value="PR">Paraná</option>
+          <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option>
+          <option value="RO">Rondônia</option><option value="RR">Roraima</option>
+          <option value="RS">Rio Grande do Sul</option><option value="SC">Santa Catarina</option>
+          <option value="SE">Sergipe</option><option value="SP">São Paulo</option>
+          <option value="TO">Tocantins</option>
+        </select>
+
+        <select class="filtro-select" id="filtroDep" aria-label="Filtrar por tipo de escola">
+          <option value="">Tipo de escola</option>
+          <option value="municipal">Pública Municipal</option>
+          <option value="estadual">Pública Estadual</option>
+          <option value="federal">Pública Federal</option>
+          <option value="privada">Privada</option>
+        </select>
+
+        <div class="filtros-inclusao" role="group" aria-label="Filtros de inclusão">
+          <button class="pill-filtro" data-filtro="tea" aria-pressed="false">TEA</button>
+          <button class="pill-filtro" data-filtro="tdah" aria-pressed="false">TDAH</button>
+          <button class="pill-filtro" data-filtro="dislexia" aria-pressed="false">Dislexia</button>
+          <button class="pill-filtro" data-filtro="acessibilidade" aria-pressed="false">Acessibilidade</button>
+        </div>
+
+        <button class="filtros-reset" id="filtrosReset" aria-label="Limpar todos os filtros">Limpar filtros</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de escolas -->
+  <section class="escolas-section" aria-labelledby="listaTitle">
+    <div class="container">
+      <h2 class="sr-only" id="listaTitle">Lista de escolas</h2>
+
+      <!-- AdSense -->
+      <div class="adsense-block" aria-label="Publicidade" style="margin-bottom:28px;overflow:hidden">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6391161522269960"
+             data-ad-slot="auto"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="resultados-info" id="resultadosInfo" aria-live="polite"></div>
+
+      <div class="escolas-grid" id="escolasGrid" role="list" aria-label="Lista de escolas" aria-live="polite">
+        <div class="escolas-loading" style="grid-column:1/-1">
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Carregando escolas…</p>
+        </div>
+      </div>
+
+      <nav class="paginacao" id="paginacao" aria-label="Paginação das escolas" style="display:none">
+        <button class="paginacao-btn" id="btnAnterior" aria-label="Página anterior" disabled>&#x2190; Anterior</button>
+        <div id="paginacaoNums" role="list"></div>
+        <button class="paginacao-btn" id="btnProxima" aria-label="Próxima página">Próxima &#x2192;</button>
+      </nav>
+    </div>
+  </section>
+
+</div><!-- /viewBusca -->
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" class="footer-logo-img">
+      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva. Ajudamos famílias a encontrar a escola ideal para cada criança.</p>
+      <p class="footer-desc">IBETP — Instituto Brasileiro de Educação, Tecnologia e Pesquisa</p>
+      <p class="footer-cnpj">CNPJ: 39.534.189/0001-38<br>Jornalista responsável: Leonardo Monteiro — MTE 0041108/RJ</p>
+      <div class="footer-social" aria-label="Redes sociais">
+        <a href="https://instagram.com/brasilescolas" target="_blank" rel="noopener" aria-label="Instagram Brasil Escolas">📸</a>
+        <a href="https://facebook.com/brasilescolas" target="_blank" rel="noopener" aria-label="Facebook Brasil Escolas">👍</a>
+        <a href="https://youtube.com/@brasilescolas" target="_blank" rel="noopener" aria-label="YouTube Brasil Escolas">▶️</a>
+      </div>
+    </div>
+    <nav aria-label="Links rápidos do footer">
+      <h3 class="footer-col-title">Links Rápidos</h3>
+      <ul class="footer-links">
+        <li><a href="/">Início</a></li>
+        <li><a href="/escolas/">Escolas</a></li>
+        <li><a href="/inclusao/">Inclusão</a></li>
+        <li><a href="/artigos/">Artigos</a></li>
+        <li><a href="/vagas-emprego-estagio/">Vagas</a></li>
+        <li><a href="/cadastrar-escola/">Cadastrar Escola</a></li>
+        <li><a href="/sobre/">Sobre nós</a></li>
+        <li><a href="/contato/">Contato</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Estados brasileiros">
+      <h3 class="footer-col-title">Por Estado</h3>
+      <ul class="footer-links">
+        <li><a href="/escolas/sao-paulo/">São Paulo</a></li>
+        <li><a href="/escolas/rio-de-janeiro/">Rio de Janeiro</a></li>
+        <li><a href="/escolas/minas-gerais/">Minas Gerais</a></li>
+        <li><a href="/escolas/bahia/">Bahia</a></li>
+        <li><a href="/escolas/parana/">Paraná</a></li>
+        <li><a href="/escolas/rio-grande-do-sul/">Rio Grande do Sul</a></li>
+        <li><a href="/escolas/ceara/">Ceará</a></li>
+        <li><a href="/escolas/">Ver todos os estados →</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3 class="footer-col-title">Contato e Política</h3>
+      <ul class="footer-links">
+        <li><a href="mailto:contato@brasilescolas.com.br">contato@brasilescolas.com.br</a></li>
+        <li><a href="mailto:contatoibetp@gmail.com">contatoibetp@gmail.com</a></li>
+        <li><a href="/sobre/">Política editorial</a></li>
+        <li><a href="/sobre/#privacidade">Política de privacidade</a></li>
+        <li><a href="/sobre/#termos">Termos de uso</a></li>
+        <li><a href="/contato/">Fale conosco</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Brasil Escolas — IBETP. Todos os direitos reservados.</p>
+    <p>Desenvolvido com ❤️ para a educação brasileira</p>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script defer src="/assets/js/config.js"></script>
+<script defer src="/assets/js/supabase-client.js"></script>
+<script defer src="/assets/js/utils.js"></script>
+<script defer src="/assets/js/search.js"></script>
+
+<script>
+/* ── Roteamento: perfil vs busca ── */
+(function detectarRota() {
+  // Suporta /escolas/SLUG/ e /escolas/UF/SLUG/
+  const slugMatch = window.location.pathname.match(/^\/escolas\/(?:[a-z]{2}\/)?([^/]+?)\/?$/);
+  if (!slugMatch) return;
+
+  const slug = slugMatch[1];
+  document.getElementById('viewBusca').style.display  = 'none';
+  document.getElementById('viewPerfil').style.display = 'block';
+
+  /* helpers */
+  function txt(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+  function html(id, val) { var el = document.getElementById(id); if (el) el.innerHTML  = val; }
+  function show(id) { var el = document.getElementById(id); if (el) el.style.display = 'block'; }
+  function hide(id) { var el = document.getElementById(id); if (el) el.style.display = 'none';  }
+
+  function badgeDep(dep) {
+    var m = { municipal:['#DBEAFE','#1D4ED8','Municipal'], estadual:['#D1FAE5','#065F46','Estadual'],
+              federal:['#FDE68A','#92400E','Federal'], privada:['#EDE9FE','#5B21B6','Privada'] };
+    var d = m[dep] || ['#F3F4F6','#374151', dep || 'Escola'];
+    return '<span style="background:'+d[0]+';color:'+d[1]+';display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">'+d[2]+'</span>';
+  }
+
+  function renderNiveis(niveis) {
+    if (!niveis || !niveis.length) return '<p>Dados em atualização pelo Censo Escolar</p>';
+    var nomes = { ei:'Ed. Infantil', ef1:'Fundamental I', ef2:'Fundamental II',
+                  em:'Ensino Médio', eja:'EJA', profissionalizante:'Profissionalizante', superior:'Superior' };
+    return niveis.map(function(n){ return '<span class="perfil-nivel-badge">'+(nomes[n]||n)+'</span>'; }).join('');
+  }
+
+  function renderContato(e) {
+    var h = '';
+    var partes = [e.endereco, e.bairro, (e.municipio||'')+(e.uf?' — '+e.uf:''), e.cep?'CEP '+e.cep:''].filter(Boolean);
+    if (partes.length) h += '<p>'+partes.join(', ')+'</p>';
+    if (e.telefone)  h += '<p>☎️ <a href="tel:'+e.telefone+'">'+e.telefone+'</a></p>';
+    if (e.whatsapp)  h += '<p>💬 <a href="https://wa.me/55'+e.whatsapp.replace(/\D/g,'')+'" target="_blank" rel="noopener">WhatsApp</a></p>';
+    if (e.email)     h += '<p>✉️ <a href="mailto:'+e.email+'">'+e.email+'</a></p>';
+    if (e.site)      h += '<p>🌐 <a href="'+e.site+'" target="_blank" rel="noopener">'+e.site+'</a></p>';
+    if (e.instagram) h += '<p>📸 <a href="https://instagram.com/'+e.instagram.replace('@','')+'" target="_blank" rel="noopener">@'+e.instagram.replace('@','')+'</a></p>';
+    return h || '<p>Sem informações de contato cadastradas.</p>';
+  }
+
+  function renderInclusao(e) {
+    var itens = [];
+    if (e.suporte_tea)           itens.push('🧩 Suporte para TEA');
+    if (e.suporte_tdah)          itens.push('⚡ Suporte para TDAH');
+    if (e.suporte_dislexia)      itens.push('📖 Suporte para Dislexia');
+    if (e.acessibilidade_fisica) itens.push('♿ Acessibilidade Física');
+    if (e.profissional_apoio)    itens.push('👩‍🏫 Profissional de Apoio');
+    if (!itens.length) return '<p>Sem informações de inclusão cadastradas.</p>';
+    return itens.map(function(t){ return '<div class="inclusao-item">'+t+'</div>'; }).join('');
+  }
+
+  /* mostrar loading sem destruir a estrutura do DOM */
+  function setLoading(on) {
+    var overlay = document.getElementById('perfilLoadingOverlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'perfilLoadingOverlay';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:12px';
+      overlay.innerHTML = '<div class="spinner" aria-hidden="true"></div><p style="color:#374151">Carregando escola…</p>';
+      document.body.appendChild(overlay);
+    }
+    overlay.style.display = on ? 'flex' : 'none';
+  }
+
+  function mostrarErro(msg) {
+    setLoading(false);
+    document.getElementById('viewPerfil').innerHTML =
+      '<div class="perfil-erro container" style="text-align:center;padding:80px 20px">' +
+      '<h2 style="color:#374151;margin-bottom:8px">'+msg+'</h2>' +
+      '<a href="/escolas/" style="display:inline-block;margin-top:16px;padding:10px 20px;background:#003F7F;color:white;border-radius:8px;text-decoration:none">← Voltar às escolas</a></div>';
+  }
+
+  async function executar() {
+    setLoading(true);
+    var e = await buscarEscolaPorSlug(slug);
+    if (!e) { mostrarErro('Escola não encontrada'); return; }
+    setLoading(false);
+
+    /* meta */
+    document.title = e.nome + ' — ' + e.municipio + '/' + e.uf + ' | Brasil Escolas';
+    var canon = document.querySelector('link[rel="canonical"]');
+    if (canon) canon.href = 'https://brasilescolas.com.br/escolas/'+e.slug+'/';
+
+    /* hero */
+    html('perfilDepBadge', badgeDep(e.dependencia));
+    txt('perfilNome',  e.nome);
+    txt('breadNome',   e.nome);
+    txt('perfilLocal', '📍 '+e.municipio+(e.uf?' — '+e.uf:''));
+
+    var tags = [];
+    if (e.suporte_tea)           tags.push('TEA');
+    if (e.suporte_tdah)          tags.push('TDAH');
+    if (e.suporte_dislexia)      tags.push('Dislexia');
+    if (e.acessibilidade_fisica) tags.push('Acessível');
+    html('perfilTags', tags.map(function(t){ return '<span class="perfil-tag">'+t+'</span>'; }).join(''));
+
+    /* corpo */
+    if (e.descricao) {
+      html('perfilDescricao', '<p>'+e.descricao.replace(/\n/g,'</p><p>')+'</p>');
+      show('perfilDescricao');
+    }
+    html('perfilEndereco', renderContato(e));
+    html('perfilNiveis',   renderNiveis(e.niveis));
+
+    var incHtml = renderInclusao(e);
+    html('perfilInclusao', incHtml); show('perfilInclusaoCard');
+
+    /* schema.org */
+    var schema = { '@context':'https://schema.org','@type':'EducationalOrganization',
+      name:e.nome, url:'https://brasilescolas.com.br/escolas/'+e.slug+'/',
+      address:{'@type':'PostalAddress',addressLocality:e.municipio,addressRegion:e.uf,
+                postalCode:e.cep||'',addressCountry:'BR'} };
+    if (e.telefone) schema.telephone = e.telefone;
+    if (e.email)    schema.email     = e.email;
+    var s = document.createElement('script'); s.type='application/ld+json';
+    s.textContent = JSON.stringify(schema); document.head.appendChild(s);
+
+    /* similares */
+    try {
+      var sim = await buscarEscolasProximas(e.uf, e.municipio, e.id, 3);
+      if (sim && sim.length) {
+        html('perfilSimilares', sim.map(function(s){
+          return '<div class="similar-item"><div class="similar-info">' +
+            '<a href="/escolas/'+s.slug+'/">'+s.nome+'</a>' +
+            '<p>'+s.municipio+' — '+s.uf+'</p></div></div>';
+        }).join(''));
+        show('perfilSimilaresCard');
+      }
+    } catch(_) {}
+  }
+
+  function aguardarSuabase(tentativas) {
+    if (typeof buscarEscolaPorSlug === 'function') { executar(); return; }
+    if (tentativas > 40) { mostrarErro('Erro ao conectar. Tente novamente.'); return; }
+    setTimeout(function(){ aguardarSuabase(tentativas + 1); }, 150);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ aguardarSuabase(0); });
+  } else {
+    aguardarSuabase(0);
+  }
+})();
+</script>
+
+<script>
+(function () {
+  // Não rodar busca quando estamos no modo perfil
+  if (window.location.pathname.match(/^\/escolas\/(?:[a-z]{2}\/)?[a-z0-9][a-z0-9-]+\/?$/)) return;
+
+  const POR_PAGINA = 20;
+  let paginaAtual = 1;
+  let totalEscolas = 0;
+  let debounceTimer = null;
+  let filtros = { uf: '', dependencia: '', texto: '', tea: false, tdah: false, dislexia: false, acessibilidade: false, nivel: '', infra: '' };
+
+  const grid     = document.getElementById('escolasGrid');
+  const pagEl    = document.getElementById('paginacao');
+  const btnAnt   = document.getElementById('btnAnterior');
+  const btnProx  = document.getElementById('btnProxima');
+  const pagNums  = document.getElementById('paginacaoNums');
+  const info     = document.getElementById('resultadosInfo');
+  const searchEl = document.getElementById('escolasSearch');
+
+  // Ler parâmetros da URL
+  (function lerParams() {
+    const p = new URLSearchParams(location.search);
+    if (p.get('uf'))   { filtros.uf = p.get('uf'); document.getElementById('filtroUF').value = p.get('uf'); }
+    if (p.get('dep'))  { filtros.dependencia = p.get('dep'); document.getElementById('filtroDep').value = p.get('dep'); }
+    if (p.get('texto')){ filtros.texto = p.get('texto'); searchEl.value = p.get('texto'); }
+    if (p.get('tea'))  { filtros.tea = true; marcarPill('tea'); }
+    if (p.get('tdah')) { filtros.tdah = true; marcarPill('tdah'); }
+    if (p.get('nivel')) { filtros.nivel = p.get('nivel'); }
+    if (p.get('infra')) { filtros.infra = p.get('infra'); }
+  })();
+
+  function marcarPill(nome) {
+    const btn = document.querySelector(`.pill-filtro[data-filtro="${nome}"]`);
+    if (btn) { btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true'); }
+  }
+
+  function badgeDep(dep) {
+    const m = { municipal: ['dep-municipal','Municipal'], estadual: ['dep-estadual','Estadual'],
+                federal: ['dep-federal','Federal'], privada: ['dep-privada','Privada'] };
+    const d = m[dep] || ['dep-municipal', dep || ''];
+    return `<span class="escola-dep-badge ${d[0]}">${d[1]}</span>`;
+  }
+
+  function renderCard(e) {
+    const tags = [];
+    if (e.suporte_tea)         tags.push('TEA');
+    if (e.suporte_tdah)        tags.push('TDAH');
+    if (e.suporte_dislexia)    tags.push('Dislexia');
+    if (e.acessibilidade_fisica) tags.push('Acessível');
+    return `
+      <article class="escola-card" role="listitem" itemscope itemtype="https://schema.org/EducationalOrganization">
+        <a href="/escolas/${e.slug}/" class="escola-card-link" aria-label="Ver escola: ${e.nome}">
+          <div class="escola-card-header" aria-hidden="true"></div>
+          <div class="escola-card-body">
+            ${badgeDep(e.dependencia)}
+            <h2 class="escola-nome" itemprop="name">${e.nome}</h2>
+            <p class="escola-local">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${e.municipio}${e.uf ? ` — ${e.uf}` : ''}
+            </p>
+            ${tags.length ? `<div class="escola-tags">${tags.map(t=>`<span class="escola-tag">${t}</span>`).join('')}</div>` : ''}
+          </div>
+          <div class="escola-card-footer">Ver escola &#x2192;</div>
+        </a>
+      </article>`;
+  }
+
+  function renderVazio() {
+    grid.innerHTML = `<div class="escolas-vazio" style="grid-column:1/-1">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" aria-hidden="true" style="margin-bottom:16px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <h3>Nenhuma escola encontrada</h3>
+      <p>Tente ajustar os filtros ou buscar por outro termo.</p>
+      <button class="paginacao-btn" onclick="limparFiltros()" style="margin-top:16px">Ver todas as escolas</button>
+    </div>`;
+    pagEl.style.display = 'none';
+    info.textContent = '';
+  }
+
+  function renderErro() {
+    grid.innerHTML = `<div class="escolas-vazio" style="grid-column:1/-1">
+      <h3>Erro ao carregar escolas</h3>
+      <p>Verifique sua conexão e tente novamente.</p>
+      <button class="paginacao-btn" onclick="carregarEscolas()" style="margin-top:16px">Tentar novamente</button>
+    </div>`;
+    pagEl.style.display = 'none';
+  }
+
+  function renderPaginacao(total) {
+    const totalPag = Math.ceil(total / POR_PAGINA);
+    if (totalPag <= 1) { pagEl.style.display = 'none'; return; }
+    pagEl.style.display = 'flex';
+    btnAnt.disabled  = paginaAtual <= 1;
+    btnProx.disabled = paginaAtual >= totalPag;
+    pagNums.innerHTML = '';
+    const ini = Math.max(1, paginaAtual - 2), fim = Math.min(totalPag, paginaAtual + 2);
+    for (let i = ini; i <= fim; i++) {
+      const b = document.createElement('button');
+      b.className = 'paginacao-btn' + (i === paginaAtual ? ' active' : '');
+      b.textContent = i;
+      b.setAttribute('aria-label', `Página ${i}`);
+      b.setAttribute('aria-current', i === paginaAtual ? 'page' : 'false');
+      b.addEventListener('click', () => { paginaAtual = i; carregarEscolas(); });
+      pagNums.appendChild(b);
+    }
+  }
+
+  async function carregarEscolas() {
+    grid.innerHTML = `<div class="escolas-loading" style="grid-column:1/-1"><div class="spinner" aria-hidden="true"></div><p>Carregando…</p></div>`;
+    try {
+      const res = await buscarEscolas({
+        uf:          filtros.uf || null,
+        dependencia: filtros.dependencia || null,
+        texto:       filtros.texto || '',
+        tea:         filtros.tea,
+        tdah:        filtros.tdah,
+        dislexia:    filtros.dislexia,
+        acessibilidade: filtros.acessibilidade,
+        niveis:      filtros.nivel ? [filtros.nivel] : [],
+        pagina:      paginaAtual
+      });
+      const lista  = res.escolas || res.data || (Array.isArray(res) ? res : []);
+      const total  = res.total  || lista.length;
+      totalEscolas = total;
+
+      if (!lista.length) { renderVazio(); return; }
+
+      grid.innerHTML = lista.map(renderCard).join('');
+      info.textContent = `${total.toLocaleString('pt-BR')} escola${total !== 1 ? 's' : ''} encontrada${total !== 1 ? 's' : ''}`;
+      renderPaginacao(total);
+
+      if (paginaAtual > 1) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (e) {
+      console.error('Erro escolas:', e);
+      renderErro();
+    }
+  }
+
+  window.limparFiltros = function () {
+    filtros = { uf: '', dependencia: '', texto: '', tea: false, tdah: false, dislexia: false, acessibilidade: false, nivel: '', infra: '' };
+    paginaAtual = 1;
+    document.getElementById('filtroUF').value = '';
+    document.getElementById('filtroDep').value = '';
+    searchEl.value = '';
+    document.querySelectorAll('.pill-filtro').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed','false'); });
+    history.replaceState(null, '', location.pathname);
+    carregarEscolas();
+  };
+
+  document.getElementById('filtroUF').addEventListener('change', function () { filtros.uf = this.value; paginaAtual = 1; carregarEscolas(); });
+  document.getElementById('filtroDep').addEventListener('change', function () { filtros.dependencia = this.value; paginaAtual = 1; carregarEscolas(); });
+  document.getElementById('filtrosReset').addEventListener('click', window.limparFiltros);
+
+  document.querySelectorAll('.pill-filtro').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const f = this.dataset.filtro;
+      filtros[f] = !filtros[f];
+      this.classList.toggle('active', filtros[f]);
+      this.setAttribute('aria-pressed', filtros[f] ? 'true' : 'false');
+      paginaAtual = 1;
+      carregarEscolas();
+    });
+  });
+
+  searchEl.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => { filtros.texto = this.value.trim(); paginaAtual = 1; carregarEscolas(); }, 400);
+  });
+
+  document.getElementById('escolasBtnBuscar').addEventListener('click', function () {
+    filtros.texto = searchEl.value.trim(); paginaAtual = 1; carregarEscolas();
+  });
+
+  btnAnt.addEventListener('click', () => { if (paginaAtual > 1) { paginaAtual--; carregarEscolas(); } });
+  btnProx.addEventListener('click', () => { paginaAtual++; carregarEscolas(); });
+
+  window.addEventListener('load', function () {
+    function tentar() {
+      if (typeof buscarEscolas === 'function') { carregarEscolas(); return; }
+      let t = 0;
+      const iv = setInterval(() => { t++; if (typeof buscarEscolas === 'function') { clearInterval(iv); carregarEscolas(); } else if (t > 30) { clearInterval(iv); renderErro(); } }, 200);
+    }
+    tentar();
+  });
+})();
+</script>
+
+<script src="/assets/js/acessibilidade.js"></script>
+</body>
+</html>

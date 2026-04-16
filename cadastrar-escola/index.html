@@ -312,7 +312,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="logo">
-      <img src="/assets/img/logo.svg" alt="Brasil Escolas" width="160" height="40">
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" width="160" height="40">
     </a>
     <nav class="main-nav" id="mainNav">
       <a href="/">Início</a>
@@ -650,36 +650,60 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <img src="/assets/img/logo-white.svg" alt="Brasil Escolas" width="140" height="36">
-        <p style="color:rgba(255,255,255,0.7);font-size:0.88rem;margin-top:0.75rem;">O maior guia de escolas do Brasil.</p>
-      </div>
-      <div>
-        <h4>Links úteis</h4>
-        <ul>
-          <li><a href="/escolas/">Buscar escolas</a></li>
-          <li><a href="/inclusao/">Educação inclusiva</a></li>
-          <li><a href="/artigos/">Artigos</a></li>
-          <li><a href="/vagas-emprego-estagio/">Vagas</a></li>
-          <li><a href="/cadastrar-escola/">Cadastrar escola</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Institucional</h4>
-        <ul>
-          <li><a href="/sobre/">Sobre</a></li>
-          <li><a href="/contato/">Contato</a></li>
-          <li><a href="/politica-de-privacidade/">Privacidade</a></li>
-          <li><a href="/termos-de-uso/">Termos de uso</a></li>
-        </ul>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" class="footer-logo-img">
+      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva. Ajudamos famílias a encontrar a escola ideal para cada criança.</p>
+      <p class="footer-desc">IBETP — Instituto Brasileiro de Educação, Tecnologia e Pesquisa</p>
+      <p class="footer-cnpj">CNPJ: 39.534.189/0001-38<br>Jornalista responsável: Leonardo Monteiro — MTE 0041108/RJ</p>
+      <div class="footer-social" aria-label="Redes sociais">
+        <a href="https://instagram.com/brasilescolas" target="_blank" rel="noopener" aria-label="Instagram Brasil Escolas">📸</a>
+        <a href="https://facebook.com/brasilescolas" target="_blank" rel="noopener" aria-label="Facebook Brasil Escolas">👍</a>
+        <a href="https://youtube.com/@brasilescolas" target="_blank" rel="noopener" aria-label="YouTube Brasil Escolas">▶️</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Brasil Escolas. Todos os direitos reservados.</p>
+    <nav aria-label="Links rápidos do footer">
+      <h3 class="footer-col-title">Links Rápidos</h3>
+      <ul class="footer-links">
+        <li><a href="/">Início</a></li>
+        <li><a href="/escolas/">Escolas</a></li>
+        <li><a href="/inclusao/">Inclusão</a></li>
+        <li><a href="/artigos/">Artigos</a></li>
+        <li><a href="/vagas-emprego-estagio/">Vagas</a></li>
+        <li><a href="/cadastrar-escola/">Cadastrar Escola</a></li>
+        <li><a href="/sobre/">Sobre nós</a></li>
+        <li><a href="/contato/">Contato</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Estados brasileiros">
+      <h3 class="footer-col-title">Por Estado</h3>
+      <ul class="footer-links">
+        <li><a href="/escolas/sao-paulo/">São Paulo</a></li>
+        <li><a href="/escolas/rio-de-janeiro/">Rio de Janeiro</a></li>
+        <li><a href="/escolas/minas-gerais/">Minas Gerais</a></li>
+        <li><a href="/escolas/bahia/">Bahia</a></li>
+        <li><a href="/escolas/parana/">Paraná</a></li>
+        <li><a href="/escolas/rio-grande-do-sul/">Rio Grande do Sul</a></li>
+        <li><a href="/escolas/ceara/">Ceará</a></li>
+        <li><a href="/escolas/">Ver todos os estados →</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3 class="footer-col-title">Contato e Política</h3>
+      <ul class="footer-links">
+        <li><a href="mailto:contato@brasilescolas.com.br">contato@brasilescolas.com.br</a></li>
+        <li><a href="mailto:contatoibetp@gmail.com">contatoibetp@gmail.com</a></li>
+        <li><a href="/sobre/">Política editorial</a></li>
+        <li><a href="/sobre/#privacidade">Política de privacidade</a></li>
+        <li><a href="/sobre/#termos">Termos de uso</a></li>
+        <li><a href="/contato/">Fale conosco</a></li>
+      </ul>
     </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Brasil Escolas — IBETP. Todos os direitos reservados.</p>
+    <p>Desenvolvido com ❤️ para a educação brasileira</p>
   </div>
 </footer>
 
@@ -1002,29 +1026,39 @@
       const inclusao = Array.from(document.querySelectorAll('input[name="inclusao"]:checked')).map(el => el.value);
       const infraestrutura = Array.from(document.querySelectorAll('input[name="infraestrutura"]:checked')).map(el => el.value);
 
+      // Montar endereço completo como texto único
+      const rua    = document.getElementById('rua').value.trim();
+      const numero = document.getElementById('numero').value.trim();
+      const compl  = document.getElementById('complemento').value.trim();
+      const endereco = [rua, numero, compl].filter(Boolean).join(', ');
+
+      // Mapear tipo de escola para schema (publica / privada)
+      const tipoRaw  = document.querySelector('input[name="tipo"]:checked').value;
+      const tipoMapped = ['municipal','estadual','federal'].includes(tipoRaw) ? 'publica' : 'privada';
+
       const payload = {
-        nome: nome,
-        cnpj: document.getElementById('cnpj').value.replace(/\D/g, ''),
-        tipo: document.querySelector('input[name="tipo"]:checked').value,
-        cep: document.getElementById('cep').value.replace(/\D/g, ''),
-        rua: document.getElementById('rua').value.trim(),
-        numero: document.getElementById('numero').value.trim(),
-        complemento: document.getElementById('complemento').value.trim(),
-        bairro: document.getElementById('bairro').value.trim(),
-        cidade: document.getElementById('cidade').value.trim(),
-        uf: uf,
-        whatsapp: document.getElementById('whatsapp').value.replace(/\D/g, ''),
-        telefone: document.getElementById('telefoneFixo').value.replace(/\D/g, ''),
-        email: document.getElementById('email').value.trim(),
-        site: document.getElementById('site').value.trim(),
-        instagram: document.getElementById('instagram').value.trim(),
-        facebook: document.getElementById('facebook').value.trim(),
-        niveis_ensino: niveis,
-        inclusao: inclusao,
-        infraestrutura: infraestrutura,
-        descricao: document.getElementById('descricao').value.trim(),
-        status: 'pendente',
-        criado_em: new Date().toISOString()
+        nome:       nome,
+        cnpj:       document.getElementById('cnpj').value.replace(/\D/g, ''),
+        tipo:       tipoMapped,
+        cep:        document.getElementById('cep').value.replace(/\D/g, ''),
+        endereco:   endereco,
+        bairro:     document.getElementById('bairro').value.trim(),
+        municipio:  document.getElementById('cidade').value.trim(),
+        uf:         uf,
+        whatsapp:   document.getElementById('whatsapp').value.replace(/\D/g, ''),
+        telefone:   document.getElementById('telefoneFixo').value.replace(/\D/g, ''),
+        email:      document.getElementById('email').value.trim(),
+        site:       document.getElementById('site').value.trim(),
+        instagram:  document.getElementById('instagram').value.trim(),
+        facebook:   document.getElementById('facebook').value.trim(),
+        niveis:     niveis,
+        suporte_tea:            inclusao.includes('tea'),
+        suporte_tdah:           inclusao.includes('tdah'),
+        suporte_dislexia:       inclusao.includes('dislexia'),
+        acessibilidade_fisica:  inclusao.includes('acessibilidade'),
+        profissional_apoio:     inclusao.includes('apoio'),
+        descricao:  document.getElementById('descricao').value.trim(),
+        status:     'pendente'
       };
 
       if (typeof inserirCadastroManual === 'function') {
@@ -1090,5 +1124,6 @@
   drawerClose.addEventListener('click', closeDrawer);
   drawerOverlay.addEventListener('click', closeDrawer);
 </script>
+<script src="/assets/js/acessibilidade.js"></script>
 </body>
 </html>
