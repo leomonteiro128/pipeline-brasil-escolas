@@ -9,13 +9,23 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.brasilescolas\.com\.br [NC]
 RewriteRule ^ https://brasilescolas.com.br%{REQUEST_URI} [R=301,L]
 
-# Se o arquivo ou diretório existir, servir diretamente
+# Se o arquivo ou diretório físico existir, servir diretamente
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Web Stories: slug routes → index.html (client-side routing)
-RewriteRule ^web-stories/([a-z0-9][a-z0-9-]+)/?$ /web-stories/index.html [L]
+# ── CLIENT-SIDE ROUTING ──────────────────────────────────────
+
+# Web Stories: /web-stories/{slug}/ → index.html do listing
+RewriteRule ^web-stories/[^/]+/?$ /web-stories/index.html [L]
+
+# Escolas: /escolas/{slug}/ (sem UF) → index.html
+RewriteRule ^escolas/([a-z0-9][a-z0-9-]+)/?$ /escolas/index.html [L]
+
+# Escolas: /escolas/{uf}/{slug}/ (com UF de 2 letras) → index.html
+RewriteRule ^escolas/([a-z]{2})/([^/]+)/?$ /escolas/index.html [L]
+
+# ─────────────────────────────────────────────────────────────
 
 # Rotas sem extensão: tentar .html
 RewriteCond %{REQUEST_FILENAME}\.html -f

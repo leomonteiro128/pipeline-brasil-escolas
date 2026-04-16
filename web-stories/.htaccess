@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /web-stories/
+
+# Se é um arquivo real, servir diretamente
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Qualquer slug que não seja arquivo → index.html (client-side routing)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.+$ index.html [L]
+
+# Acesso direto a subpastas sem arquivo físico
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^[^/]+/?$ index.html [L]
