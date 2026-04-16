@@ -1,4 +1,4 @@
-name: "🚀 Deploy Completo (usar com cuidado)"
+name: "Deploy Completo (usar com cuidado)"
 
 on:
   workflow_dispatch:
