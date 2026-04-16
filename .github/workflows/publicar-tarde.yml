@@ -12,7 +12,7 @@ on:
 
 jobs:
   publicar:
-    uses: ./.github/workflows/publicar-manha.yml
+    uses: ./.github/workflows/publicar-artigo.yml
     secrets: inherit
     with:
       tema_forcado: ${{ inputs.tema_forcado || '' }}
