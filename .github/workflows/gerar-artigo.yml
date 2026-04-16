@@ -2,19 +2,12 @@ name: "Publicar Artigo + Web Story"
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # 07:00 BRT = 10:00 UTC
+    - cron: '0 10 * * *'
   workflow_dispatch:
-    inputs:
-      tema_forcado:
-        description: 'Tema especifico (opcional - deixe em branco para rotacao automatica)'
-        required: false
-        default: ''
-  workflow_call:
     inputs:
       tema_forcado:
         description: 'Tema especifico (opcional)'
         required: false
-        type: string
         default: ''
 
 jobs:
@@ -45,24 +38,23 @@ jobs:
           echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
           echo "TEMA_FORCADO=${{ github.event.inputs.tema_forcado }}" >> $GITHUB_ENV
 
-      - name: Gerar artigo (Claude -> Gemini fallback)
+      - name: Gerar artigo
         id: gerar_artigo
         run: |
           python scripts/gerar_artigo.py > /tmp/artigo_result.txt
           python -c "
-import json, sys
+import json
 data = open('/tmp/artigo_result.txt').read()
 json_part = data.split('--- JSON ---')[-1].strip()
 d = json.loads(json_part)
 with open('/tmp/artigo_result.json', 'w') as f:
     json.dump(d, f)
 print('slug:', d['slug'])
-print('id:', d['id'])
 "
           echo "artigo_slug=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['slug'])")" >> $GITHUB_OUTPUT
           echo "artigo_id=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['id'])")" >> $GITHUB_OUTPUT
 
-      - name: Gerar Web Story (DALL-E 3 -> Gemini fallback)
+      - name: Gerar Web Story
         run: |
           cat /tmp/artigo_result.json | python scripts/gerar_webstory.py
 
@@ -73,23 +65,24 @@ print('id:', d['id'])
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -p ${{ secrets.HOSTINGER_PORT }} ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
 
-      - name: Deploy artigo para Hostinger via rsync
+      - name: Deploy artigo via rsync
         run: |
           rsync -avz \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.HOSTINGER_PORT }}" \
             artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
             ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/domains/brasilescolas.com.br/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/ \
-          && echo "Deploy do artigo concluido" \
-          || echo "Aviso: Autorize a chave SSH no Hostinger hPanel"
+          && echo "Deploy concluido" \
+          || echo "Aviso: erro no rsync"
 
       - name: Atualizar sitemap
         run: |
           python -c "
-from scripts.utils import atualizar_sitemap
+import sys; sys.path.insert(0, 'scripts')
+from utils import atualizar_sitemap
 atualizar_sitemap('https://brasilescolas.com.br/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/', '.')
 "
 
-      - name: Commit progresso (temas_usados + sitemap)
+      - name: Commit progresso
         run: |
           git config user.name  "Brasil Escolas Pipeline"
           git config user.email "pipeline@brasilescolas.com.br"
@@ -97,7 +90,7 @@ atualizar_sitemap('https://brasilescolas.com.br/artigos/${{ steps.gerar_artigo.o
           git diff --staged --quiet || git commit -m "pipeline: artigo publicado $(date -u +'%Y-%m-%d %H:%M') UTC"
           git push
 
-      - name: Resumo final
+      - name: Resumo
         run: |
           echo "## Publicacao concluida" >> $GITHUB_STEP_SUMMARY
           echo "- Artigo: ${{ steps.gerar_artigo.outputs.artigo_slug }}" >> $GITHUB_STEP_SUMMARY
