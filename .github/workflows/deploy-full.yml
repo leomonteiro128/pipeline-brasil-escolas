@@ -47,6 +47,9 @@ jobs:
       - name: Regenerar todas as páginas de estado (27 estados)
         run: python scripts/gerar_paginas_estado.py
 
+      - name: Gerar páginas físicas de Web Stories
+        run: python scripts/gerar_paginas_story.py
+
       - name: Injetar credenciais Supabase no config.js
         run: |
           find . -name "config.js" -exec sed -i \
