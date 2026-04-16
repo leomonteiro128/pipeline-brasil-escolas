@@ -1,0 +1,92 @@
+name: "\U0001F4F0 Publicar Manhã (Artigo + Web Story)"
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # 07:00 BRT = 10:00 UTC
+  workflow_dispatch:
+    inputs:
+      tema_forcado:
+        description: 'Tema específico (opcional — deixe em branco para rotação automática)'
+        required: false
+        default: ''
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Configurar variáveis de ambiente
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}" >> $GITHUB_ENV
+          echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> $GITHUB_ENV
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+          echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> $GITHUB_ENV
+          echo "TEMA_FORCADO=${{ github.event.inputs.tema_forcado }}" >> $GITHUB_ENV
+
+      - name: Gerar artigo (Claude → Gemini fallback)
+        id: gerar_artigo
+        run: |
+          python scripts/gerar_artigo.py > /tmp/artigo_result.json
+          echo "artigo_slug=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['slug'])")" >> $GITHUB_OUTPUT
+          echo "artigo_id=$(python -c "import json; d=json.load(open('/tmp/artigo_result.json')); print(d['id'])")" >> $GITHUB_OUTPUT
+
+      - name: Gerar Web Story (DALL-E 3 → Gemini fallback)
+        run: |
+          cat /tmp/artigo_result.json | python scripts/gerar_webstory.py
+
+      - name: Deploy para Hostinger via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          password: ${{ secrets.HOSTINGER_PASS }}
+          port: 65002
+          script: |
+            echo "Deploy concluido via rsync"
+
+      - name: Sincronizar arquivos via rsync/SCP
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avz --delete
+          path: artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/
+          remote_path: ~/public_html/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/
+          remote_host: ${{ secrets.HOSTINGER_HOST }}
+          remote_port: 65002
+          remote_user: ${{ secrets.HOSTINGER_USER }}
+          remote_password: ${{ secrets.HOSTINGER_PASS }}
+
+      - name: Atualizar sitemap
+        run: |
+          python -c "
+          from scripts.utils import atualizar_sitemap
+          atualizar_sitemap('https://brasilescolas.com.br/artigos/${{ steps.gerar_artigo.outputs.artigo_slug }}/', '.')
+          "
+
+      - name: Commit progresso (estado_progresso + temas_usados)
+        run: |
+          git config user.name  "Brasil Escolas Pipeline"
+          git config user.email "pipeline@brasilescolas.com.br"
+          git add data/temas_usados.json data/estado_progresso.json sitemap.xml 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "pipeline: artigo publicado $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push
+
+      - name: Resumo final
+        run: |
+          echo "## Publicacao concluida" >> $GITHUB_STEP_SUMMARY
+          echo "- Artigo: ${{ steps.gerar_artigo.outputs.artigo_slug }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Horario: $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY

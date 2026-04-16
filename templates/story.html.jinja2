@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html ⚡ lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+  <title>{{ story.titulo }} | Brasil Escolas</title>
+
+  <!-- Canonical aponta para o artigo relacionado -->
+  <link rel="canonical" href="https://brasilescolas.com.br/artigos/{{ story.artigo_slug }}/">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+
+  <!-- AMP boilerplate obrigatório -->
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+  <!-- AMP runtime obrigatório -->
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+  <!-- Componentes AMP -->
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <script async custom-element="amp-story-auto-ads" src="https://cdn.ampproject.org/v0/amp-story-auto-ads-0.1.js"></script>
+  <script async custom-element="amp-img" src="https://cdn.ampproject.org/v0/amp-img-0.1.js"></script>
+  <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://brasilescolas.com.br/web-stories/{{ story.slug }}/">
+  <meta property="og:title" content="{{ story.titulo }} | Brasil Escolas">
+  <meta property="og:description" content="{{ story.descricao or story.titulo }}">
+  <meta property="og:image" content="{{ story.capa_url }}">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Brasil Escolas">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ story.titulo }} | Brasil Escolas">
+  <meta name="twitter:image" content="{{ story.capa_url }}">
+
+  <!-- Schema.org Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ story.titulo }}",
+    "description": "{{ story.descricao or story.titulo }}",
+    "image": {
+      "@type": "ImageObject",
+      "url": "{{ story.capa_url }}",
+      "width": 1024,
+      "height": 1792
+    },
+    "datePublished": "{{ story.publicado_em }}",
+    "author": {
+      "@type": "Person",
+      "name": "Leonardo Monteiro",
+      "url": "https://brasilescolas.com.br/sobre/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Brasil Escolas",
+      "url": "https://brasilescolas.com.br",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://brasilescolas.com.br/assets/img/logo.png",
+        "width": 180,
+        "height": 48
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://brasilescolas.com.br/web-stories/{{ story.slug }}/"
+    }
+  }
+  </script>
+
+  <style amp-custom>
+    /* Estilos globais da story */
+    amp-story {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      color: white;
+    }
+
+    /* Página de capa */
+    .capa-bg {
+      background: linear-gradient(160deg, #003F7F 0%, #0085CA 60%, #003F7F 100%);
+    }
+
+    /* Overlay gradiente padrão */
+    .overlay-dark {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+      );
+    }
+
+    /* Logo */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-text {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: white;
+      opacity: 0.9;
+    }
+
+    /* Badge categoria */
+    .badge {
+      display: inline-block;
+      background: #EFAA1B;
+      color: #003F7F;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    /* Título capa */
+    .titulo-capa {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 0 16px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    /* Títulos de dicas */
+    .titulo-dica {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0 0 12px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    /* Texto corpo */
+    .texto-dica {
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    /* Numeração */
+    .numero-dica {
+      font-size: 72px;
+      font-weight: 900;
+      color: #EFAA1B;
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    /* CTA */
+    .cta-btn {
+      display: inline-block;
+      background: #EFAA1B;
+      color: #003F7F;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 14px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      margin-top: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    /* Rodapé de página */
+    .page-footer {
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    /* Barra de progresso cor */
+    .progress-bar-color {
+      color: #EFAA1B;
+    }
+  </style>
+</head>
+<body>
+
+<amp-story
+  standalone
+  title="{{ story.titulo }}"
+  publisher="Brasil Escolas"
+  publisher-logo-src="https://brasilescolas.com.br/assets/img/favicon.png"
+  poster-portrait-src="{{ story.capa_url }}"
+  poster-landscape-src="{{ story.capa_url }}"
+  poster-square-src="{{ story.capa_url }}"
+  supports-landscape>
+
+  <!-- ═══ AMP Story Auto Ads ═══ -->
+  <amp-story-auto-ads>
+    <script type="application/json">
+    {
+      "ad-attributes": {
+        "type": "adsense",
+        "data-ad-client": "ca-pub-6391161522269960"
+      }
+    }
+    </script>
+  </amp-story-auto-ads>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PÁGINA 1: CAPA                         -->
+  <!-- ═══════════════════════════════════════ -->
+  <amp-story-page id="capa" auto-advance-after="5s">
+    <amp-story-grid-layer template="fill">
+      <!-- Imagem de capa -->
+      <amp-img
+        src="{{ story.capa_url }}"
+        width="1024"
+        height="1792"
+        layout="fill"
+        alt="{{ story.titulo }}"
+        object-fit="cover">
+      </amp-img>
+    </amp-story-grid-layer>
+
+    <!-- Overlay escuro -->
+    <amp-story-grid-layer template="fill">
+      <div class="overlay-dark" style="width:100%;height:100%;"></div>
+    </amp-story-grid-layer>
+
+    <!-- Conteúdo capa -->
+    <amp-story-grid-layer template="vertical" class="i-amphtml-story-grid-template-with-full-bleed-image">
+      <div style="padding: 40px 32px; display:flex; flex-direction:column; justify-content:flex-end; height:100%;">
+
+        <!-- Logo -->
+        <div class="logo-container" style="margin-bottom:auto; padding-top:24px;">
+          <amp-img
+            src="https://brasilescolas.com.br/assets/img/favicon.png"
+            width="28"
+            height="28"
+            alt="Brasil Escolas">
+          </amp-img>
+          <span class="logo-text">Brasil Escolas</span>
+        </div>
+
+        <!-- Badge categoria -->
+        <span class="badge">{{ story.categoria or 'Educação' }}</span>
+
+        <!-- Título -->
+        <h1 class="titulo-capa">{{ story.titulo }}</h1>
+
+        <p style="font-size:14px;opacity:.75;margin-bottom:80px;">Por Leonardo Monteiro · Brasil Escolas</p>
+      </div>
+    </amp-story-grid-layer>
+
+    <!-- Animação de entrada -->
+    <amp-story-grid-layer template="fill">
+      <div animate-in="fade-in" animate-in-duration="0.8s" style="opacity:0;width:100%;height:100%;"></div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PÁGINAS 2-5: CONTEÚDO (loop)           -->
+  <!-- ═══════════════════════════════════════ -->
+  {% for pagina in story.paginas %}
+  <amp-story-page id="pagina-{{ loop.index + 1 }}" auto-advance-after="8s">
+
+    {% if pagina.imagem_url %}
+    <amp-story-grid-layer template="fill">
+      <amp-img
+        src="{{ pagina.imagem_url }}"
+        width="1024"
+        height="1792"
+        layout="fill"
+        alt="{{ pagina.texto[:60] if pagina.texto else 'Imagem da story' }}"
+        object-fit="cover">
+      </amp-img>
+    </amp-story-grid-layer>
+    {% else %}
+    <!-- Fundo sólido quando não há imagem -->
+    <amp-story-grid-layer template="fill">
+      <div style="background: linear-gradient(160deg,
+        {% if loop.index % 4 == 1 %}#003F7F 0%, #0058B0 100%
+        {% elif loop.index % 4 == 2 %}#006B3C 0%, #009B5E 100%
+        {% elif loop.index % 4 == 3 %}#7B2D8B 0%, #A854BE 100%
+        {% else %}#C0392B 0%, #E74C3C 100%
+        {% endif %}
+      ); width:100%; height:100%;"></div>
+    </amp-story-grid-layer>
+    {% endif %}
+
+    <!-- Overlay -->
+    <amp-story-grid-layer template="fill">
+      <div class="overlay-dark" style="width:100%;height:100%;"></div>
+    </amp-story-grid-layer>
+
+    <!-- Conteúdo da dica -->
+    <amp-story-grid-layer template="vertical">
+      <div style="padding: 48px 32px; display:flex; flex-direction:column; justify-content:flex-end; height:100%;">
+
+        <!-- Logo topo -->
+        <div class="logo-container" style="margin-bottom:auto;">
+          <amp-img
+            src="https://brasilescolas.com.br/assets/img/favicon.png"
+            width="24"
+            height="24"
+            alt="Brasil Escolas">
+          </amp-img>
+          <span class="logo-text">Brasil Escolas</span>
+        </div>
+
+        <!-- Número grande decorativo -->
+        <div class="numero-dica" animate-in="fly-in-bottom" animate-in-duration="0.5s">
+          0{{ loop.index }}
+        </div>
+
+        <!-- Título da dica -->
+        {% if pagina.titulo %}
+        <h2 class="titulo-dica" animate-in="fly-in-bottom" animate-in-duration="0.6s" animate-in-delay="0.1s">
+          {{ pagina.titulo }}
+        </h2>
+        {% endif %}
+
+        <!-- Texto -->
+        <p class="texto-dica" animate-in="fade-in" animate-in-duration="0.7s" animate-in-delay="0.3s"
+           style="margin-bottom:80px;">
+          {{ pagina.texto }}
+        </p>
+
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+  {% endfor %}
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- PÁGINA 6: CTA — Leia o artigo completo -->
+  <!-- ═══════════════════════════════════════ -->
+  <amp-story-page id="cta">
+    <!-- Fundo azul escuro -->
+    <amp-story-grid-layer template="fill">
+      <div style="background: linear-gradient(160deg, #002B57 0%, #003F7F 50%, #005AB5 100%); width:100%; height:100%;"></div>
+    </amp-story-grid-layer>
+
+    <!-- Padrão decorativo -->
+    <amp-story-grid-layer template="fill">
+      <div style="
+        width:100%; height:100%;
+        background-image: radial-gradient(circle at 20% 80%, rgba(0,133,202,0.3) 0%, transparent 50%),
+                          radial-gradient(circle at 80% 20%, rgba(239,170,27,0.15) 0%, transparent 50%);
+      "></div>
+    </amp-story-grid-layer>
+
+    <!-- Conteúdo CTA -->
+    <amp-story-grid-layer template="vertical">
+      <div style="
+        padding: 48px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+      ">
+
+        <!-- Logo grande -->
+        <amp-img
+          src="https://brasilescolas.com.br/assets/img/favicon.png"
+          width="64"
+          height="64"
+          alt="Brasil Escolas"
+          animate-in="drop"
+          animate-in-duration="0.6s"
+          style="margin-bottom: 20px;">
+        </amp-img>
+
+        <span class="logo-text" animate-in="fade-in" animate-in-delay="0.3s"
+              style="font-size:18px; margin-bottom:32px;">Brasil Escolas</span>
+
+        <!-- Ícone livro -->
+        <div animate-in="fly-in-bottom" animate-in-duration="0.5s" animate-in-delay="0.4s"
+             style="font-size:56px; margin-bottom:24px;">&#x1F4DA;</div>
+
+        <h2 animate-in="fly-in-bottom" animate-in-duration="0.6s" animate-in-delay="0.5s"
+            style="font-size:28px; font-weight:800; margin-bottom:16px; line-height:1.25;">
+          Leia o artigo completo
+        </h2>
+
+        <p animate-in="fade-in" animate-in-duration="0.6s" animate-in-delay="0.7s"
+           style="font-size:16px; opacity:.85; margin-bottom:0; line-height:1.5; max-width:280px;">
+          Aprofunde seu conhecimento com o conteúdo completo sobre<br>
+          <strong>{{ story.titulo }}</strong>
+        </p>
+
+        <!-- Botão CTA -->
+        <a class="cta-btn"
+           href="https://brasilescolas.com.br/artigos/{{ story.artigo_slug }}/"
+           animate-in="fly-in-bottom"
+           animate-in-duration="0.6s"
+           animate-in-delay="0.9s">
+          Ler artigo completo &#x2192;
+        </a>
+
+        <!-- Rodapé -->
+        <p animate-in="fade-in" animate-in-delay="1.1s"
+           style="font-size:12px; opacity:.5; margin-top:40px;">
+          brasilescolas.com.br
+        </p>
+
+      </div>
+    </amp-story-grid-layer>
+
+    <!-- Link de saída obrigatório para AMP Stories -->
+    <amp-story-page-outlink layout="nodisplay">
+      <a href="https://brasilescolas.com.br/artigos/{{ story.artigo_slug }}/"
+         title="{{ story.titulo }} — Artigo completo no Brasil Escolas">
+      </a>
+    </amp-story-page-outlink>
+  </amp-story-page>
+
+</amp-story>
+
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ escola.nome }} — {{ escola.municipio }}/{{ escola.uf }} | Brasil Escolas</title>
+  <meta name="description" content="{{ meta_description }}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://brasilescolas.com.br/escolas/{{ uf_slug }}/{{ escola.slug }}/">
+
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#003F7F">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brasilescolas.com.br/escolas/{{ uf_slug }}/{{ escola.slug }}/">
+  <meta property="og:title" content="{{ escola.nome }} — {{ escola.municipio }}/{{ escola.uf }}">
+  <meta property="og:description" content="{{ meta_description }}">
+  <meta property="og:image" content="{{ escola.imagem_url if escola.imagem_url else 'https://brasilescolas.com.br/assets/img/og-image.png' }}">
+
+  <link rel="preload" href="/assets/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/escola.css">
+  <link rel="stylesheet" href="/assets/css/jogos.css">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6391161522269960" crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type":"ListItem","position":1,"name":"Início","item":"https://brasilescolas.com.br/"},
+          {"@type":"ListItem","position":2,"name":"{{ estado_nome }}","item":"https://brasilescolas.com.br/escolas/{{ uf_slug }}/"},
+          {"@type":"ListItem","position":3,"name":"{{ escola.municipio }}","item":"https://brasilescolas.com.br/escolas/{{ uf_slug }}/?municipio={{ escola.municipio|urlencode }}"},
+          {"@type":"ListItem","position":4,"name":"{{ escola.nome }}","item":"https://brasilescolas.com.br/escolas/{{ uf_slug }}/{{ escola.slug }}/"}
+        ]
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "{{ escola.nome }}",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "{{ escola.endereco }}",
+          "addressLocality": "{{ escola.municipio }}",
+          "addressRegion": "{{ escola.uf }}",
+          "postalCode": "{{ escola.cep }}",
+          "addressCountry": "BR"
+        }{% if escola.telefone %},
+        "telephone": "{{ escola.telefone }}"{% endif %}{% if escola.site %},
+        "url": "{{ escola.site }}"{% endif %}{% if escola.nota_google %},
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "{{ escola.nota_google }}",
+          "reviewCount": "{{ escola.total_avaliacoes }}"
+        }{% endif %}
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Como entrar em contato com {{ escola.nome }}?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{% if escola.telefone %}Ligue para {{ escola.telefone }}. {% endif %}{% if escola.whatsapp %}WhatsApp: {{ escola.whatsapp }}. {% endif %}{% if escola.email %}E-mail: {{ escola.email }}.{% endif %}{% if not escola.telefone and not escola.whatsapp and not escola.email %}Entre em contato diretamente na unidade em {{ escola.municipio }}/{{ escola.uf }}.{% endif %}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quais níveis de ensino {{ escola.nome }} oferece?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{% if escola.niveis %}{{ escola.nome }} oferece: {{ escola.niveis | join(', ') }}.{% else %}Consulte a escola diretamente para informações sobre os níveis de ensino disponíveis.{% endif %}"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{{ escola.nome }} tem suporte para alunos com necessidades especiais?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{% if escola.suporte_tea or escola.suporte_tdah or escola.suporte_dislexia or escola.acessibilidade_fisica %}Sim. {{ escola.nome }} possui suporte verificado para: {% if escola.suporte_tea %}TEA (Autismo){% endif %}{% if escola.suporte_tdah %}, TDAH{% endif %}{% if escola.suporte_dislexia %}, Dislexia{% endif %}{% if escola.acessibilidade_fisica %}, Acessibilidade física{% endif %}.{% else %}Consulte a escola diretamente para informações sobre suporte à inclusão.{% endif %}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/" class="header-logo" aria-label="Brasil Escolas — página inicial">
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" width="180" height="48">
+    </a>
+    <div class="header-search" role="search">
+      <input type="search" id="headerSearch" placeholder="Buscar outra escola…" aria-label="Buscar escola" autocomplete="off">
+      <button class="header-search-btn" aria-label="Pesquisar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <div class="search-dropdown" id="headerSearchDropdown" style="display:none" role="listbox"></div>
+    </div>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="/">Início</a>
+      <a href="/escolas/" class="active">Escolas</a>
+      <a href="/inclusao/">Inclusão</a>
+      <a href="/artigos/">Artigos</a>
+      <a href="/vagas-emprego-estagio/">Vagas</a>
+      <a href="/cadastrar-escola/" class="btn-cadastrar">+ Cadastrar Escola</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <button class="mobile-drawer-close" id="drawerClose" aria-label="Fechar menu">✕</button>
+  <nav><a href="/">🏠 Início</a><a href="/escolas/">🏫 Escolas</a><a href="/inclusao/">🧩 Inclusão</a>
+  <a href="/artigos/">📰 Artigos</a><a href="/vagas-emprego-estagio/">💼 Vagas</a>
+  <a href="/cadastrar-escola/" class="btn-cadastrar-mobile">+ Cadastrar Escola</a></nav>
+</div>
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true"></div>
+
+<main id="main" tabindex="-1">
+  <div class="escola-layout">
+
+    <!-- COLUNA PRINCIPAL -->
+    <div class="escola-main">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Navegação estrutural">
+        <a href="/">Início</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <a href="/escolas/{{ uf_slug }}/">{{ estado_nome }}</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <a href="/escolas/{{ uf_slug }}/?municipio={{ escola.municipio|urlencode }}">{{ escola.municipio }}</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <span aria-current="page">{{ escola.nome }}</span>
+      </nav>
+
+      <!-- Galeria / Placeholder -->
+      <div class="escola-galeria" aria-label="Imagem da escola">
+        {% if escola.imagem_url %}
+          <img src="{{ escola.imagem_url }}" alt="Foto de {{ escola.nome }}" loading="eager" width="800" height="450">
+        {% else %}
+          <svg width="100%" height="100%" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg"
+               role="img" aria-label="Imagem não disponível para {{ escola.nome }}">
+            <rect width="800" height="450" fill="{{ escola.imagem_placeholder_cor or '#0085CA' }}"/>
+            <text x="400" y="200" font-family="Arial,sans-serif" font-size="96" font-weight="bold"
+              fill="rgba(255,255,255,0.9)" text-anchor="middle" dominant-baseline="middle">
+              {{ escola.nome[:2].upper() }}
+            </text>
+            <text x="400" y="310" font-family="Arial,sans-serif" font-size="48"
+              fill="rgba(255,255,255,0.6)" text-anchor="middle">🏫</text>
+          </svg>
+        {% endif %}
+      </div>
+
+      <!-- Cabeçalho da escola -->
+      <div class="escola-header">
+        <h1 class="escola-nome">{{ escola.nome }}</h1>
+
+        {% if escola.nota_google %}
+        <div class="escola-nota" aria-label="Nota: {{ escola.nota_google }} de 5 baseada em {{ escola.total_avaliacoes }} avaliações">
+          <span class="escola-stars" aria-hidden="true">
+            {% set nota = escola.nota_google|float %}
+            {% for i in range(5) %}
+              {% if i < nota|int %}★{% elif i < nota %}⭐{% else %}☆{% endif %}
+            {% endfor %}
+          </span>
+          <span class="escola-nota-num">{{ escola.nota_google }}</span>
+          <span class="escola-nota-total">({{ escola.total_avaliacoes }} avaliações)</span>
+        </div>
+        {% endif %}
+
+        <div class="escola-localizacao" aria-label="Localização">
+          <span aria-hidden="true">📍</span>
+          <span>{{ escola.municipio }}, {{ escola.uf }}</span>
+          {% if escola.bairro %}<span>· {{ escola.bairro }}</span>{% endif %}
+        </div>
+
+        <!-- Badges dependência e inclusão -->
+        <div class="escola-badges" aria-label="Características da escola">
+          <span class="badge badge-{{ escola.dependencia }}">
+            {% if escola.dependencia == 'federal' %}🇧🇷 Federal
+            {% elif escola.dependencia == 'estadual' %}🏫 Estadual
+            {% elif escola.dependencia == 'municipal' %}🏛️ Municipal
+            {% else %}🎓 Privada{% endif %}
+          </span>
+          {% if escola.localizacao == 'rural' %}<span class="badge" style="background:#8B7355;color:white;">🌾 Rural</span>{% endif %}
+          {% if escola.suporte_tea %}<span class="badge badge-tea">🧩 TEA</span>{% endif %}
+          {% if escola.suporte_tdah %}<span class="badge badge-tdah">⚡ TDAH</span>{% endif %}
+          {% if escola.suporte_dislexia %}<span class="badge badge-disl">📖 Dislexia</span>{% endif %}
+          {% if escola.acessibilidade_fisica %}<span class="badge badge-acess">♿ Acessível</span>{% endif %}
+        </div>
+      </div>
+
+      <!-- Botões de ação -->
+      <div class="escola-acoes" role="group" aria-label="Ações de contato">
+        {% if escola.whatsapp %}
+        <a href="https://wa.me/55{{ escola.whatsapp|replace(' ','')|replace('(','') |replace(')','') |replace('-','') }}"
+           class="btn btn-whatsapp" target="_blank" rel="noopener"
+           aria-label="Contato por WhatsApp com {{ escola.nome }}">
+          💬 WhatsApp
+        </a>
+        {% endif %}
+        {% if escola.telefone %}
+        <a href="tel:{{ escola.telefone|replace(' ','')|replace('(','') |replace(')','') |replace('-','') }}"
+           class="btn btn-primary" aria-label="Ligar para {{ escola.nome }}">
+          📞 Ligar
+        </a>
+        {% endif %}
+        {% if escola.site %}
+        <a href="{{ escola.site }}" target="_blank" rel="noopener"
+           class="btn btn-secondary" aria-label="Site oficial de {{ escola.nome }}">
+          🌐 Site oficial
+        </a>
+        {% endif %}
+        <a href="https://www.google.com/maps/search/?api=1&query={{ (escola.nome + ' ' + escola.municipio + ' ' + escola.uf)|urlencode }}"
+           target="_blank" rel="noopener" class="btn btn-secondary"
+           aria-label="Como chegar em {{ escola.nome }} no Google Maps">
+          📍 Como chegar
+        </a>
+        {% if escola.email %}
+        <a href="mailto:{{ escola.email }}" class="btn btn-secondary"
+           aria-label="Enviar e-mail para {{ escola.nome }}">
+          📧 E-mail
+        </a>
+        {% endif %}
+      </div>
+
+      <!-- DISCLAIMER obrigatório -->
+      <div class="disclaimer" role="note" aria-label="Aviso importante">
+        ⚠️ As informações desta página foram obtidas de dados públicos do Censo Escolar INEP.
+        As políticas e valores das instituições podem mudar sem aviso prévio.
+        Entre em contato com a escola antes de realizar qualquer matrícula.
+      </div>
+
+      <!-- Sobre a escola -->
+      {% if escola.descricao_inclusao or escola.nome %}
+      <div class="escola-section">
+        <h2 class="escola-section-title">Sobre a escola</h2>
+        <p class="escola-descricao">
+          {{ escola.nome }} é uma instituição de ensino
+          {% if escola.dependencia == 'federal' %}da rede federal{% elif escola.dependencia == 'estadual' %}da rede estadual{% elif escola.dependencia == 'municipal' %}da rede municipal{% else %}privada{% endif %}
+          localizada em {{ escola.municipio }}, {{ escola.uf }}.
+          {% if escola.niveis %}Oferece {{ escola.niveis | join(', ') }}.{% endif %}
+          {% if escola.localizacao == 'rural' %}A escola está situada em área rural.{% endif %}
+          {% if escola.endereco %}Endereço: {{ escola.endereco }}{% if escola.bairro %}, {{ escola.bairro }}{% endif %}.{% endif %}
+        </p>
+      </div>
+      {% endif %}
+
+      <!-- AdSense in-article 1 -->
+      <div class="adsense-container" aria-hidden="true" style="margin:24px 0;">
+        <ins class="adsbygoogle" style="display:block;text-align:center"
+             data-ad-layout="in-article" data-ad-format="fluid"
+             data-ad-client="ca-pub-6391161522269960"
+             data-ad-slot="auto"></ins>
+      </div>
+
+      <!-- Infraestrutura -->
+      {% if escola.infraestrutura and escola.infraestrutura|length > 0 %}
+      <div class="escola-section">
+        <h2 class="escola-section-title">Infraestrutura</h2>
+        <div class="infra-grid" role="list" aria-label="Infraestrutura disponível">
+          {% set infra_icons = {
+            'piscina': '🏊', 'quadra': '🏀', 'refeitorio': '🍽️',
+            'bilingue': '🌍', 'integral': '⏰', 'laboratorio': '🔬',
+            'biblioteca': '📚', 'horta': '🌱', 'auditorio': '🎭',
+            'estacionamento': '🅿️', 'laboratorio_informatica': '💻'
+          } %}
+          {% for item in escola.infraestrutura %}
+          <div class="infra-item" role="listitem">
+            <span class="infra-icon" aria-hidden="true">
+              {% set item_lower = item|lower %}
+              {% if 'piscina' in item_lower %}🏊
+              {% elif 'quadra' in item_lower %}🏀
+              {% elif 'refeit' in item_lower %}🍽️
+              {% elif 'bilingue' in item_lower or 'bilíngue' in item_lower %}🌍
+              {% elif 'integral' in item_lower %}⏰
+              {% elif 'inform' in item_lower %}💻
+              {% elif 'laborat' in item_lower %}🔬
+              {% elif 'biblio' in item_lower %}📚
+              {% elif 'horta' in item_lower %}🌱
+              {% elif 'audit' in item_lower %}🎭
+              {% elif 'estacion' in item_lower %}🅿️
+              {% else %}✅{% endif %}
+            </span>
+            {{ item }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Níveis de ensino -->
+      {% if escola.niveis and escola.niveis|length > 0 %}
+      <div class="escola-section">
+        <h2 class="escola-section-title">Níveis de ensino</h2>
+        <div class="niveis-pills" role="list" aria-label="Níveis de ensino oferecidos">
+          {% for nivel in escola.niveis %}
+          <span class="nivel-pill" role="listitem">{{ nivel }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- SEÇÃO INCLUSÃO (APENAS se há suporte verificado) -->
+      {% if escola.suporte_tea or escola.suporte_tdah or escola.suporte_dislexia %}
+      <div class="inclusao-escola-box escola-section" aria-labelledby="inclusaoTitle">
+        <h2 class="inclusao-escola-title" id="inclusaoTitle">🧩 Suporte à educação inclusiva</h2>
+        <p class="inclusao-escola-subtitle">Esta escola possui suporte verificado para:</p>
+
+        <div class="inclusao-tipos" role="list" aria-label="Tipos de suporte à inclusão">
+          {% if escola.suporte_tea %}
+          <div class="inclusao-tipo-item" role="listitem">
+            <span class="inclusao-tipo-icon" aria-hidden="true">🧩</span>
+            <span class="inclusao-tipo-name">Autismo (TEA)</span>
+            <span class="inclusao-tipo-desc">Transtorno do Espectro Autista</span>
+          </div>
+          {% endif %}
+          {% if escola.suporte_tdah %}
+          <div class="inclusao-tipo-item" role="listitem">
+            <span class="inclusao-tipo-icon" aria-hidden="true">⚡</span>
+            <span class="inclusao-tipo-name">TDAH</span>
+            <span class="inclusao-tipo-desc">Déficit de Atenção e Hiperatividade</span>
+          </div>
+          {% endif %}
+          {% if escola.suporte_dislexia %}
+          <div class="inclusao-tipo-item" role="listitem">
+            <span class="inclusao-tipo-icon" aria-hidden="true">📖</span>
+            <span class="inclusao-tipo-name">Dislexia</span>
+            <span class="inclusao-tipo-desc">Metodologias adaptadas</span>
+          </div>
+          {% endif %}
+          {% if escola.profissional_apoio %}
+          <div class="inclusao-tipo-item" role="listitem">
+            <span class="inclusao-tipo-icon" aria-hidden="true">👩‍🏫</span>
+            <span class="inclusao-tipo-name">Prof. de Apoio</span>
+            <span class="inclusao-tipo-desc">Profissional de apoio escolar (AT)</span>
+          </div>
+          {% endif %}
+        </div>
+
+        {% if escola.descricao_inclusao %}
+        <p style="font-size:var(--text-sm);color:var(--text-muted);margin-top:16px;line-height:1.7;">
+          {{ escola.descricao_inclusao }}
+        </p>
+        {% endif %}
+
+        <p class="inclusao-verificado" aria-label="Dados verificados manualmente">
+          ✅ Dados verificados manualmente pela equipe Brasil Escolas
+        </p>
+
+        <!-- JOGOS EDUCATIVOS (apenas em escolas com inclusão) -->
+        <div class="jogos-escola" aria-labelledby="jogosTitle">
+          <h3 id="jogosTitle" style="font-family:var(--font-title);font-weight:700;font-size:var(--text-xl);color:var(--azul-escuro);margin-bottom:6px;">
+            🎮 Atividades para seu filho explorar
+          </h3>
+          <p style="font-size:var(--text-sm);color:var(--text-muted);margin-bottom:16px;">
+            Jogos educativos desenvolvidos para auxiliar no aprendizado de crianças especiais
+          </p>
+          <div class="jogos-tabs" role="tablist" aria-label="Jogos educativos">
+            <button class="jogo-tab active" data-jogo="memoria"
+              role="tab" aria-selected="true" aria-controls="jogo-memoria">🎴 Memória</button>
+            <button class="jogo-tab" data-jogo="quiz"
+              role="tab" aria-selected="false" aria-controls="jogo-quiz">🧠 Quiz</button>
+            <button class="jogo-tab" data-jogo="sequencia"
+              role="tab" aria-selected="false" aria-controls="jogo-sequencia">🔢 Sequências</button>
+          </div>
+          <div id="jogo-memoria" class="jogo-panel active" role="tabpanel" aria-label="Jogo da Memória">
+            <div class="jogo-container"></div>
+          </div>
+          <div id="jogo-quiz" class="jogo-panel" role="tabpanel" aria-label="Quiz Educativo">
+            <div class="jogo-container"></div>
+          </div>
+          <div id="jogo-sequencia" class="jogo-panel" role="tabpanel" aria-label="Jogo de Sequências">
+            <div class="jogo-container"></div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Mapa Google Maps (lazy load) -->
+      <div class="escola-section">
+        <h2 class="escola-section-title">Localização</h2>
+        <div class="mapa-wrapper" aria-label="Mapa de localização de {{ escola.nome }}">
+          {% if escola.endereco %}
+          <iframe
+            data-src="https://maps.google.com/maps?q={{ (escola.nome + ', ' + escola.endereco + ', ' + escola.municipio + ', ' + escola.uf)|urlencode }}&output=embed"
+            title="Mapa de {{ escola.nome }}"
+            allowfullscreen loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          {% else %}
+          <div class="mapa-placeholder">
+            <span style="font-size:40px;" aria-hidden="true">📍</span>
+            <a href="https://www.google.com/maps/search/?api=1&query={{ (escola.nome + ' ' + escola.municipio + ' ' + escola.uf)|urlencode }}"
+               target="_blank" rel="noopener" class="btn btn-secondary btn-sm"
+               aria-label="Ver {{ escola.nome }} no Google Maps">
+              Ver no Google Maps →
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- AdSense in-article 2 -->
+      <div class="adsense-container" aria-hidden="true" style="margin:24px 0;">
+        <ins class="adsbygoogle" style="display:block;text-align:center"
+             data-ad-layout="in-article" data-ad-format="fluid"
+             data-ad-client="ca-pub-6391161522269960"
+             data-ad-slot="auto"></ins>
+      </div>
+
+      <!-- Avaliações -->
+      <div class="escola-section">
+        <h2 class="escola-section-title">Avaliações</h2>
+        {% if escola.nota_google and escola.total_avaliacoes %}
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="font-size:48px;font-weight:700;color:var(--azul-escuro);">{{ escola.nota_google }}</div>
+          <div>
+            <div class="escola-stars" style="font-size:24px;" aria-label="Nota {{ escola.nota_google }} de 5 estrelas">
+              {% for i in range(5) %}{% if i < escola.nota_google|int %}★{% else %}☆{% endif %}{% endfor %}
+            </div>
+            <div style="font-size:var(--text-sm);color:var(--text-muted);">{{ escola.total_avaliacoes }} avaliações no Google</div>
+          </div>
+        </div>
+        {% else %}
+        <p style="color:var(--text-muted);">Avaliações não disponíveis para esta escola.</p>
+        {% endif %}
+      </div>
+
+      <!-- FAQ -->
+      <div class="escola-section">
+        <h2 class="escola-section-title">Perguntas frequentes</h2>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false"
+            aria-controls="faq1">
+            Como entrar em contato com {{ escola.nome }}?
+            <span class="faq-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="faq-answer" id="faq1" role="region">
+            {% if escola.telefone %}Telefone: {{ escola.telefone }}. {% endif %}
+            {% if escola.whatsapp %}WhatsApp: {{ escola.whatsapp }}. {% endif %}
+            {% if escola.email %}E-mail: {{ escola.email }}. {% endif %}
+            {% if escola.site %}Site: <a href="{{ escola.site }}" target="_blank" rel="noopener">{{ escola.site }}</a>.{% endif %}
+            {% if not escola.telefone and not escola.whatsapp and not escola.email %}
+            Dirija-se à escola em {{ escola.municipio }}/{{ escola.uf }} para obter informações de contato.
+            {% endif %}
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false"
+            aria-controls="faq2">
+            Quais níveis de ensino {{ escola.nome }} oferece?
+            <span class="faq-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="faq-answer" id="faq2" role="region">
+            {% if escola.niveis and escola.niveis|length > 0 %}
+              {{ escola.nome }} oferece: {{ escola.niveis | join(', ') }}.
+            {% else %}
+              Consulte a escola diretamente para informações sobre os níveis de ensino disponíveis.
+            {% endif %}
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false"
+            aria-controls="faq3">
+            {{ escola.nome }} tem suporte para alunos com necessidades especiais?
+            <span class="faq-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="faq-answer" id="faq3" role="region">
+            {% if escola.suporte_tea or escola.suporte_tdah or escola.suporte_dislexia or escola.acessibilidade_fisica %}
+              Sim. Esta escola possui suporte verificado para:
+              {% if escola.suporte_tea %}TEA (Autismo){% endif %}
+              {% if escola.suporte_tdah %}, TDAH{% endif %}
+              {% if escola.suporte_dislexia %}, Dislexia{% endif %}
+              {% if escola.acessibilidade_fisica %}, Acessibilidade física{% endif %}.
+              Os dados são verificados manualmente pela equipe Brasil Escolas.
+            {% else %}
+              Consulte a escola diretamente para informações sobre suporte à inclusão e educação especial.
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Escolas similares -->
+      <div class="escola-section">
+        <h2 class="escola-section-title">Escolas no mesmo município</h2>
+        <div class="similar-cards" id="escolasSimilares" role="list" aria-label="Escolas próximas">
+          <div style="color:var(--text-muted);"><span class="spinner"></span></div>
+        </div>
+      </div>
+
+    </div><!-- fim coluna principal -->
+
+    <!-- SIDEBAR -->
+    <aside class="escola-sidebar" aria-label="Ficha técnica da escola">
+
+      <!-- Ficha técnica -->
+      <div class="ficha-card">
+        <div class="ficha-header">📋 Ficha Técnica</div>
+        <div class="ficha-body">
+          {% if escola.endereco %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">📍</span>
+            <div>
+              <div class="ficha-label">Endereço</div>
+              <div class="ficha-value">{{ escola.endereco }}{% if escola.bairro %}, {{ escola.bairro }}{% endif %}</div>
+            </div>
+          </div>
+          {% endif %}
+          {% if escola.cep %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">📮</span>
+            <div>
+              <div class="ficha-label">CEP</div>
+              <div class="ficha-value">{{ escola.cep }}</div>
+            </div>
+          </div>
+          {% endif %}
+          {% if escola.telefone %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">📞</span>
+            <div>
+              <div class="ficha-label">Telefone</div>
+              <div class="ficha-value"><a href="tel:{{ escola.telefone }}">{{ escola.telefone }}</a></div>
+            </div>
+          </div>
+          {% endif %}
+          {% if escola.email %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">📧</span>
+            <div>
+              <div class="ficha-label">E-mail</div>
+              <div class="ficha-value"><a href="mailto:{{ escola.email }}">{{ escola.email }}</a></div>
+            </div>
+          </div>
+          {% endif %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">🏛️</span>
+            <div>
+              <div class="ficha-label">Dependência</div>
+              <div class="ficha-value">
+                {{ {'federal':'Federal','estadual':'Estadual','municipal':'Municipal','privada':'Privada'}[escola.dependencia] }}
+              </div>
+            </div>
+          </div>
+          {% if escola.niveis and escola.niveis|length > 0 %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">🎓</span>
+            <div>
+              <div class="ficha-label">Níveis</div>
+              <div class="ficha-value" style="font-size:var(--text-xs);">{{ escola.niveis[:3] | join(', ') }}{% if escola.niveis|length > 3 %} +{{ escola.niveis|length - 3 }}{% endif %}</div>
+            </div>
+          </div>
+          {% endif %}
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">📍</span>
+            <div>
+              <div class="ficha-label">Localização</div>
+              <div class="ficha-value">{{ escola.localizacao|title }}</div>
+            </div>
+          </div>
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">🔢</span>
+            <div>
+              <div class="ficha-label">Código INEP</div>
+              <div class="ficha-value">{{ escola.codigo_inep }}</div>
+            </div>
+          </div>
+          <div class="ficha-item">
+            <span class="ficha-icon" aria-hidden="true">📅</span>
+            <div>
+              <div class="ficha-label">Atualizado</div>
+              <div class="ficha-value" style="font-size:var(--text-xs);">{{ escola.atualizado_em[:10] if escola.atualizado_em else 'N/D' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AdSense sidebar 300x600 -->
+      <div class="adsense-container" style="min-height:600px;" aria-hidden="true">
+        <ins class="adsbygoogle" style="display:block;width:300px;height:600px;"
+             data-ad-client="ca-pub-6391161522269960"
+             data-ad-slot="auto"></ins>
+      </div>
+
+      <!-- Escolas próximas na sidebar -->
+      <div class="ficha-card" style="margin-top:20px;">
+        <div class="ficha-header">🏫 Escolas próximas</div>
+        <div class="ficha-body" id="proximasCards">
+          <div style="color:var(--text-muted);"><span class="spinner"></span></div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <img src="/assets/img/logo.png" alt="Brasil Escolas" class="footer-logo-img">
+      <p class="footer-desc">Diretório nacional de escolas com foco em educação inclusiva.</p>
+      <p class="footer-cnpj">CNPJ: 39.534.189/0001-38 | MTE 0041108/RJ</p>
+    </div>
+    <nav aria-label="Links rápidos">
+      <h3 class="footer-col-title">Links Rápidos</h3>
+      <ul class="footer-links">
+        <li><a href="/">Início</a></li><li><a href="/escolas/">Escolas</a></li>
+        <li><a href="/inclusao/">Inclusão</a></li><li><a href="/artigos/">Artigos</a></li>
+        <li><a href="/cadastrar-escola/">Cadastrar Escola</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Escolas por estado">
+      <h3 class="footer-col-title">Por Estado</h3>
+      <ul class="footer-links">
+        <li><a href="/escolas/sao-paulo/">São Paulo</a></li>
+        <li><a href="/escolas/rio-de-janeiro/">Rio de Janeiro</a></li>
+        <li><a href="/escolas/minas-gerais/">Minas Gerais</a></li>
+        <li><a href="/escolas/{{ uf_slug }}/">{{ estado_nome }}</a></li>
+        <li><a href="/escolas/">Ver todos →</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3 class="footer-col-title">Contato</h3>
+      <ul class="footer-links">
+        <li><a href="mailto:contato@brasilescolas.com.br">contato@brasilescolas.com.br</a></li>
+        <li><a href="/sobre/">Sobre nós</a></li>
+        <li><a href="/contato/">Fale conosco</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Brasil Escolas — IBETP. Todos os direitos reservados.</p>
+    <p>Desenvolvido com ❤️ para a educação brasileira</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+<script src="/assets/js/config.js" defer></script>
+<script src="/assets/js/supabase-client.js" defer></script>
+<script src="/assets/js/utils.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
+<script src="/assets/js/jogos.js" defer></script>
+
+<script defer>
+const ESCOLA_ID  = {{ escola.id }};
+const ESCOLA_UF  = '{{ escola.uf }}';
+const ESCOLA_MUN = '{{ escola.municipio }}';
+const UF_SLUG    = '{{ uf_slug }}';
+
+async function carregarPaginaEscola() {
+  // Busca header
+  const hInput = document.getElementById('headerSearch');
+  const hDrop  = document.getElementById('headerSearchDropdown');
+  if (hInput && hDrop) new BrasilEscolasSearch(hInput, hDrop);
+
+  // Escolas similares (coluna principal)
+  try {
+    const similares = await buscarEscolasProximas(ESCOLA_UF, ESCOLA_MUN, ESCOLA_ID, 3);
+    const simEl = document.getElementById('escolasSimilares');
+    if (simEl) {
+      simEl.innerHTML = similares.length
+        ? similares.map(e => `
+          <a href="/escolas/${UF_SLUG}/${e.slug}/" class="similar-card" role="listitem"
+             aria-label="${e.nome}, ${e.municipio}">
+            <div class="similar-card-img" style="background:${e.imagem_placeholder_cor||'#0085CA'};display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:700;">
+              ${e.imagem_url ? `<img src="${e.imagem_url}" alt="${e.nome}" style="width:100%;height:100%;object-fit:cover;">` : e.nome.slice(0,2).toUpperCase()}
+            </div>
+            <div class="similar-card-info">
+              <div class="similar-card-nome">${e.nome}</div>
+              <div class="similar-card-local">${e.municipio}, ${e.uf}</div>
+              <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;">
+                ${e.suporte_tea ? '<span class="badge badge-tea" style="font-size:10px;padding:2px 8px;">🧩 TEA</span>' : ''}
+                ${e.suporte_tdah ? '<span class="badge badge-tdah" style="font-size:10px;padding:2px 8px;">⚡ TDAH</span>' : ''}
+              </div>
+            </div>
+          </a>`).join('')
+        : '<p style="color:var(--text-muted);font-size:var(--text-sm);">Nenhuma escola próxima encontrada.</p>';
+    }
+
+    // Sidebar escolas próximas
+    const proxEl = document.getElementById('proximasCards');
+    if (proxEl) {
+      proxEl.innerHTML = similares.length
+        ? similares.map(e => `
+          <a href="/escolas/${UF_SLUG}/${e.slug}/" class="similar-card" style="padding:10px 0;border-radius:0;"
+             aria-label="${e.nome}">
+            <div class="similar-card-img" style="background:${e.imagem_placeholder_cor||'#0085CA'};display:flex;align-items:center;justify-content:center;color:white;font-size:14px;font-weight:700;">
+              ${e.nome.slice(0,2).toUpperCase()}
+            </div>
+            <div class="similar-card-info">
+              <div class="similar-card-nome">${e.nome}</div>
+              <div class="similar-card-local">${e.municipio}</div>
+            </div>
+          </a>`).join('')
+        : '<p style="color:var(--text-muted);font-size:var(--text-sm);">Nenhuma escola próxima.</p>';
+    }
+  } catch {}
+
+  // Jogos (se existir container)
+  const jogosContainer = document.querySelector('.jogos-escola');
+  if (jogosContainer) iniciarJogosEscola(jogosContainer);
+
+  // AdSense
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
+}
+
+document.addEventListener('DOMContentLoaded', carregarPaginaEscola);
+</script>
+</body>
+</html>

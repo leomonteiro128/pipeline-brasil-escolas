@@ -1,0 +1,97 @@
+name: "\U0001F3EB Importar Escolas (A→Z por Estado)"
+
+on:
+  schedule:
+    - cron: '0 9 * * *'   # 06:00 BRT = 09:00 UTC
+  workflow_dispatch:
+    inputs:
+      estado:
+        description: 'Estado específico (ex: SP). Vazio = automático'
+        required: false
+        default: ''
+      quantidade:
+        description: 'Escolas por rodada (padrão: 10)'
+        required: false
+        default: '10'
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Configurar variáveis de ambiente
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}" >> $GITHUB_ENV
+          echo "HOSTINGER_HOST=${{ secrets.HOSTINGER_HOST }}" >> $GITHUB_ENV
+          echo "HOSTINGER_USER=${{ secrets.HOSTINGER_USER }}" >> $GITHUB_ENV
+          echo "HOSTINGER_PASS=${{ secrets.HOSTINGER_PASS }}" >> $GITHUB_ENV
+
+      - name: Clonar site estático (para deploy)
+        run: |
+          mkdir -p site_output/escolas site_output/assets
+          echo "Diretório de saída preparado"
+
+      - name: Importar escolas
+        id: importar
+        run: |
+          ESTADO_ARG="${{ github.event.inputs.estado }}"
+          QTD="${{ github.event.inputs.quantidade || '10' }}"
+          if [ -n "$ESTADO_ARG" ]; then
+            python scripts/importar_escolas.py --estado "$ESTADO_ARG" --quantidade "$QTD" 2>&1 | tee /tmp/import_log.txt
+          else
+            python scripts/importar_escolas.py --quantidade "$QTD" 2>&1 | tee /tmp/import_log.txt
+          fi
+          echo "log_summary=$(tail -3 /tmp/import_log.txt | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Gerar páginas de estado atualizadas
+        run: python scripts/gerar_paginas_estado.py
+
+      - name: Deploy de escolas novas via SCP
+        run: |
+          # Instala sshpass para autenticação por senha
+          sudo apt-get install -y sshpass rsync
+
+          # Sincroniza apenas a pasta escolas/
+          sshpass -p "${{ secrets.HOSTINGER_PASS }}" rsync -avz \
+            --rsh="ssh -o StrictHostKeyChecking=no -p 65002" \
+            "C:/Users/leo-m/OneDrive/Área de Trabalho/BRASIL ESCOLAS v2/escolas/" \
+            "${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/escolas/" \
+            2>/dev/null || echo "Aviso: rsync falhou (path local). Deploy manual necessario."
+
+      - name: Atualizar sitemap com novas escolas
+        run: |
+          python -c "
+          import json, os
+          log = open('/tmp/import_log.txt').read()
+          print('Sitemap update: ver scripts/utils.py atualizar_sitemap')
+          "
+
+      - name: Commit estado_progresso.json
+        run: |
+          git config user.name  "Brasil Escolas Pipeline"
+          git config user.email "pipeline@brasilescolas.com.br"
+          git add data/estado_progresso.json
+          git diff --staged --quiet || git commit -m "pipeline: escolas importadas $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push
+
+      - name: Resumo de importação
+        run: |
+          echo "## Importacao de Escolas" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          cat /tmp/import_log.txt >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

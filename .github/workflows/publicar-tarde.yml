@@ -1,0 +1,18 @@
+name: "\U0001F4F0 Publicar Tarde (Artigo + Web Story)"
+
+on:
+  schedule:
+    - cron: '0 18 * * *'  # 15:00 BRT = 18:00 UTC
+  workflow_dispatch:
+    inputs:
+      tema_forcado:
+        description: 'Tema específico (opcional)'
+        required: false
+        default: ''
+
+jobs:
+  publicar:
+    uses: ./.github/workflows/publicar-manha.yml
+    secrets: inherit
+    with:
+      tema_forcado: ${{ inputs.tema_forcado || '' }}

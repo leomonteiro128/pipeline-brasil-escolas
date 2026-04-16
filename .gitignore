@@ -1,7 +1,10 @@
-# Large INEP microdata ZIP (download locally, not committed)
+.env
+*.pyc
+__pycache__/
+.DS_Store
+Thumbs.db
 data/censo_cache.zip
-
-# Pipeline output files (generated, not source)
 data/escolas_raw.json
 data/escolas_transformed.json
 data/import_log.json
+*.log

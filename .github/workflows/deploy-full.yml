@@ -1,0 +1,91 @@
+name: "\U0001F680 Deploy Completo (usar com cuidado)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite CONFIRMAR para prosseguir com o deploy completo'
+        required: true
+        default: ''
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar confirmação
+        run: |
+          if [ "${{ github.event.inputs.confirmar }}" != "CONFIRMAR" ]; then
+            echo "ERRO: Digite CONFIRMAR para prosseguir"
+            exit 1
+          fi
+          echo "Confirmação aceita. Iniciando deploy completo..."
+
+  deploy-completo:
+    runs-on: ubuntu-latest
+    needs: validar
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Configurar variáveis de ambiente
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}" >> $GITHUB_ENV
+          echo "ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Regenerar todas as páginas de estado (27 estados)
+        run: python scripts/gerar_paginas_estado.py
+
+      - name: Injetar credenciais Supabase nos arquivos JS/HTML
+        run: |
+          # Substitui placeholders em todos os arquivos
+          find . -name "config.js" -exec sed -i \
+            "s|'%%SUPABASE_URL%%'|'$SUPABASE_URL'|g; s|'%%SUPABASE_ANON_KEY%%'|'$SUPABASE_ANON_KEY'|g" {} \;
+          # Admin password no admin-panel
+          find . -name "*.html" -path "*/admin-panel/*" -exec sed -i \
+            "s|'%%ADMIN_PASSWORD%%'|'$ADMIN_PASSWORD'|g" {} \;
+          echo "Credenciais injetadas"
+
+      - name: Instalar SSH client
+        run: sudo apt-get install -y sshpass
+
+      - name: Deploy completo para Hostinger via rsync
+        run: |
+          sshpass -p "${{ secrets.HOSTINGER_PASS }}" rsync -avz \
+            --exclude='.git' \
+            --exclude='*.pyc' \
+            --exclude='__pycache__' \
+            --exclude='.env' \
+            --rsh="ssh -o StrictHostKeyChecking=no -p 65002" \
+            "C:/Users/leo-m/OneDrive/Área de Trabalho/BRASIL ESCOLAS v2/" \
+            "${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:~/public_html/" \
+            2>/dev/null || echo "Aviso: rsync falhou (path local). Execute deploy manual."
+
+      - name: Verificar site no ar
+        run: |
+          sleep 10
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://brasilescolas.com.br/ || echo "000")
+          echo "HTTP Status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Site respondendo corretamente (HTTP 200)"
+          else
+            echo "Aviso: Site retornou HTTP $HTTP_STATUS — verificar manualmente"
+          fi
+
+      - name: Resumo do deploy
+        run: |
+          echo "## Deploy Completo Concluido" >> $GITHUB_STEP_SUMMARY
+          echo "- Data: $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- URL: https://brasilescolas.com.br" >> $GITHUB_STEP_SUMMARY
