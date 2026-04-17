@@ -79,6 +79,15 @@ jobs:
              chmod -R u+w ~/domains/brasilescolas.com.br/public_html/ 2>/dev/null || true; \
              echo "Permissoes corrigidas"'
 
+      - name: Remover diretórios obsoletos do servidor
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            -o StrictHostKeyChecking=no \
+            -p ${{ secrets.HOSTINGER_PORT }} \
+            ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }} \
+            'rm -rf ~/domains/brasilescolas.com.br/public_html/web-stories 2>/dev/null || true; \
+             echo "Limpeza concluida"'
+
       - name: Deploy via rsync (chave SSH)
         run: |
           # Deploy do site estático (branch site ou pasta site-files)
