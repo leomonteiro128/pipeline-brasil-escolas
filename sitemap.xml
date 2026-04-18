@@ -30,4 +30,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://brasilescolas.com.br/artigos/censo-escolar-inep-o-que-e-e-por-que-e-importante-para-a-edu-9986e2/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
