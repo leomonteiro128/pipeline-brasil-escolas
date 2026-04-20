@@ -50,4 +50,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://brasilescolas.com.br/artigos/lei-da-inclusao-escolar-direitos-garantidos-aos-estudantes-06dce8/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
