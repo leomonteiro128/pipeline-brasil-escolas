@@ -75,4 +75,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://brasilescolas.com.br/artigos/como-acompanhar-o-desenvolvimento-escolar-do-seu-filho-guia--b902b1/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
