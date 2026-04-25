@@ -1,5 +1,5 @@
 {
-  "ultimo_estado": "PA",
+  "ultimo_estado": "PB",
   "ultima_execucao": null,
   "estados_concluidos": [
     "SP",
@@ -12,7 +12,8 @@
     "MG",
     "MS",
     "MT",
-    "PA"
+    "PA",
+    "PB"
   ],
   "progresso": {
     "AC": {
@@ -187,6 +188,12 @@
     },
     {
       "estado": "PA",
+      "criadas": 10,
+      "duplicatas": 0,
+      "erros": 0
+    },
+    {
+      "estado": "PB",
       "criadas": 10,
       "duplicatas": 0,
       "erros": 0
