@@ -90,4 +90,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://brasilescolas.com.br/artigos/alimentacao-escolar-saudavel-guia-do-pnae-para-pais-e-escola-99daae/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
