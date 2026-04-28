@@ -1,5 +1,5 @@
 {
-  "ultimo_estado": "PE",
+  "ultimo_estado": "PI",
   "ultima_execucao": null,
   "estados_concluidos": [
     "SP",
@@ -14,7 +14,8 @@
     "MT",
     "PA",
     "PB",
-    "PE"
+    "PE",
+    "PI"
   ],
   "progresso": {
     "AC": {
@@ -203,6 +204,12 @@
       "estado": "PE",
       "criadas": 10,
       "duplicatas": 0,
+      "erros": 0
+    },
+    {
+      "estado": "PI",
+      "criadas": 0,
+      "duplicatas": 10,
       "erros": 0
     }
   ]
