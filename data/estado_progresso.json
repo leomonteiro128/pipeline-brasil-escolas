@@ -1,5 +1,5 @@
 {
-  "ultimo_estado": "PR",
+  "ultimo_estado": "RJ",
   "ultima_execucao": null,
   "estados_concluidos": [
     "SP",
@@ -16,7 +16,8 @@
     "PB",
     "PE",
     "PI",
-    "PR"
+    "PR",
+    "RJ"
   ],
   "progresso": {
     "AC": {
@@ -217,6 +218,12 @@
       "estado": "PR",
       "criadas": 10,
       "duplicatas": 0,
+      "erros": 0
+    },
+    {
+      "estado": "RJ",
+      "criadas": 0,
+      "duplicatas": 10,
       "erros": 0
     }
   ]
