@@ -1,5 +1,5 @@
 {
-  "ultimo_estado": "RS",
+  "ultimo_estado": "SC",
   "ultima_execucao": null,
   "estados_concluidos": [
     "SP",
@@ -21,7 +21,8 @@
     "RN",
     "RO",
     "RR",
-    "RS"
+    "RS",
+    "SC"
   ],
   "progresso": {
     "AC": {
@@ -250,6 +251,12 @@
     },
     {
       "estado": "RS",
+      "criadas": 10,
+      "duplicatas": 0,
+      "erros": 0
+    },
+    {
+      "estado": "SC",
       "criadas": 10,
       "duplicatas": 0,
       "erros": 0
