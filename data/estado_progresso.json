@@ -1,5 +1,5 @@
 {
-  "ultimo_estado": "AL",
+  "ultimo_estado": "AM",
   "ultima_execucao": null,
   "estados_concluidos": [
     "SP",
@@ -26,7 +26,8 @@
     "SE",
     "TO",
     "AC",
-    "AL"
+    "AL",
+    "AM"
   ],
   "progresso": {
     "AC": {
@@ -285,6 +286,12 @@
     },
     {
       "estado": "AL",
+      "criadas": 10,
+      "duplicatas": 0,
+      "erros": 0
+    },
+    {
+      "estado": "AM",
       "criadas": 10,
       "duplicatas": 0,
       "erros": 0
