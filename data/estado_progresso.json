@@ -1,34 +1,8 @@
 {
-  "ultimo_estado": "AP",
+  "ultimo_estado": "BA",
   "ultima_execucao": null,
   "estados_concluidos": [
-    "SP",
-    "BA",
-    "CE",
-    "DF",
-    "ES",
-    "GO",
-    "MA",
-    "MG",
-    "MS",
-    "MT",
-    "PA",
-    "PB",
-    "PE",
-    "PI",
-    "PR",
-    "RJ",
-    "RN",
-    "RO",
-    "RR",
-    "RS",
-    "SC",
-    "SE",
-    "TO",
-    "AC",
-    "AL",
-    "AM",
-    "AP"
+    "BA"
   ],
   "progresso": {
     "AC": {
@@ -299,6 +273,12 @@
     },
     {
       "estado": "AP",
+      "criadas": 10,
+      "duplicatas": 0,
+      "erros": 0
+    },
+    {
+      "estado": "BA",
       "criadas": 10,
       "duplicatas": 0,
       "erros": 0
